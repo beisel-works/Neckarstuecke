@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { getAvailablePrints } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
+import PrintCard from "@/components/PrintCard";
 
 export const metadata: Metadata = {
   title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
@@ -130,61 +130,11 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
             {featuredPrints.map((print) => (
-              <Link
+              <PrintCard
                 key={print.slug}
-                href={`/kollektion/${print.slug}`}
-                className="group flex flex-col"
-                aria-label={`${print.title} — ${print.location}`}
-              >
-                {/* Print thumbnail */}
-                <div className="relative aspect-[2/3] overflow-hidden bg-[var(--color-loess)]">
-                  {print.image_thumbnail_url ? (
-                    <Image
-                      src={print.image_thumbnail_url}
-                      alt={print.title}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    /* Placeholder when no image is available */
-                    <div className="absolute inset-0 flex items-end p-4">
-                      <span
-                        className="text-[var(--color-stone)]"
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "var(--text-caption)",
-                        }}
-                      >
-                        {print.location}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Print label */}
-                <div className="mt-3 flex flex-col gap-0.5">
-                  <span
-                    className="text-[var(--color-charcoal)] group-hover:text-[var(--color-sage)] transition-colors"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "var(--text-h4)",
-                      lineHeight: "var(--leading-h4)",
-                    }}
-                  >
-                    {print.title}
-                  </span>
-                  <span
-                    className="text-[var(--color-stone)]"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "var(--text-caption)",
-                    }}
-                  >
-                    {print.location}
-                  </span>
-                </div>
-              </Link>
+                print={print}
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
             ))}
           </div>
 
