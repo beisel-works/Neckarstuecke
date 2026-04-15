@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CartButton from "@/components/CartButton";
 
 const navLinks = [
   { href: "/kollektion", label: "Kollektion" },
@@ -22,7 +23,7 @@ export default function Header() {
           Neckarstücke
         </Link>
 
-        {/* Primary navigation */}
+        {/* Primary navigation + cart */}
         <nav aria-label="Hauptnavigation">
           <ul className="flex items-center gap-8 list-none m-0 p-0">
             {navLinks.map(({ href, label }) => (
@@ -40,6 +41,9 @@ export default function Header() {
                 </Link>
               </li>
             ))}
+            <li>
+              <CartButton />
+            </li>
           </ul>
         </nav>
       </div>

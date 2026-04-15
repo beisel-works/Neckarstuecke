@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import type { PrintVariantRow, PrintFormat } from "@/types/print";
+import { useCart } from "@/context/CartContext";
 
 interface SizeSelectorProps {
   variants: PrintVariantRow[];
   printTitle: string;
+  printId: string;
+  printSlug: string;
+  printImageUrl?: string | null;
 }
 
 /** Format a price in cents as a Euro string with thin NBSP before the symbol. */
@@ -24,7 +28,14 @@ function formatLabel(format: PrintFormat): string {
  * The "In den Warenkorb" action is stubbed; BEI-34 (Cart) will wire the real handler
  * via a cart context or provider.
  */
-export default function SizeSelector({ variants, printTitle }: SizeSelectorProps) {
+export default function SizeSelector({
+  variants,
+  printTitle,
+  printId,
+  printSlug,
+  printImageUrl,
+}: SizeSelectorProps) {
+  const { addItem, openCart } = useCart();
   const inStockVariants = variants.filter((v) => v.in_stock);
   const [selectedId, setSelectedId] = useState<string>(
     inStockVariants[0]?.id ?? variants[0]?.id ?? ""
@@ -42,17 +53,20 @@ export default function SizeSelector({ variants, printTitle }: SizeSelectorProps
     { print: [], framed: [] }
   );
 
-  /** Stub: will be replaced by cart context dispatch in BEI-34. */
   function handleAddToCart() {
     if (!selected) return;
-    // TODO(BEI-34): dispatch to cart store — { printId, variantId, quantity: 1 }
-    // eslint-disable-next-line no-console
-    console.info("[Cart stub] addItem", {
+    addItem({
       variantId: selected.id,
+      printId,
+      slug: printSlug,
+      title: printTitle,
+      imageUrl: printImageUrl ?? null,
       sizeLabel: selected.size_label,
       format: selected.format,
-      priceCents: selected.price_cents,
+      priceInCents: selected.price_cents,
+      quantity: 1,
     });
+    openCart();
   }
 
   if (variants.length === 0) {

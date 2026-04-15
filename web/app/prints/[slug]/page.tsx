@@ -331,7 +331,13 @@ export default async function PrintDetailPage({
               <div className="h-px bg-[var(--color-loess)]" aria-hidden="true" />
 
               {/* Size selector + add to cart */}
-              <SizeSelector variants={print.variants} printTitle={print.title} />
+              <SizeSelector
+                variants={print.variants}
+                printTitle={print.title}
+                printId={print.id}
+                printSlug={print.slug}
+                printImageUrl={print.image_thumbnail_url}
+              />
 
               {/* Quality callouts */}
               <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:gap-8">
