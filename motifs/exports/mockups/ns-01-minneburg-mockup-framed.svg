@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Neckarstücke — NS-01 Minneburg
+  Lifestyle Mockup: Gerahmter Druck an weißer Wand
+  Querformat 4:3 für Produktseite (1400×1050 px bei 2× = 2800×2100 px Export)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1400 1050" width="1400" height="1050"
+     role="img" aria-label="Minneburg — Neckarstücke NS-01, gerahmt">
+  <title>Minneburg NS-01 — Lifestyle Mockup</title>
+
+  <defs>
+    <!-- Wandfarbe: warmes Off-White — neutraler Präsentationsgrund -->
+    <linearGradient id="wall-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F2EFE8"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+
+    <!-- Rahmen-Schatten -->
+    <filter id="frame-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="4" dy="8" stdDeviation="18" flood-color="#1C2826" flood-opacity="0.28"/>
+    </filter>
+
+    <!-- Passepartout-Schatten (innen) -->
+    <filter id="mat-inner" x="0" y="0" width="100%" height="100%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#1C2826" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- ── Wand-Hintergrund ── -->
+  <rect width="1400" height="1050" fill="url(#wall-bg)"/>
+
+  <!-- Subtile Wandtextur-Linie (Sockelleiste) -->
+  <line x1="0" y1="980" x2="1400" y2="980" stroke="#D0CCC4" stroke-width="1.5"/>
+  <rect x="0" y="980" width="1400" height="70" fill="#C8C4BC"/>
+
+  <!-- ── Rahmen-Gruppe — zentriert bei 700, 500 ── -->
+  <!-- Gesamtrahmengröße: 70×100 cm Druck = 420×600 px Motiv, 50 px Passepartout, 14 px Rahmen -->
+  <!-- Rahmen außen: 548×728 px; Mittelpunkt: 700, 490 -->
+  <g transform="translate(426, 126)" filter="url(#frame-shadow)">
+
+    <!-- Äußerer Rahmen — Eiche natur (warmgrau-braun) -->
+    <rect x="0" y="0" width="548" height="728" rx="2" fill="#B8A990"/>
+
+    <!-- Rahmeninnenkante — leicht dunkler -->
+    <rect x="12" y="12" width="524" height="704" fill="#A89878"/>
+
+    <!-- Passepartout — reinweiß, 50 px -->
+    <rect x="14" y="14" width="520" height="700" fill="#FAFAF8" filter="url(#mat-inner)"/>
+
+    <!-- Passepartout-Innenrand (dünner Schatten-Streifen) -->
+    <rect x="64" y="64" width="420" height="600" fill="#FAFAF5"/>
+
+    <!-- ══ MOTIV NS-01 MINNEBURG — eingebettet ══ -->
+    <!-- Sky gradient (River Stone → Paper) -->
+    <defs>
+      <linearGradient id="sky-m01" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#FAFAF5"/>
+        <stop offset="65%"  stop-color="#C5CCC9"/>
+        <stop offset="100%" stop-color="#6E7B77"/>
+      </linearGradient>
+    </defs>
+
+    <g transform="translate(64, 64)">
+      <!-- Sky -->
+      <rect width="420" height="600" fill="url(#sky-m01)"/>
+
+      <!-- Distant ridge -->
+      <path d="M0,312 C50,284 109,302 168,290 C227,278 285,298 352,286 C386,281 411,292 420,295
+               L420,344 L0,344 Z" fill="#6E7B77"/>
+
+      <!-- Middle forest -->
+      <path d="M0,348 C29,332 59,342 88,333 C122,322 147,338 180,328
+               C210,318 239,334 273,325 C307,316 336,334 374,327
+               C395,322 411,332 420,334 L420,464 L0,464 Z" fill="#3D6154"/>
+
+      <!-- Foreground earth -->
+      <path d="M0,441 C25,428 54,438 84,430 C122,420 155,436 197,427
+               C235,417 273,433 315,424 C353,415 390,430 420,422
+               L420,600 L0,600 Z" fill="#1C2826"/>
+
+      <!-- Ruined curtain wall -->
+      <path d="M124,256 L124,236 L130,236 L130,246 L137,246 L137,231
+               L143,231 L143,242 L149,242 L149,226 L155,226 L155,238
+               L160,238 L160,256 Z" fill="#1C2826"/>
+      <rect x="124" y="254" width="36" height="134" fill="#1C2826"/>
+      <rect x="133" y="292" width="8" height="13" fill="#6E7B77" opacity="0.55"/>
+
+      <!-- Bergfried (tower) -->
+      <path d="M189,118 L189,100 L195,100 L195,112 L201,112 L201,94
+               L207,94 L207,109 L213,109 L213,90 L219,90 L219,105
+               L225,105 L225,97 L231,97 L231,118 Z" fill="#1C2826"/>
+      <rect x="189" y="117" width="42" height="278" fill="#1C2826"/>
+      <rect x="189" y="120" width="5" height="272" fill="#EDE9DC" opacity="0.18"/>
+      <rect x="203" y="168" width="10" height="18" fill="#6E7B77" opacity="0.50"/>
+      <rect x="203" y="236" width="10" height="14" fill="#6E7B77" opacity="0.45"/>
+      <rect x="203" y="300" width="10" height="14" fill="#6E7B77" opacity="0.40"/>
+
+      <!-- Foreground trees -->
+      <rect x="50"  y="384" width="11" height="216" fill="#1C2826"/>
+      <ellipse cx="55"  cy="384" rx="30" ry="42" fill="#1C2826"/>
+      <rect x="318" y="408" width="10" height="192" fill="#1C2826"/>
+      <ellipse cx="323" cy="408" rx="26" ry="35" fill="#1C2826"/>
+      <rect x="342" y="424" width="8"  height="176" fill="#1C2826"/>
+      <ellipse cx="346" cy="424" rx="21" ry="29" fill="#1C2826"/>
+
+      <!-- Typography -->
+      <line x1="75" y1="537" x2="345" y2="537" stroke="#FAFAF5" stroke-width="0.5" opacity="0.55"/>
+      <text x="210" y="560"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="24" font-weight="400" letter-spacing="5" text-anchor="middle"
+            fill="#FAFAF5">MINNEBURG</text>
+      <text x="210" y="578"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="9" letter-spacing="2.5" text-anchor="middle"
+            fill="#FAFAF5" opacity="0.55">NECKARSTÜCKE · NS-01</text>
+    </g>
+    <!-- ══ Ende Motiv ══ -->
+
+  </g>
+
+  <!-- ── Produktinformation unter dem Rahmen ── -->
+  <text x="700" y="912"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="20" font-weight="400" letter-spacing="3" text-anchor="middle"
+        fill="#1C2826" opacity="0.75">MINNEBURG · NS-01</text>
+  <text x="700" y="936"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="14" letter-spacing="1" text-anchor="middle"
+        fill="#6E7B77">Giclée Feinkunstdruck · 50 × 70 cm · Hahnemühle German Etching 310 g/m²</text>
+</svg>

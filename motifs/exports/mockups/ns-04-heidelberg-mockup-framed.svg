@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Neckarstücke — NS-04 Heidelberg
+  Lifestyle Mockup: Gerahmter Druck an weißer Wand
+  Querformat 4:3 für Produktseite
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1400 1050" width="1400" height="1050"
+     role="img" aria-label="Heidelberg — Neckarstücke NS-04, gerahmt">
+  <title>Heidelberg NS-04 — Lifestyle Mockup</title>
+
+  <defs>
+    <!-- Slightly cooler wall for the blue-hour Heidelberg motif -->
+    <linearGradient id="wall-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EFF0F2"/>
+      <stop offset="100%" stop-color="#E4E6E8"/>
+    </linearGradient>
+    <filter id="frame-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="4" dy="8" stdDeviation="18" flood-color="#1C2826" flood-opacity="0.30"/>
+    </filter>
+    <filter id="mat-inner" x="0" y="0" width="100%" height="100%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#1C2826" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <!-- Wand -->
+  <rect width="1400" height="1050" fill="url(#wall-bg)"/>
+  <line x1="0" y1="980" x2="1400" y2="980" stroke="#CECFD2" stroke-width="1.5"/>
+  <rect x="0" y="980" width="1400" height="70" fill="#C4C6CA"/>
+
+  <!-- Rahmen-Gruppe — weißer Passepartout, naturholz -->
+  <g transform="translate(426, 126)" filter="url(#frame-shadow)">
+
+    <!-- Rahmen — naturhelles Holz, kühl -->
+    <rect x="0" y="0" width="548" height="728" rx="2" fill="#D8CFBF"/>
+    <rect x="12" y="12" width="524" height="704" fill="#CBBFAF"/>
+    <rect x="14" y="14" width="520" height="700" fill="#FAFAF8" filter="url(#mat-inner)"/>
+    <rect x="64" y="64" width="420" height="600" fill="#FAFAF5"/>
+
+    <!-- ══ MOTIV NS-04 HEIDELBERG ══ -->
+    <defs>
+      <linearGradient id="sky-m04" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1C2826"/>
+        <stop offset="40%"  stop-color="#3D6154"/>
+        <stop offset="75%"  stop-color="#6E7B77"/>
+        <stop offset="100%" stop-color="#EDE9DC"/>
+      </linearGradient>
+      <linearGradient id="river-m04" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#3D6154" stop-opacity="0.80"/>
+        <stop offset="100%" stop-color="#1C2826"/>
+      </linearGradient>
+    </defs>
+
+    <g transform="translate(64, 64)">
+      <!-- Sky — blue hour, deep Charcoal at top, Valley Sage to Loess at horizon -->
+      <rect width="420" height="600" fill="url(#sky-m04)"/>
+
+      <!-- Philosophenweg hill silhouette (viewer's position, links) -->
+      <path d="M0,195 C20,185 45,188 70,182 C95,176 115,180 140,176
+               L140,600 L0,600 Z" fill="#1C2826"/>
+
+      <!-- Königstuhl ridge in distance — River Stone -->
+      <path d="M140,148 C165,130 195,120 230,118 C260,116 290,118 320,120
+               C355,122 385,128 420,134 L420,220 L140,220 Z" fill="#6E7B77"/>
+
+      <!-- Schloss Heidelberg — geometric Kubatur, dominant mass -->
+      <!-- Main building block -->
+      <rect x="185" y="138" width="145" height="88" fill="#1C2826"/>
+      <!-- Tower left (Ottheinrichsbau) -->
+      <rect x="175" y="112" width="32" height="118" fill="#1C2826"/>
+      <!-- Tower right (Glockenturm) -->
+      <rect x="310" y="122" width="25" height="108" fill="#1C2826" opacity="0.90"/>
+      <!-- Ruined Pulverturm (far right) -->
+      <rect x="348" y="148" width="20" height="80" fill="#1C2826" opacity="0.70"/>
+
+      <!-- Lit windows — warm Loess (Innenbeleuchtung bei blauer Stunde) -->
+      <rect x="195" y="162" width="10" height="14" fill="#EDE9DC" opacity="0.70"/>
+      <rect x="215" y="162" width="10" height="14" fill="#EDE9DC" opacity="0.65"/>
+      <rect x="240" y="158" width="8"  height="12" fill="#EDE9DC" opacity="0.60"/>
+      <rect x="265" y="162" width="10" height="14" fill="#EDE9DC" opacity="0.65"/>
+      <rect x="290" y="158" width="8"  height="12" fill="#EDE9DC" opacity="0.55"/>
+      <!-- Tower window -->
+      <rect x="184" y="138" width="7" height="18" fill="#EDE9DC" opacity="0.60"/>
+
+      <!-- Altstadt roofline below — Valley Sage -->
+      <path d="M140,228 C160,215 185,220 210,214 C235,208 260,216 285,210
+               C310,204 340,212 370,206 C395,200 410,210 420,212
+               L420,295 L140,295 Z" fill="#3D6154"/>
+
+      <!-- Altstadt detail — spire silhouettes -->
+      <rect x="220" y="200" width="5" height="28" fill="#1C2826" opacity="0.80"/>
+      <polygon points="222.5,194 219,200 226,200" fill="#1C2826" opacity="0.80"/>
+      <rect x="290" y="196" width="4" height="32" fill="#1C2826" opacity="0.70"/>
+      <polygon points="292,190 289,196 295,196" fill="#1C2826" opacity="0.70"/>
+
+      <!-- Neckar River — blue hour reflection, Valley Sage depth -->
+      <rect x="140" y="298" width="280" height="85" fill="url(#river-m04)"/>
+
+      <!-- River reflection of Schloss windows (Spiegelung) -->
+      <rect x="195" y="308" width="10" height="8" fill="#EDE9DC" opacity="0.25"/>
+      <rect x="215" y="310" width="10" height="7" fill="#EDE9DC" opacity="0.20"/>
+      <rect x="265" y="308" width="10" height="8" fill="#EDE9DC" opacity="0.22"/>
+
+      <!-- Near riverbank — dark Charcoal (Philosophenweg-Ufer) -->
+      <path d="M140,378 L140,600 L420,600 L420,378 Z" fill="#1C2826" opacity="0.90"/>
+      <path d="M140,378 C175,368 215,374 260,370 C300,366 345,372 420,378
+               L420,600 L140,600 Z" fill="#1C2826"/>
+
+      <!-- Ufervegetation — Valley Sage dots -->
+      <ellipse cx="165" cy="380" rx="18" ry="12" fill="#3D6154" opacity="0.80"/>
+      <ellipse cx="355" cy="378" rx="22" ry="14" fill="#3D6154" opacity="0.75"/>
+
+      <!-- Typography — Paper on deep Charcoal -->
+      <line x1="75" y1="537" x2="345" y2="537" stroke="#FAFAF5" stroke-width="0.5" opacity="0.45"/>
+      <text x="210" y="560"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="24" font-weight="400" letter-spacing="5" text-anchor="middle"
+            fill="#FAFAF5">HEIDELBERG</text>
+      <text x="210" y="578"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="9" letter-spacing="2.5" text-anchor="middle"
+            fill="#FAFAF5" opacity="0.50">NECKARSTÜCKE · NS-04</text>
+    </g>
+    <!-- ══ Ende Motiv ══ -->
+
+  </g>
+
+  <!-- Produktinfo -->
+  <text x="700" y="912"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="20" font-weight="400" letter-spacing="3" text-anchor="middle"
+        fill="#1C2826" opacity="0.75">HEIDELBERG · NS-04</text>
+  <text x="700" y="936"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="14" letter-spacing="1" text-anchor="middle"
+        fill="#6E7B77">Giclée Feinkunstdruck · 50 × 70 cm · Hahnemühle Photo Rag 308 g/m²</text>
+</svg>

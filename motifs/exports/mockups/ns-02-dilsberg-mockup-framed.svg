@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Neckarstücke — NS-02 Dilsberg
+  Lifestyle Mockup: Gerahmter Druck an weißer Wand
+  Querformat 4:3 für Produktseite
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1400 1050" width="1400" height="1050"
+     role="img" aria-label="Dilsberg — Neckarstücke NS-02, gerahmt">
+  <title>Dilsberg NS-02 — Lifestyle Mockup</title>
+
+  <defs>
+    <linearGradient id="wall-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F2EFE8"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+    <filter id="frame-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="4" dy="8" stdDeviation="18" flood-color="#1C2826" flood-opacity="0.28"/>
+    </filter>
+    <filter id="mat-inner" x="0" y="0" width="100%" height="100%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#1C2826" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Wand -->
+  <rect width="1400" height="1050" fill="url(#wall-bg)"/>
+  <line x1="0" y1="980" x2="1400" y2="980" stroke="#D0CCC4" stroke-width="1.5"/>
+  <rect x="0" y="980" width="1400" height="70" fill="#C8C4BC"/>
+
+  <!-- Rahmen-Gruppe -->
+  <g transform="translate(426, 126)" filter="url(#frame-shadow)">
+
+    <!-- Rahmen — Eiche natur, warm -->
+    <rect x="0" y="0" width="548" height="728" rx="2" fill="#C4AA7E"/>
+    <rect x="12" y="12" width="524" height="704" fill="#B49A6E"/>
+    <rect x="14" y="14" width="520" height="700" fill="#FAFAF8" filter="url(#mat-inner)"/>
+    <rect x="64" y="64" width="420" height="600" fill="#FAFAF5"/>
+
+    <!-- ══ MOTIV NS-02 DILSBERG ══ -->
+    <defs>
+      <linearGradient id="sky-m02" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#FAFAF5"/>
+        <stop offset="55%"  stop-color="#EDE9DC"/>
+        <stop offset="100%" stop-color="#C8C3B4"/>
+      </linearGradient>
+      <linearGradient id="river-m02" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#6E7B77"/>
+        <stop offset="100%" stop-color="#3D6154"/>
+      </linearGradient>
+    </defs>
+
+    <g transform="translate(64, 64)">
+      <!-- Sky -->
+      <rect width="420" height="600" fill="url(#sky-m02)"/>
+
+      <!-- Distant plateau silhouette (Dilsberg island) -->
+      <!-- Back slope — River Stone -->
+      <path d="M0,240 C40,210 90,195 150,185 C200,175 240,180 280,172
+               C320,164 360,170 420,165 L420,310 L0,310 Z" fill="#6E7B77"/>
+
+      <!-- Plateau top — Valley Sage (dense forest cap) -->
+      <path d="M80,185 C110,162 150,148 190,140 C220,132 255,130 290,136
+               C325,142 355,152 380,165 L380,190 L80,190 Z" fill="#3D6154"/>
+
+      <!-- Burgturm on plateau -->
+      <rect x="200" y="112" width="28" height="78" fill="#1C2826"/>
+      <path d="M197,112 L197,98 L202,98 L202,107 L207,107 L207,96
+               L212,96 L212,106 L217,106 L217,94 L222,94 L222,105
+               L228,105 L228,112 Z" fill="#1C2826"/>
+      <!-- Tower detail window -->
+      <rect x="208" y="128" width="8" height="14" fill="#6E7B77" opacity="0.45"/>
+
+      <!-- Ring wall along plateau edge -->
+      <rect x="155" y="168" width="160" height="22" fill="#1C2826" opacity="0.85"/>
+
+      <!-- Middle ground — valley floor, Valley Sage -->
+      <path d="M0,318 C30,305 70,315 110,308 C155,300 195,312 240,305
+               C280,298 320,310 370,304 C395,300 410,308 420,310
+               L420,420 L0,420 Z" fill="#3D6154"/>
+
+      <!-- Foreground — Loess fields -->
+      <path d="M0,408 C35,395 80,405 130,398 C180,390 230,402 290,394
+               C340,387 385,400 420,394 L420,600 L0,600 Z" fill="#EDE9DC"/>
+
+      <!-- Scale-anchor figure (walker, Vordergrund links) -->
+      <rect x="82" y="412" width="4" height="14" fill="#1C2826"/>
+      <ellipse cx="84" cy="410" rx="4" ry="5" fill="#1C2826"/>
+
+      <!-- Foreground field texture lines (Loess) -->
+      <line x1="0" y1="450" x2="420" y2="445" stroke="#D5CFBF" stroke-width="0.8" opacity="0.5"/>
+      <line x1="0" y1="490" x2="420" y2="487" stroke="#D5CFBF" stroke-width="0.6" opacity="0.4"/>
+
+      <!-- River stripe at base of middle ground -->
+      <rect x="0" y="415" width="420" height="18" fill="url(#river-m02)" opacity="0.55"/>
+
+      <!-- Typography -->
+      <line x1="75" y1="537" x2="345" y2="537" stroke="#1C2826" stroke-width="0.5" opacity="0.40"/>
+      <text x="210" y="560"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="24" font-weight="400" letter-spacing="5" text-anchor="middle"
+            fill="#1C2826">DILSBERG</text>
+      <text x="210" y="578"
+            font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+            font-size="9" letter-spacing="2.5" text-anchor="middle"
+            fill="#1C2826" opacity="0.50">NECKARSTÜCKE · NS-02</text>
+    </g>
+    <!-- ══ Ende Motiv ══ -->
+
+  </g>
+
+  <!-- Produktinfo -->
+  <text x="700" y="912"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="20" font-weight="400" letter-spacing="3" text-anchor="middle"
+        fill="#1C2826" opacity="0.75">DILSBERG · NS-02</text>
+  <text x="700" y="936"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="14" letter-spacing="1" text-anchor="middle"
+        fill="#6E7B77">Giclée Feinkunstdruck · 50 × 70 cm · Hahnemühle Photo Rag 308 g/m²</text>
+</svg>
