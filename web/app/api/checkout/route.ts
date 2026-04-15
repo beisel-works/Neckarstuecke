@@ -3,7 +3,7 @@ import { getStripe } from "@/lib/stripe";
 import type { CheckoutPayload } from "@/types/cart";
 
 /** Countries accepted for physical shipping at launch (EU + diaspora markets). */
-const ALLOWED_COUNTRIES: string[] = [
+const ALLOWED_COUNTRIES = [
   "AT",
   "BE",
   "CH",
@@ -27,7 +27,7 @@ const ALLOWED_COUNTRIES: string[] = [
   "SE",
   "SK",
   "US",
-];
+] as const;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   let body: unknown;
@@ -52,7 +52,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const { lineItems } = body as CheckoutPayload;
+  const payload = body as CheckoutPayload;
+  const { lineItems } = payload;
 
   if (lineItems.length === 0) {
     return NextResponse.json(
@@ -83,6 +84,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
   }
 
+  const sessionId =
+    typeof payload.sessionId === "string" ? payload.sessionId.trim() : "";
+  const source = typeof payload.source === "string" ? payload.source.trim() : "";
+
+  if (
+    (sessionId && sessionId.length > 120) ||
+    (source && source.length > 120)
+  ) {
+    return NextResponse.json(
+      { error: "Invalid analytics metadata." },
+      { status: 400 }
+    );
+  }
+
   const origin =
     request.headers.get("origin") ??
     process.env.NEXT_PUBLIC_SITE_URL ??
@@ -90,6 +105,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const stripe = getStripe();
+    const metadata: Record<string, string> = {};
+    if (sessionId) {
+      metadata.analytics_session_id = sessionId;
+    }
+    if (source) {
+      metadata.analytics_source = source;
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -104,10 +126,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         },
         quantity: item.quantity,
       })),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       shipping_address_collection: {
-        allowed_countries: ALLOWED_COUNTRIES as any,
+        allowed_countries: [...ALLOWED_COUNTRIES],
       },
+      metadata,
       success_url: `${origin}/order/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/`,
     });

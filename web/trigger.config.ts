@@ -16,4 +16,7 @@ export default defineConfig({
 
   /** Runtime: Next.js App Router uses Node.js (not the Edge runtime). */
   runtime: "node",
+
+  /** Default compute ceiling for fulfillment jobs and webhook-triggered tasks. */
+  maxDuration: 300,
 });

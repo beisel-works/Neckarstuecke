@@ -17,7 +17,7 @@
  *                                             (e.g. "https://cdn.neckarstücke.de").
  */
 
-import { task, retry } from "@trigger.dev/sdk/v3";
+import { task } from "@trigger.dev/sdk/v3";
 import { getServiceClient } from "@/lib/supabase/service";
 import { getPodAdapter } from "@/lib/pod/prodigi";
 import { resolveProdigiSku } from "@/lib/pod/prodigi";
@@ -48,11 +48,11 @@ export const fulfillOrder = task({
     factor: 2,
     minTimeoutInMs: 10_000,
     maxTimeoutInMs: 60_000,
-    randomise: true,
+    randomize: true,
   },
 
   // On permanent failure (all retries exhausted) mark the order as failed.
-  onFailure: async (payload: FulfilOrderPayload, error: unknown) => {
+  onFailure: async ({ payload, error }) => {
     const db = getServiceClient();
     await db
       .from("orders")
@@ -139,8 +139,13 @@ export const fulfillOrder = task({
           );
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const slug = (variant.prints as any)?.slug as string | undefined;
+        const printRecord = variant.prints as
+          | { slug?: string }
+          | { slug?: string }[]
+          | null;
+        const slug = Array.isArray(printRecord)
+          ? printRecord[0]?.slug
+          : printRecord?.slug;
         if (!slug) {
           throw new Error(
             `Could not resolve print slug for variant ${variantId} (order ${orderId})`

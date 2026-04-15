@@ -28,4 +28,6 @@ export interface CheckoutLineItem {
 /** Payload posted to /api/checkout when the customer clicks "Zur Kasse". */
 export interface CheckoutPayload {
   lineItems: CheckoutLineItem[];
+  sessionId?: string;
+  source?: string | null;
 }

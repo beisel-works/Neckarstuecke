@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { tasks } from "@trigger.dev/sdk/v3";
+import { normalizeSessionId } from "@/lib/analytics/shared";
 import { getStripe } from "@/lib/stripe";
 import { getServiceClient } from "@/lib/supabase/service";
 
@@ -57,6 +58,7 @@ async function handleCheckoutSessionCompleted(
   session: Stripe.Checkout.Session
 ): Promise<void> {
   const sessionId = session.id;
+  const fulfillmentIdempotencyKey = ["fulfill-order", sessionId];
 
   // 5. Retrieve the full session with line_items expanded.
   const fullSession = await getStripe().checkout.sessions.retrieve(sessionId, {
@@ -76,7 +78,12 @@ async function handleCheckoutSessionCompleted(
     throw new Error(`Supabase lookup failed: ${lookupError.message}`);
   }
   if (existing) {
-    // Already processed — no-op; return successfully to acknowledge the retry.
+    await recordPurchaseCompleteEvent(db, fullSession);
+    await tasks.trigger(
+      "fulfill-order",
+      { orderId: existing.id },
+      { idempotencyKey: fulfillmentIdempotencyKey }
+    );
     return;
   }
 
@@ -107,9 +114,52 @@ async function handleCheckoutSessionCompleted(
   };
 
   // 8. Insert the order — service role bypasses RLS.
-  const { error: insertError } = await db.from("orders").insert(record);
+  const { data: insertedOrder, error: insertError } = await db
+    .from("orders")
+    .insert(record)
+    .select("id")
+    .single();
 
   if (insertError) {
     throw new Error(`Supabase insert failed: ${insertError.message}`);
+  }
+
+  await recordPurchaseCompleteEvent(db, fullSession);
+
+  await tasks.trigger(
+    "fulfill-order",
+    { orderId: insertedOrder.id },
+    { idempotencyKey: fulfillmentIdempotencyKey }
+  );
+}
+
+async function recordPurchaseCompleteEvent(
+  db: ReturnType<typeof getServiceClient>,
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  const analyticsSessionId =
+    normalizeSessionId(session.metadata?.analytics_session_id) ?? session.id;
+  const analyticsSource =
+    typeof session.metadata?.analytics_source === "string" &&
+    session.metadata.analytics_source.trim()
+      ? session.metadata.analytics_source.trim().slice(0, 120)
+      : null;
+  const lineItemCount = session.line_items?.data.length ?? 0;
+
+  const { error } = await db.from("analytics_events").insert({
+    event_name: "purchase_complete",
+    page: "/order/confirmation",
+    session_id: analyticsSessionId,
+    idempotency_key: `purchase_complete:${session.id}`,
+    metadata: {
+      item_count: lineItemCount,
+      total_cents: session.amount_total ?? 0,
+      source: analyticsSource,
+      stripe_session_id: session.id,
+    },
+  });
+
+  if (error && error.code !== "23505") {
+    throw new Error(`Analytics insert failed: ${error.message}`);
   }
 }

@@ -109,10 +109,13 @@ export default function DatenschutzPage() {
             <p>
               Produktdaten (Motive, Varianten, Preise) werden in einer
               Supabase-Datenbank (Supabase Inc., San Francisco, CA, USA)
-              gespeichert. Es handelt sich um reine Produktinformationen — keine
-              personenbezogenen Daten von Besuchern werden in Supabase gespeichert.
-              Supabase-Server befinden sich innerhalb der EU (Frankfurt, AWS
-              eu-central-1).
+              gespeichert. Zusätzlich speichern wir dort pseudonyme
+              Nutzungsereignisse (z. B. Seitenaufrufe, Produktansichten,
+              In-den-Warenkorb-Aktionen) sowie freiwillig abgegebenes
+              Kundenfeedback nach einer Bestellung. Die Ereignisse werden nur
+              mit einer zufällig erzeugten Session-ID gespeichert, nicht mit
+              Ihrem Namen. Supabase-Server befinden sich innerhalb der EU
+              (Frankfurt, AWS eu-central-1).
             </p>
           </Section>
 
@@ -147,7 +150,28 @@ export default function DatenschutzPage() {
             </p>
           </Section>
 
-          <Section title="7. Ihre Rechte">
+          <Section title="7. Analyse und Feedback">
+            <p>
+              Wir verwenden keine externen Werbe- oder Trackingnetzwerke. Zur
+              Bewertung der Nutzung unseres Angebots speichern wir ausschließlich
+              eigene, pseudonyme Nutzungsereignisse auf unseren Servern, etwa:
+            </p>
+            <ul className="list-disc pl-6 mt-3 flex flex-col gap-1">
+              <li>aufgerufene Seiten</li>
+              <li>Produktansichten und In-den-Warenkorb-Aktionen</li>
+              <li>Start des Bezahlvorgangs und Bestellabschluss</li>
+            </ul>
+            <p className="mt-3">
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
+              Interesse liegt darin, die Resonanz auf Motive und die Qualität
+              des Kaufprozesses zu verstehen. Wenn Sie nach einem Kauf freiwillig
+              Feedback absenden, verarbeiten wir diese Angaben ebenfalls auf
+              Grundlage von Art. 6 Abs. 1 lit. f DSGVO zur Produkt- und
+              Angebotsverbesserung.
+            </p>
+          </Section>
+
+          <Section title="8. Ihre Rechte">
             <p>Sie haben gegenüber uns folgende Rechte:</p>
             <ul className="list-disc pl-6 mt-3 flex flex-col gap-1">
               <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -174,7 +198,7 @@ export default function DatenschutzPage() {
             </p>
           </Section>
 
-          <Section title="8. Änderungen dieser Datenschutzerklärung">
+          <Section title="9. Änderungen dieser Datenschutzerklärung">
             <p>
               Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit
               sie stets den aktuellen rechtlichen Anforderungen entspricht oder um

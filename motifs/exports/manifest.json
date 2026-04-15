@@ -1,0 +1,398 @@
+[
+  {
+    "motif": "minneburg",
+    "title": "Minneburg",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-01-minneburg-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-01-minneburg-print-300dpi.pdf",
+        "bytes": 380728
+      },
+      {
+        "path": "motifs/exports/print/ns-01-minneburg-vector-master.pdf",
+        "bytes": 8721
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-web-2400.webp",
+        "bytes": 41554,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-web-1200.webp",
+        "bytes": 17332,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-thumb-1200.webp",
+        "bytes": 16124,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-thumb-600.webp",
+        "bytes": 7016,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-detail-1600.webp",
+        "bytes": 14712,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-detail-800.webp",
+        "bytes": 5802,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-mockup-framed-2800.webp",
+        "bytes": 33428,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-mockup-framed-1400.webp",
+        "bytes": 14306,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-mockup-room-2800.webp",
+        "bytes": 43804,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-mockup-room-1400.webp",
+        "bytes": 16626,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-01-minneburg-og-1200.jpg",
+        "bytes": 39536,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true
+    }
+  },
+  {
+    "motif": "dilsberg",
+    "title": "Dilsberg",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-02-dilsberg-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-02-dilsberg-print-300dpi.pdf",
+        "bytes": 353466
+      },
+      {
+        "path": "motifs/exports/print/ns-02-dilsberg-vector-master.pdf",
+        "bytes": 8883
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-web-2400.webp",
+        "bytes": 42088,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-web-1200.webp",
+        "bytes": 16926,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-thumb-1200.webp",
+        "bytes": 15654,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-thumb-600.webp",
+        "bytes": 6802,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-detail-1600.webp",
+        "bytes": 16352,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-detail-800.webp",
+        "bytes": 6886,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-mockup-framed-2800.webp",
+        "bytes": 35202,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-mockup-framed-1400.webp",
+        "bytes": 14160,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-mockup-room-2800.webp",
+        "bytes": 43732,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-mockup-room-1400.webp",
+        "bytes": 16348,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-02-dilsberg-og-1200.jpg",
+        "bytes": 37952,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true
+    }
+  },
+  {
+    "motif": "hirschhorn",
+    "title": "Hirschhorn",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-03-hirschhorn-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-03-hirschhorn-print-300dpi.pdf",
+        "bytes": 481220
+      },
+      {
+        "path": "motifs/exports/print/ns-03-hirschhorn-vector-master.pdf",
+        "bytes": 10294
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-web-2400.webp",
+        "bytes": 53948,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-web-1200.webp",
+        "bytes": 23114,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-thumb-1200.webp",
+        "bytes": 21464,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-thumb-600.webp",
+        "bytes": 9402,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-detail-1600.webp",
+        "bytes": 18994,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-detail-800.webp",
+        "bytes": 8464,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-mockup-framed-2800.webp",
+        "bytes": 36438,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-mockup-framed-1400.webp",
+        "bytes": 15238,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-mockup-room-2800.webp",
+        "bytes": 45014,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-mockup-room-1400.webp",
+        "bytes": 16956,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-03-hirschhorn-og-1200.jpg",
+        "bytes": 43744,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true
+    }
+  },
+  {
+    "motif": "heidelberg",
+    "title": "Heidelberg",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-04-heidelberg-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-04-heidelberg-print-300dpi.pdf",
+        "bytes": 379210
+      },
+      {
+        "path": "motifs/exports/print/ns-04-heidelberg-vector-master.pdf",
+        "bytes": 10595
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-web-2400.webp",
+        "bytes": 45444,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-web-1200.webp",
+        "bytes": 18986,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-thumb-1200.webp",
+        "bytes": 17860,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-thumb-600.webp",
+        "bytes": 7608,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-detail-1600.webp",
+        "bytes": 14486,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-detail-800.webp",
+        "bytes": 6044,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-mockup-framed-2800.webp",
+        "bytes": 30782,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-mockup-framed-1400.webp",
+        "bytes": 12678,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-mockup-room-2800.webp",
+        "bytes": 42836,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-mockup-room-1400.webp",
+        "bytes": 16226,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-04-heidelberg-og-1200.jpg",
+        "bytes": 41985,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true
+    }
+  }
+]

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getStripe } from "@/lib/stripe";
 import type Stripe from "stripe";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+import FeedbackForm from "@/components/FeedbackForm";
 
 export const metadata: Metadata = {
   title: "Bestellung bestätigt – Neckarstücke",
@@ -188,6 +190,14 @@ export default async function OrderConfirmationPage({
 
   return (
     <div className="flex flex-col">
+      <AnalyticsTracker
+        event="purchase_complete"
+        page="/order/confirmation"
+        metadata={{
+          item_count: lineItems.length,
+          total_cents: totalCents,
+        }}
+      />
       {/* ── Page header ───────────────────────────────────────────── */}
       <section className="px-6 pt-16 pb-10 md:px-10 md:pt-24 md:pb-14">
         <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>
@@ -382,6 +392,35 @@ export default async function OrderConfirmationPage({
                 .
               </li>
             </ul>
+          </div>
+
+          <div
+            className="border border-[var(--color-loess)] px-8 py-8"
+          >
+            <h3
+              className="mb-3 text-[var(--color-charcoal)]"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "var(--text-h4)",
+              }}
+            >
+              Kurze Rückmeldung
+            </h3>
+            <p
+              className="mb-5 text-[var(--color-charcoal)]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--text-body)",
+                lineHeight: "var(--leading-body)",
+              }}
+            >
+              Ihre Antwort hilft uns zu verstehen, welche Motive wirklich Resonanz
+              auslösen.
+            </p>
+            <FeedbackForm
+              page="/order/confirmation"
+              orderReference={session.id}
+            />
           </div>
 
           {/* CTA back to collection */}

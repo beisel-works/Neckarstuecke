@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAvailablePrints } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
 import PrintCard from "@/components/PrintCard";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const revalidate = 60; // ISR — revalidate catalog every 60 seconds
 
@@ -99,6 +100,7 @@ export default async function KollektionPage() {
 
   return (
     <div className="flex flex-col">
+      <AnalyticsTracker page="/kollektion" />
       {/* ── Page header ───────────────────────────────────────────── */}
       <section className="px-6 pt-16 pb-10 md:px-10 md:pt-24 md:pb-14">
         <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>

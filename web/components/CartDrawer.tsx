@@ -3,6 +3,11 @@
 import { useEffect, useRef } from "react";
 import { useCart } from "@/context/CartContext";
 import type { CheckoutPayload } from "@/types/cart";
+import {
+  getAnalyticsSessionId,
+  getAnalyticsSource,
+  trackEvent,
+} from "@/lib/analytics/client";
 
 /** Format a price in cents as a Euro string with thin NBSP before the symbol. */
 function formatPrice(cents: number): string {
@@ -41,7 +46,6 @@ export default function CartDrawer() {
     };
   }, [isOpen, closeCart]);
 
-  /** Stub: Posts cart to /api/checkout (implemented in Stripe task BEI-36). */
   async function handleCheckout() {
     const payload: CheckoutPayload = {
       lineItems: items.map((item) => ({
@@ -49,7 +53,17 @@ export default function CartDrawer() {
         quantity: item.quantity,
         priceInCents: item.priceInCents,
       })),
+      sessionId: getAnalyticsSessionId(),
+      source: getAnalyticsSource(),
     };
+    trackEvent({
+      event: "checkout_started",
+      page: "/cart",
+      metadata: {
+        line_items: items.length,
+        total_cents: totalCents,
+      },
+    });
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -63,7 +77,6 @@ export default function CartDrawer() {
       const { url } = (await res.json()) as { url: string };
       window.location.href = url;
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("[Checkout] failed:", err);
     }
   }

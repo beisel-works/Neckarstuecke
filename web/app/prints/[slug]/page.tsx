@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getAvailablePrints, getPrintBySlug } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
 import SizeSelector from "@/components/SizeSelector";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const revalidate = 60; // ISR — revalidate each print page every 60 seconds
 
@@ -191,6 +192,11 @@ export default async function PrintDetailPage({
 
   return (
     <div className="flex flex-col">
+      <AnalyticsTracker
+        event="product_view"
+        page={`/prints/${print.slug}`}
+        motifSlug={print.slug}
+      />
       {/* ── Breadcrumb ──────────────────────────────────────────── */}
       <nav
         className="px-6 pt-8 pb-4 md:px-10"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAvailablePrints } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
 import PrintCard from "@/components/PrintCard";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const metadata: Metadata = {
   title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
@@ -50,6 +51,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col">
+      <AnalyticsTracker page="/" />
       {/* ── Hero ──────────────────────────────────────────────────── */}
       <section className="flex flex-col items-center justify-center px-6 py-24 text-center md:py-36 md:px-10">
         <p

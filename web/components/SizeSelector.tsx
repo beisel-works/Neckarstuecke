@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { PrintVariantRow, PrintFormat } from "@/types/print";
 import { useCart } from "@/context/CartContext";
+import { trackEvent } from "@/lib/analytics/client";
 
 interface SizeSelectorProps {
   variants: PrintVariantRow[];
@@ -65,6 +66,16 @@ export default function SizeSelector({
       format: selected.format,
       priceInCents: selected.price_cents,
       quantity: 1,
+    });
+    trackEvent({
+      event: "add_to_cart",
+      page: `/prints/${printSlug}`,
+      motifSlug: printSlug,
+      metadata: {
+        format: selected.format,
+        size_label: selected.size_label,
+        price_cents: selected.price_cents,
+      },
     });
     openCart();
   }
