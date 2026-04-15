@@ -14,7 +14,7 @@ interface PrintCardProps {
   print: PrintCardData;
   /** Next.js Image sizes attribute — caller knows the layout context. */
   sizes?: string;
-  /** URL prefix for the detail link. Defaults to "/kollektion". */
+  /** URL prefix for the detail link. Defaults to "/prints". */
   linkPrefix?: string;
 }
 
@@ -36,7 +36,7 @@ export function formatStartingPrice(cents: number | null): string | null {
 export default function PrintCard({
   print,
   sizes = "(max-width: 768px) 50vw, 33vw",
-  linkPrefix = "/kollektion",
+  linkPrefix = "/prints",
 }: PrintCardProps) {
   const startingCents = getStartingPriceCents(print.variants);
   const priceLabel = formatStartingPrice(startingCents);
