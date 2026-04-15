@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 750" width="500" height="750"
+     role="img" aria-label="Heidelberg — Neckarstücke NS-04">
+  <title>Heidelberg — NS-04</title>
+
+  <defs>
+    <!-- Sky: Blaue Stunde — deep River Stone at zenith, Valley Sage near horizon -->
+    <linearGradient id="sky-04" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#3D6154"/>
+      <stop offset="40%"  stop-color="#5A7A73"/>
+      <stop offset="80%"  stop-color="#6E7B77"/>
+      <stop offset="100%" stop-color="#8A9B96"/>
+    </linearGradient>
+    <!-- Neckar at blue hour: cool reflection -->
+    <linearGradient id="river-04" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6E7B77" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#3D6154" stop-opacity="0.65"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── LAYER 0 · Sky (Blaue Stunde, kühle Pastellpalette) ── -->
+  <rect width="500" height="750" fill="url(#sky-04)"/>
+
+  <!-- ── LAYER 1 · Philosophenweg foreground slope — Valley Sage ── -->
+  <!-- The observer's hillside -->
+  <path d="M0,580 C80,545 160,558 250,548 C340,537 420,555 500,545
+           L500,750 L0,750 Z"
+        fill="#3D6154"/>
+
+  <!-- Bare early-spring ground detail — Charcoal overtone -->
+  <path d="M0,600 C60,590 130,602 200,596 C280,589 360,600 440,594
+           C465,591 486,596 500,594 L500,750 L0,750 Z"
+        fill="#1C2826" opacity="0.28"/>
+
+  <!-- ── LAYER 2 · Odenwald far ridge beyond city — River Stone ── -->
+  <path d="M0,318 C60,298 125,310 195,300 C260,290 330,305 400,296
+           C440,290 475,300 500,297 L500,345 L0,345 Z"
+        fill="#6E7B77" opacity="0.70"/>
+
+  <!-- ── LAYER 3 · Altstadt dach-texture — dense Charcoal mass ── -->
+  <!-- Old town as compact horizontal dark band, lower midground -->
+  <path d="M30,440 L48,420 L60,435 L72,415 L86,432 L98,412 L112,430
+           L126,410 L140,426 L155,406 L170,424 L185,404 L198,422
+           L212,402 L226,420 L240,400 L255,418 L268,400 L280,416
+           L294,398 L308,415 L322,396 L336,413 L350,394 L364,411
+           L378,393 L392,410 L406,392 L418,408 L432,390 L446,407
+           L458,389 L470,405 L470,480 L30,480 Z"
+        fill="#1C2826"/>
+
+  <!-- Altstadt church towers — vertical punctuation -->
+  <!-- Heiliggeistkirche -->
+  <rect x="215" y="378" width="16" height="72" fill="#1C2826"/>
+  <polygon points="215,380 223,355 231,380" fill="#1C2826"/>
+
+  <!-- Peterskirche -->
+  <rect x="272" y="388" width="12" height="54" fill="#1C2826"/>
+  <polygon points="272,390 278,368 284,390" fill="#1C2826"/>
+
+  <!-- Jesuitenkirche -->
+  <rect x="155" y="390" width="10" height="52" fill="#1C2826"/>
+  <polygon points="155,392 160,372 165,392" fill="#1C2826"/>
+
+  <!-- ── LAYER 4 · Neckar as horizontal line — River Stone ── -->
+  <rect x="0" y="478" width="500" height="24" fill="url(#river-04)"/>
+
+  <!-- Near river bank — Loess strip -->
+  <rect x="0" y="500" width="500" height="20" fill="#EDE9DC" opacity="0.55"/>
+
+  <!-- ── LAYER 5 · Schloss mass — dominant geometric form ── -->
+  <!-- The castle ruin as simplified Kubatur — geometric, no ornament -->
+  <!-- Main palace block -->
+  <rect x="165" y="280" width="180" height="122" fill="#1C2826"/>
+
+  <!-- Ruined roofline — irregular broken parapet -->
+  <path d="M165,282 L165,255 L178,255 L178,272 L190,272 L190,248
+           L205,248 L205,270 L218,270 L218,250 L230,250 L230,265
+           L242,265 L242,252 L255,252 L255,268 L268,268 L268,258
+           L280,258 L280,282 Z"
+        fill="#1C2826"/>
+
+  <!-- Ruined east wing — lower remnant -->
+  <rect x="340" y="312" width="55" height="90" fill="#1C2826"/>
+  <path d="M340,314 L340,294 L352,294 L352,310 L363,310 L363,290
+           L375,290 L375,308 L388,308 L388,300 L395,300 L395,314 Z"
+        fill="#1C2826"/>
+
+  <!-- Schloss towers -->
+  <!-- Dicker Turm (west) -->
+  <rect x="138" y="258" width="32" height="144" fill="#1C2826"/>
+  <rect x="136" y="252" width="36" height="10" fill="#1C2826"/>
+
+  <!-- Glockenturm / Apothekerturm (east side) -->
+  <rect x="342" y="265" width="28" height="136" fill="#1C2826"/>
+  <rect x="340" y="258" width="32" height="10" fill="#1C2826"/>
+
+  <!-- Loess warm stone accent on lit palace face — subtle -->
+  <rect x="165" y="282" width="180" height="5" fill="#EDE9DC" opacity="0.18"/>
+  <rect x="165" y="282" width="6" height="117" fill="#EDE9DC" opacity="0.12"/>
+
+  <!-- Hillside below Schloss — Valley Sage slope -->
+  <path d="M110,400 C130,365 155,335 165,316 L165,402 Z" fill="#3D6154"/>
+  <path d="M395,316 L395,400 C415,385 440,365 460,340 Z" fill="#3D6154"/>
+
+  <!-- ── LAYER 6 · Philosophenweg path — Loess line ── -->
+  <path d="M0,563 C80,555 160,568 250,558 C330,549 420,560 500,552
+           L500,570 C420,578 330,567 250,576 C160,586 80,574 0,582 Z"
+        fill="#EDE9DC" opacity="0.45"/>
+
+  <!-- ── LAYER 7 · Typography — Paper on dark field ── -->
+  <line x1="90" y1="672" x2="410" y2="672" stroke="#FAFAF5" stroke-width="0.6" opacity="0.55"/>
+
+  <text x="252" y="700"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="30"
+        font-weight="400"
+        letter-spacing="6"
+        text-anchor="middle"
+        fill="#FAFAF5">HEIDELBERG</text>
+
+  <text x="252" y="724"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="11"
+        letter-spacing="3"
+        text-anchor="middle"
+        fill="#FAFAF5"
+        opacity="0.55">NECKARSTÜCKE · NS-04</text>
+</svg>

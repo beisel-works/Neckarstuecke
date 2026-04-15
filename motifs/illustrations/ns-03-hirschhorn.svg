@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 750" width="500" height="750"
+     role="img" aria-label="Hirschhorn — Neckarstücke NS-03">
+  <title>Hirschhorn — NS-03</title>
+
+  <defs>
+    <!-- Sky: Warm evening — Loess at zenith, Paper near horizon (Gegenlicht-Stimmung) -->
+    <linearGradient id="sky-03" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EDE9DC"/>
+      <stop offset="55%"  stop-color="#F5F2EB"/>
+      <stop offset="100%" stop-color="#FAFAF5"/>
+    </linearGradient>
+    <!-- Neckar reflection: warm mirror of sky -->
+    <linearGradient id="river-03" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FAFAF5" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#EDE9DC" stop-opacity="0.60"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── LAYER 0 · Sky (warm Gegenlicht) ── -->
+  <rect width="500" height="750" fill="url(#sky-03)"/>
+
+  <!-- ── LAYER 1 · Far Odenwald ridge — River Stone ── -->
+  <path d="M0,280 C70,255 145,272 230,260 C305,248 380,268 460,256 C485,250 500,258 500,260
+           L500,315 L0,315 Z"
+        fill="#6E7B77"/>
+
+  <!-- ── LAYER 2 · Wooded slope below castle — Valley Sage ── -->
+  <!-- Tree mass on the promontory slope -->
+  <path d="M240,480 C245,440 255,400 270,375 C290,345 315,330 340,335
+           C365,340 380,360 390,395 C400,425 405,460 408,495
+           L380,540 L260,540 Z"
+        fill="#3D6154"/>
+
+  <!-- Broader hillside / Waldkronen left of castle -->
+  <path d="M0,380 C50,355 110,370 165,355 C200,345 225,360 245,380
+           L245,500 C220,520 180,540 130,555 C80,568 30,560 0,555 Z"
+        fill="#3D6154"/>
+
+  <!-- ── LAYER 3 · Rock promontory — Ochre sandstone ── -->
+  <!-- The Felssockel rising directly from river -->
+  <path d="M270,490 C268,465 262,440 258,410 C254,380 256,355 262,340
+           C270,325 282,318 295,320 C310,322 322,330 330,345
+           C340,362 344,390 342,420 C340,450 336,475 332,500 Z"
+        fill="#8B5A14"/>
+
+  <!-- Rock face texture — Charcoal shadow on east side -->
+  <path d="M318,360 C322,345 328,332 330,345 C340,362 344,390 342,420
+           C340,450 336,475 332,500 L322,500 C326,475 328,450 326,420
+           C324,390 318,368 318,360 Z"
+        fill="#1C2826" opacity="0.35"/>
+
+  <!-- ── LAYER 4 · Castle complex — Charcoal ── -->
+  <!-- Keep / Bergfried: tall vertical element, upper right -->
+  <rect x="285" y="155" width="42" height="178" fill="#1C2826"/>
+  <!-- Crenellation -->
+  <path d="M285,158 L285,138 L291,138 L291,152 L298,152 L298,130
+           L305,130 L305,148 L312,148 L312,126 L319,126 L319,145
+           L327,145 L327,140 L327,158 Z"
+        fill="#1C2826"/>
+  <!-- Keep windows (arrow slits) -->
+  <rect x="300" y="185" width="10" height="20" fill="#EDE9DC" opacity="0.35"/>
+  <rect x="300" y="240" width="10" height="18" fill="#EDE9DC" opacity="0.30"/>
+  <rect x="300" y="295" width="10" height="16" fill="#EDE9DC" opacity="0.28"/>
+
+  <!-- Castle main building / Schlosshotel block -->
+  <rect x="240" y="260" width="100" height="110" fill="#1C2826"/>
+  <!-- Gabled windows in hotel block -->
+  <polygon points="250,261 258,245 266,261" fill="#1C2826"/>
+  <polygon points="275,261 283,243 291,261" fill="#1C2826"/>
+  <polygon points="302,261 310,247 318,261" fill="#1C2826"/>
+  <!-- Window row -->
+  <rect x="248" y="280" width="10" height="14" fill="#EDE9DC" opacity="0.45"/>
+  <rect x="268" y="280" width="10" height="14" fill="#EDE9DC" opacity="0.45"/>
+  <rect x="290" y="280" width="10" height="14" fill="#EDE9DC" opacity="0.45"/>
+  <rect x="310" y="280" width="10" height="14" fill="#EDE9DC" opacity="0.45"/>
+
+  <!-- Connecting curtain wall left -->
+  <rect x="200" y="300" width="42" height="75" fill="#1C2826"/>
+  <!-- Wall top walk -->
+  <rect x="198" y="295" width="46" height="8" fill="#1C2826"/>
+
+  <!-- Karmeliterkloster Kirchturm (right vertical complement) -->
+  <rect x="355" y="290" width="22" height="120" fill="#1C2826"/>
+  <!-- Spire -->
+  <polygon points="355,292 366,258 377,292" fill="#1C2826"/>
+
+  <!-- Ochre sandstone warm light on castle west face -->
+  <rect x="240" y="262" width="6" height="108" fill="#8B5A14" opacity="0.22"/>
+  <rect x="285" y="158" width="5" height="175" fill="#8B5A14" opacity="0.18"/>
+
+  <!-- ── LAYER 5 · Altstadt roofline ── -->
+  <path d="M95,420 L108,400 L120,418 L132,398 L145,415 L158,395 L170,412
+           L184,393 L197,410 L210,392 L222,408 L235,390 L240,400
+           L240,480 L95,480 Z"
+        fill="#1C2826"/>
+
+  <!-- ── LAYER 6 · Neckar river — light reflection ── -->
+  <rect x="0" y="530" width="500" height="70" fill="url(#river-03)"/>
+
+  <!-- Shoreline stones / Ufersteine — Charcoal -->
+  <path d="M0,530 C40,525 90,532 150,528 C220,523 290,530 370,526
+           C420,523 465,528 500,526 L500,535 C460,537 415,533 365,536
+           C290,540 220,534 150,538 C90,542 40,537 0,535 Z"
+        fill="#1C2826" opacity="0.60"/>
+
+  <!-- River far bank / Ufer near side — Valley Sage strip -->
+  <rect x="0" y="596" width="500" height="154" fill="#3D6154"/>
+
+  <!-- Near bank foreground earth — Charcoal -->
+  <rect x="0" y="630" width="500" height="120" fill="#1C2826"/>
+
+  <!-- ── LAYER 7 · Typography zone — Paper on dark field ── -->
+  <line x1="90" y1="672" x2="410" y2="672" stroke="#FAFAF5" stroke-width="0.6" opacity="0.55"/>
+
+  <text x="252" y="700"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="30"
+        font-weight="400"
+        letter-spacing="6"
+        text-anchor="middle"
+        fill="#FAFAF5">HIRSCHHORN</text>
+
+  <text x="252" y="724"
+        font-family="'EB Garamond', Garamond, 'Times New Roman', Georgia, serif"
+        font-size="11"
+        letter-spacing="3"
+        text-anchor="middle"
+        fill="#FAFAF5"
+        opacity="0.55">NECKARSTÜCKE · NS-03</text>
+</svg>
