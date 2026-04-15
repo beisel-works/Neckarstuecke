@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 140" width="400" height="140" role="img" aria-label="Neckarstücke">
+  <title>Neckarstücke</title>
+
+  <!--
+    Neckarstücke — Reversed Logo
+    White on dark background (deep forest charcoal #1C2826)
+    Use on dark backgrounds, packaging, and dark print stock.
+  -->
+
+  <!-- Dark background -->
+  <rect width="400" height="140" fill="#1C2826"/>
+
+  <!-- Valley mark — white -->
+  <g transform="translate(200,0)" fill="none" stroke="#FAFAF5">
+    <path d="M -72,46 Q 0,4 72,46"  stroke-width="1.0" stroke-linecap="round"/>
+    <path d="M -50,46 Q 0,16 50,46" stroke-width="1.0" stroke-linecap="round"/>
+    <path d="M -28,46 Q 0,26 28,46" stroke-width="1.0" stroke-linecap="round"/>
+  </g>
+
+  <!-- Hairline rule -->
+  <line x1="50" y1="72" x2="350" y2="72" stroke="#FAFAF5" stroke-width="0.6"/>
+
+  <!-- Primary wordmark — white -->
+  <text
+    x="200"
+    y="103"
+    font-family="'EB Garamond', 'Garamond', 'Cormorant Garamond', Georgia, serif"
+    font-size="26"
+    font-weight="400"
+    letter-spacing="6"
+    textLength="300"
+    lengthAdjust="spacing"
+    text-anchor="middle"
+    fill="#FAFAF5">NECKARSTÜCKE</text>
+
+  <!-- Hairline rule -->
+  <line x1="50" y1="116" x2="350" y2="116" stroke="#FAFAF5" stroke-width="0.6"/>
+
+  <!-- Sub-label -->
+  <text
+    x="200"
+    y="132"
+    font-family="'EB Garamond', 'Garamond', Georgia, serif"
+    font-size="9"
+    font-weight="400"
+    letter-spacing="4"
+    textLength="120"
+    lengthAdjust="spacing"
+    text-anchor="middle"
+    fill="#FAFAF5">NECKARTAL</text>
+</svg>

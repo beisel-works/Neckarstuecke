@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" width="80" height="60" role="img" aria-label="Neckarstücke mark">
+  <title>Neckarstücke — Valley Mark</title>
+
+  <!--
+    Neckarstücke — Standalone Mark / Symbol
+    Three nested arcs: outer valley walls + river.
+    Use as watermark, stamp, favicon base, or packaging emblem.
+    Charcoal on transparent background.
+  -->
+
+  <!-- Outer valley arc -->
+  <path d="M 4,54 Q 40,4 76,54"  fill="none" stroke="#1C2826" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Inner valley arc -->
+  <path d="M 16,54 Q 40,18 64,54" fill="none" stroke="#1C2826" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- River arc -->
+  <path d="M 28,54 Q 40,30 52,54" fill="none" stroke="#1C2826" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

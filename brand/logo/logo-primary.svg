@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 140" width="400" height="140" role="img" aria-label="Neckarstücke">
+  <title>Neckarstücke</title>
+
+  <!--
+    Neckarstücke — Primary Logo
+    Full-colour version (charcoal on transparent)
+    Typeface: EB Garamond (fallback: Garamond, Georgia, serif)
+
+    Mark: Three nested arcs — outer valley walls + the river.
+    Reads as a valley cross-section from above, evoking WPA landscape prints.
+  -->
+
+  <!-- Valley mark — centered, three arcs suggesting valley + river -->
+  <g transform="translate(200,0)" fill="none" stroke="#1C2826">
+    <!-- Outer valley arc -->
+    <path d="M -72,46 Q 0,4 72,46"  stroke-width="1.0" stroke-linecap="round"/>
+    <!-- Inner valley arc -->
+    <path d="M -50,46 Q 0,16 50,46" stroke-width="1.0" stroke-linecap="round"/>
+    <!-- River arc -->
+    <path d="M -28,46 Q 0,26 28,46" stroke-width="1.0" stroke-linecap="round"/>
+  </g>
+
+  <!-- Hairline rule -->
+  <line x1="50" y1="72" x2="350" y2="72" stroke="#1C2826" stroke-width="0.6"/>
+
+  <!-- Primary wordmark -->
+  <text
+    x="200"
+    y="103"
+    font-family="'EB Garamond', 'Garamond', 'Cormorant Garamond', Georgia, serif"
+    font-size="26"
+    font-weight="400"
+    letter-spacing="6"
+    textLength="300"
+    lengthAdjust="spacing"
+    text-anchor="middle"
+    fill="#1C2826">NECKARSTÜCKE</text>
+
+  <!-- Hairline rule -->
+  <line x1="50" y1="116" x2="350" y2="116" stroke="#1C2826" stroke-width="0.6"/>
+
+  <!-- Sub-label -->
+  <text
+    x="200"
+    y="132"
+    font-family="'EB Garamond', 'Garamond', Georgia, serif"
+    font-size="9"
+    font-weight="400"
+    letter-spacing="4"
+    textLength="120"
+    lengthAdjust="spacing"
+    text-anchor="middle"
+    fill="#1C2826">NECKARTAL</text>
+</svg>
