@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* ─── Neckarstücke Design Tokens ─────────────────────────────────────────── */
+
+@theme {
+  /* Colour palette */
+  --color-charcoal: #1c2826;
+  --color-paper: #fafaf5;
+  --color-sage: #3d6154;
+  --color-loess: #ede9dc;
+  --color-stone: #6e7b77;
+  --color-ochre: #8b5a14;
+
+  /* Semantic colour roles */
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-charcoal);
+  --color-accent: var(--color-sage);
+  --color-surface: var(--color-loess);
+  --color-muted: var(--color-stone);
+
+  /* Typography — font families */
+  --font-display: var(--font-eb-garamond), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Typographic scale (rem, 16px root) */
+  --text-display: 4.5rem; /* 72px — hero, exhibition title */
+  --text-h1: 3rem; /* 48px — page title */
+  --text-h2: 2.25rem; /* 36px — section heading */
+  --text-h3: 1.5rem; /* 24px — sub-heading */
+  --text-h4: 1.25rem; /* 20px — article heading */
+  --text-body: 1rem; /* 16px — running copy */
+  --text-caption: 0.875rem; /* 14px — captions, edition notes */
+  --text-label: 0.75rem; /* 12px — UI labels, navigation */
+  --text-overline: 0.6875rem; /* 11px — category marks */
+
+  /* Line heights */
+  --leading-display: 1.05;
+  --leading-h1: 1.1;
+  --leading-h2: 1.15;
+  --leading-h3: 1.25;
+  --leading-h4: 1.3;
+  --leading-body: 1.65;
+  --leading-caption: 1.5;
+  --leading-label: 1.4;
+
+  /* Letter spacing */
+  --tracking-display: -0.02em;
+  --tracking-h1: -0.01em;
+  --tracking-h2: -0.005em;
+  --tracking-label: 0.08em;
+  --tracking-overline: 0.12em;
+
+  /* Spacing rhythm (8px base) */
+  --spacing-1: 0.5rem;
+  --spacing-2: 1rem;
+  --spacing-3: 1.5rem;
+  --spacing-4: 2rem;
+  --spacing-6: 3rem;
+  --spacing-8: 4rem;
+  --spacing-12: 6rem;
+  --spacing-16: 8rem;
+  --spacing-24: 12rem;
+
+  /* Container */
+  --container-content: 72rem;
+  --container-text: 40rem;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────── */
+
+html {
+  background-color: var(--color-paper);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Focus ring using Valley Sage */
+:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+}
