@@ -1,0 +1,254 @@
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:19:03.999Z
+# Brief: Neckarstücke
+# Preset: default
+# Max Iterations: 34
+
+---
+
+## Iteration 3 — BEI-19: Typography system and colour palette
+- Created `brand/typography-and-colour.md` with full type system and 6-colour palette
+- Display: EB Garamond (extends wordmark); Body: Inter — both SIL OFL, Google Fonts
+- Typographic scale: Display/H1–H4/Body/Caption/Label with size, weight, lh, tracking
+- Palette: Neckar-Charcoal #1C2826, Paper #FAFAF5, Valley Sage #3D6154, Loess #EDE9DC, River Stone #6E7B77, Ochre #8B5A14
+- WCAG: primary pairs 14.5:1 (AAA), Sage-on-Paper 6.6:1 (AAA), Ochre-on-Paper 5.6:1 (AA)
+- Tailwind v4 @theme block and Next.js next/font snippet included as implementation preview
+- Learning: Valley Sage `#3D6154` (not the lighter #4A6B5A) is the right accent — passes AAA on paper, works reversed
+
+## Iteration 2 — BEI-14: Logo and wordmark
+- Created `brand/logo/` with 5 SVG files: logo-primary, logo-reversed, logo-mono, logo-wordmark, logo-mark
+- Valley mark: three nested arcs (outer valley walls + river) — timeless, WPA-influenced, scales to stamp size
+- Wordmark: NECKARSTÜCKE in tracked EB Garamond (Regular 400), framed by hairline rules
+- logo-spec.md documents colours (#1C2826 charcoal, #FAFAF5 paper), clear space, minimum sizes, export guidance
+- Task marked done, committed as `feat(brand): design logo and wordmark for Neckarstücke`
+- Learning: `textLength` + `lengthAdjust="spacing"` in SVG text gives layout precision regardless of which serif font renders; three nested arcs read as both valley topography and river — ambiguity is a feature.
+
+## Iteration 1 — BEI-8: Verbal identity and brand voice
+- Created `brand/verbal-identity.md` with: brand name rationale, primary tagline ("Das Neckartal. Unvergänglich."), secondary tagline, 4 tone-of-voice attributes (spezifisch, ruhig+sicher, vertraut ohne Kitsch, respektvoll) each with do/don't examples, vocabulary guide (preferred/avoided terms + framing principles), and 5 example copy lines.
+- Task marked done, committed as `feat(brand): define verbal identity...`
+- Learning: Verbal identity tasks for German-regional brands work best in German copy with English framework; specificity over adjectives is the core principle.
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:26:01.938Z
+# Brief: Neckarstücke
+# Preset: default
+# Max Iterations: 33
+
+---
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:37:21.179Z
+# Preset: default
+# Max Iterations: 10
+
+---
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:37:35.683Z
+# Preset: default
+# Max Iterations: 10
+
+---
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:39:48.331Z
+# Preset: default
+# Max Iterations: 10
+
+---
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:43:50.930Z
+# Brief: Neckarstücke
+# Preset: default
+# Max Iterations: 33
+
+---
+
+
+# Taskmaster Loop Progress
+# Started: 2026-04-15T19:44:11.549Z
+# Brief: Neckarstücke
+# Preset: default
+# Max Iterations: 33
+
+---
+
+## Iteration 4 — BEI-29: Consolidated brand guidelines document
+- Created `brand/brand-guidelines.md` — single reference covering all five identity systems
+- Structure: Quick-Start → Brand Overview → Logo → Colour → Typography → Voice → Art Direction → Implementation
+- Quick-start table gives any collaborator the 10 critical rules immediately (logo files, typefaces, colours, tagline, style)
+- Each major section includes a "what not to do" block alongside the rules
+- Mock print title card example shows correctly-set typography in context
+- Implementation section includes Tailwind v4 @theme tokens and Next.js font loading snippet
+- Learning: consolidation forces resolution of minor inconsistencies across source docs — the "text removal test" and gradient rule appear in both guidelines and art direction, which is right; duplication here is intentional and serves different audiences
+
+## Iteration 3 — BEI-24: Visual art direction principles for first collection
+- Created `brand/visual-art-direction.md` with 5-section framework
+- Curated reference set: 9 specific WPA/NPS/NASA poster works with extraction notes
+- Illustration approach: digital vector in restricted painterly mode — flat shapes, closed-form vocabulary, no gradients outside sky, high abstraction
+- Composition: portrait 2:3 ratio, single dominant element ≥40% of plane, designed negative space, 4-6 colour maximum per motif
+- Typography-in-motif: EB Garamond Regular +0.12em tracking, lower third, colour inverts to match field — integrated not labelled
+- Museum-quality checklist: 8 concrete pass/fail gates including thumbnail test, gradient audit, text integration test, anachronism check
+- Applied direction notes for Hirschhorn, Dilsberg, Minneburg
+- Learning: the "text removal test" is the sharpest gate for catching text-as-label vs. text-as-composition
+
+## Iteration 5 — BEI-13: Visual style direction for the first collection
+- Also marked BEI-1 (parent brand identity epic) as done — all 5 subtasks were complete
+- Created `motifs/collection-01-brief.md` — production-ready creative brief for Collection 01
+- Series statement (DE + EN): "Diese Kollektion hält inne" — stillness, weight, permanence
+- 12-reference moodboard (WPA/NPS, NASA Visions of the Future, German travel posters, Charley Harper, Tom Eckersley) with per-reference extraction notes
+- Collection palette: 6 brand colours constrained — specific spot colour allocations per motif (Minneburg 5 colours, Dilsberg 6, Hirschhorn 6)
+- Per-motif direction: Minneburg (cool autumn silhouette), Dilsberg (plateau island, spring clarity), Hirschhorn (golden hour castle promontory), Burg Hornberg (reserve — harvest/vine)
+- Deliverable schema: source .ai/.fig, print PDF/X-4, web WebP, thumb WebP, metadata .md with template
+- Production checklist: 8 pass/fail gates, file naming convention, colour-space notes (sRGB → Adobe RGB 1998 for print)
+- Learning: the brief that spans brand principles + per-motif direction + delivery spec in one document is the correct unit — not separate style guide + motif sheet
+
+
+## Iteration 6 — BEI-20: Research and curate source material for each motif location
+- Created `motifs/motif-selection.md` — composition decisions and reference sets for all 4 motifs
+- Confirmed compositions: Minneburg (south slope, Oct afternoon sidelight, bergfried), Dilsberg (L532 valley floor, midsummer morning, three-plane), Hirschhorn (NE riverbank, golden hour frontal, cliff-castle), Heidelberg (Philosophenweg 200m, blue hour, anti-touristic)
+- Per-motif: standpunkt, Blickrichtung, Licht, dominantes Element, Jahreszeit — all locked
+- Reference sets documented per motif: Category A (own field photography needed), B (free-licensed sources with specific works named), C (to reject and why)
+- Master source table: Wikimedia, Bundesarchiv, BSB München, BKG geodata — all CC/PD
+- Heidelberg brief explicitly documents why Philosophenweg blue-hour beats every iconic alternative
+- Production handoff checklist included with per-motif status (field photos still needed in person)
+- Learning: the Heidelberg motif rationale doubles as a design principle — invert Instagram-frequency as a selection criterion
+
+## Iteration 7 — BEI-25: Produce fine art illustrations for all first-collection motifs
+- Created `motifs/illustrations/` with 4 SVG illustrations + 4 metadata sheets + series-review.md
+- NS-01 Minneburg: cool autumn, bergfried silhouette, 5-colour (no Ochre), River Stone→Paper sky
+- NS-02 Dilsberg: frühsommer, three-plane island composition, 6-colour, Loess→Paper sky, scale-anchor figure
+- NS-03 Hirschhorn: golden hour, castle on Ochre rock promontory with Neckar reflection, 6-colour warm
+- NS-04 Heidelberg: blue hour, Schloss as geometric Kubatur, 5-colour cool (Valley Sage sky)
+- All pass series quality gate: ≤6 colours, gradients only in sky/river, thumbnail test, text-removal test
+- SVG vector format is resolution-independent — exports to PDF/X-4 at 300 dpi without rasterisation loss
+- Series-review.md documents mood-differentiation matrix and remaining production steps (BEI-30)
+- Learning: treating SVG as the .ai equivalent for a pure-vector WPA-style illustration is the right call — flat shapes require no rasterised detail; the file IS the print-ready source
+
+## Iteration 8 — BEI-30: Export production-ready print files and storefront presentation assets
+- Created `motifs/exports/` package: export-guide.md, 4 SVG lifestyle mockups, print/ and web/ READMEs
+- export-guide.md covers POD print spec (PDF/X-4, 300 dpi, 5 mm bleed, sRGB), web-asset spec (3 WebP sizes + OG-JPEG per motif), complete CLI workflows (Inkscape → cwebp → ImageMagick), pre-flight checklist matrix, and supplier comparison table (Prodigi/WHCC/Printful/Helloprint)
+- 4 lifestyle mockup SVGs (ns-01–ns-04): each motif rendered inside a framed presentation at 1400×1050 px with wall context and product copy; frame style tuned per motif temperature (oak warm/steel black/birch cool)
+- Marked BEI-2 (parent epic) done — all subtasks complete
+- Learning: the mockup SVG embeds a scaled recreation of the motif composition rather than using `<image>` or `<use>` — keeps files self-contained, no dependency on external SVG paths at render time; frame style (warm oak vs. steel black) communicates motif temperature before the buyer reads a word
+
+## Iteration 9 — BEI-7: Next.js project scaffold and core layout
+- Scaffolded `web/` with Next.js 16 + TypeScript strict + Tailwind CSS v4 + pnpm
+- `app/globals.css` — full @theme block: 6-colour palette, typographic scale (Display→Overline), spacing rhythm, container widths
+- Fonts: EB Garamond (400 regular+italic) + Inter (400/500) loaded via next/font, exposed as CSS vars consumed by @theme
+- `components/Header.tsx` — wordmark + nav (Kollektion, Über uns), brand token classes
+- `components/Footer.tsx` — dark charcoal background, tagline, legal links, copyright
+- `app/layout.tsx` — root layout with lang="de", default OG metadata, font variables, Header+Footer wrap
+- `app/page.tsx` — hero with German tagline + collection teaser grid (Loess placeholders)
+- ESLint (next + prettier), Prettier config, vercel.json with pnpm build commands all added
+- Build, tsc --noEmit, prettier --check all pass clean
+- Learning: Tailwind v4 @theme block requires CSS var references (e.g. `var(--font-eb-garamond)`) set by next/font — `variable` prop on font loaders is the bridge; inline style props handle token values not yet expressible as Tailwind utility classes
+
+## Iteration 10 — BEI-12: Product data model and Supabase schema
+- `web/types/print.ts` — `Print`, `PrintVariant`, `PrintWithVariants` TypeScript types (strict)
+- `web/lib/supabase/server.ts` — server-side Supabase client, `getAvailablePrints()`, `getPrintBySlug()`
+- `web/lib/supabase/client.ts` — browser singleton client for Client Components
+- `supabase/migrations/001_prints_schema.sql` — `prints` + `print_variants` tables, RLS, anon SELECT policies
+- `supabase/seed.sql` — idempotent seed with all 4 Collection 01 motifs × 5 variants each
+- Vitest added; 5 passing type-correctness tests; tsc --noEmit clean
+- Learning: idempotent seed via `on conflict (id) do nothing` with deterministic UUIDs avoids duplicate inserts across local/staging re-seeds — better than truncate/re-insert which breaks FK refs
+
+## Iteration 12 — BEI-31: Product catalog page displays all available prints for browsing
+- Created `components/PrintCard.tsx` — reusable card with thumbnail, title, location, "ab X €" starting price from cheapest in-stock variant
+- Created `app/kollektion/page.tsx` — Server Component catalog, ISR 60s, 2-col mobile / 3-col desktop, empty state, generateMetadata
+- Refactored homepage grid to use `PrintCard` (shared component, no functional change)
+- 13 new Vitest tests for `getStartingPriceCents` and `formatStartingPrice`; all 30 tests pass, tsc clean
+- Learning: exporting pure price utility functions from the component file keeps tests straightforward without mocking React; thin NBSP (`\u202f`) before € matches German typographic convention
+
+## Iteration 11 — BEI-17: Homepage communicates brand and collection to first-time visitors
+- Converted `web/app/page.tsx` from static placeholder to async Server Component
+- Fetches featured prints via `getAvailablePrints()` with silent fallback (for dev without Supabase env vars)
+- Replaces hardcoded location placeholders with linked print cards: thumbnail → title → location label
+- Added brand promise section (Loess background, Hahnemühle/lichtecht/nummeriert copy, quality stat row)
+- `generateMetadata` export with title, description, OG type/locale for social sharing
+- Created `web/app/__tests__/homepage.test.ts` — 12 Vitest tests covering fallback shape, projection logic, edge cases
+- All 17 tests pass; tsc --noEmit clean
+- Learning: silent try/catch around the Supabase call is the right fallback pattern for Server Components — lets dev work without env vars and keeps the error path out of the UI layer
+
+## Iteration 13 — BEI-33: Individual print detail page
+- Created `app/prints/[slug]/page.tsx` — ISR (60s), generateStaticParams, generateMetadata with og:image, notFound() for unknown slugs
+- Created `components/SizeSelector.tsx` — Client Component: variants grouped by format (Print/Gerahmt), reactive price display, Add to Cart stub (interface contract for BEI-34)
+- Updated `PrintCard` default linkPrefix from `/kollektion` to `/prints` to match new route
+- 15 new Vitest tests for formatPrice, getInStockVariants, getDefaultSelectedId, variantsByFormat, static params shape; all 45 tests pass, tsc clean
+- Learning: the Add to Cart stub with a clear TODO comment and typed console.info is the right contract-definition pattern — it compiles, tests can import the interface, and BEI-34 replaces exactly one function
+
+## Iteration 15 — BEI-35: Legal and informational pages
+- Created `app/impressum/page.tsx` — TMG §5 compliant: operator, address, email, Kleinunternehmer note, Urheberrecht
+- Created `app/datenschutz/page.tsx` — DSGVO privacy policy: Vercel hosting, Supabase DB, Stripe payments, localStorage cart
+- Created `app/ueber-uns/page.tsx` — brand story: regional connection, curation philosophy, quality commitment, CTA
+- Footer already had all three links; no footer changes needed
+- All 58 Vitest tests pass; tsc --noEmit clean
+- Learning: static Server Components with inline content + `Section` helper component keeps legal pages easy to read without a CMS dependency
+
+## Iteration 16 — BEI-11: Configure Stripe SDK and typed server client
+- Installed `stripe` (22.0.1) + `@stripe/stripe-js` (9.2.0) via pnpm
+- Created `web/lib/stripe.ts`: lazy `getStripe()` singleton + Proxy export; `normaliseSkuKey()` helper for SKU→env-var key mapping; `getStripePriceId()` reads `STRIPE_PRICE_<KEY>` env vars
+- Created `web/.env.example` (force-added past .gitignore) documenting all required vars: Supabase, Stripe keys, and per-variant price IDs for all 4 Collection 01 motifs × 5 variants
+- 5 new Vitest tests for normaliseSkuKey; 63 total passing; tsc clean
+- Learning: lazy Proxy pattern for Stripe client avoids module-level throw in test env without env vars; `.env.example` must be force-added because Next.js `.gitignore` excludes all `.env*`
+
+## Iteration 14 — BEI-34: Cart state allows customers to collect prints before checkout
+- `types/cart.ts` — CartItem, CheckoutLineItem, CheckoutPayload types (Stripe handoff contract)
+- `context/CartContext.tsx` — CartProvider with useReducer + localStorage persistence; SSR-safe hydration via useEffect; isOpen/openCart/closeCart for drawer toggle
+- `components/CartButton.tsx` — client island in Header: bag icon + live count badge (hidden until hydrated to avoid SSR mismatch)
+- `components/CartDrawer.tsx` — slide-over panel: line items with thumbnail, qty ± controls, remove, computed total, "Zur Kasse" stub (BEI-36 interface contract via CheckoutPayload)
+- SizeSelector wired to real addItem dispatch + openCart; PrintDetailPage passes printId/slug/imageUrl props
+- Header updated to include CartButton client island in nav
+- layout.tsx wraps body in CartProvider + renders CartDrawer
+- 13 new Vitest reducer tests; 58 total passing, tsc clean
+- Learning: localStorage hydration via useEffect + a `hydrated` flag is the clean SSR-safe pattern — badge renders null server-side and populates client-side without hydration mismatch
+
+## Iteration 18 — BEI-22: Stripe webhook handler to persist confirmed orders
+- Created `web/app/api/webhooks/stripe/route.ts` — POST handler; reads raw body, verifies Stripe-Signature via `constructEvent()`, rejects with 400 on failure
+- Handles `checkout.session.completed`; retrieves full session with `expand: ['line_items']`; idempotency check on `stripe_session_id` before insert
+- Shipping address accessed via `session.collected_information?.shipping_details?.address` (Stripe v22 restructured this from `shipping_details` directly on session)
+- Created `web/lib/supabase/service.ts` — lazy service-role Supabase client for RLS-bypassing server-side writes
+- Created `supabase/migrations/002_orders_schema.sql` — orders table with JSONB line_items/shipping_address, status enum, stripe_session_id unique index
+- Added `SUPABASE_SERVICE_ROLE_KEY` to `.env.example`
+- 19 new Vitest tests (93 total); tsc clean
+- Learning: Stripe v22 moved shipping info to `session.collected_information.shipping_details` — not `session.shipping_details` as older docs suggest
+
+## Iteration 17 — BEI-16: Stripe Checkout Session API route
+- Created `web/app/api/checkout/route.ts` — POST Route Handler; validates payload, creates hosted Stripe Checkout session (EUR, card, shipping collection for 23 countries), returns `{ url }`
+- Wired `CartDrawer.handleCheckout` to call the real API and redirect via `window.location.href`
+- 11 new Vitest validation tests; 74 total passing; tsc clean
+- Learning: Stripe's nested type `Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry` isn't accessible via the default import path in this version — `as any` is the pragmatic cast; pure validation logic is best tested separately from the route to avoid mocking Next.js Request/Response
+
+## Iteration 19 — BEI-27: Order confirmation page after successful payment
+- Created `web/app/order/confirmation/page.tsx` — Server Component; awaits `searchParams` (Next.js 16 Promise API), retrieves Stripe session server-side with `expand: ['line_items']`
+- Validates `payment_status === 'paid'`; four distinct fallback states (missing_id, invalid_session, not_paid, stripe_error) each with German explanatory copy and contact CTA
+- Confirmation UI: overline label, H1 "Vielen Dank.", lead copy, order summary table (line items + total), Loess delivery expectations block, back-to-collection CTA
+- Exported `formatCents()` helper (de-DE Intl.NumberFormat); 5 new tests; 98 total passing; tsc clean
+- Also closed BEI-4 (parent epic) — all 4 subtasks done
+- Learning: Intl.NumberFormat de-DE uses narrow non-breaking space before €, not a regular space — test assertions must use the actual character (\u00a0)
+
+## Iteration 21 — BEI-32: Supabase schema for orders and fulfilment status
+- Created `supabase/migrations/003_fulfillment_schema.sql` — extends existing orders table for the full fulfilment lifecycle
+- New `fulfilment_status` Postgres enum: `paid`, `submitted`, `in_production`, `shipped`, `delivered`, `failed`
+- Migrated `orders.status` from text+check to enum; added `supplier_order_id`, `tracking_number`, `carrier` nullable columns
+- New normalised `order_items` table with FK → orders (on delete cascade); RLS enabled
+- RLS policies: service-role bypasses RLS automatically; authenticated users read own orders by email; anon no access
+- `orders_updated_at` trigger for automatic timestamp management
+- Created `web/types/order.ts`: `Order`, `OrderItem`, `OrderWithItems`, `FulfilmentStatus`, `FulfilOrderPayload`, `PodOrderResult`
+- 16 new Vitest type-correctness tests; 114 total passing; tsc clean
+- Learning: Postgres does not need an explicit service-role policy — the Supabase service role bypasses RLS automatically; for the enum migration, USING clause with a CASE expression is the clean way to coerce existing text values
+
+## Iteration 20 — BEI-9: POD supplier selection and API integration spec
+- Created `docs/pod-supplier-decision.md` — supplier evaluation matrix + decision record
+- Selected Prodigi: only candidate with explicit Hahnemühle FineArt paper SKUs (brand requirement), EU lab network (Netherlands → Germany 3–5 days), sandbox API
+- Documented full Prodigi v4.0 API spec: base URL, X-API-Key auth, POST /orders payload schema, error codes, webhook events (order.status.changed, shipment.complete), SKU map for all 5 variants
+- Added PRODIGI_API_KEY and PRODIGI_WEBHOOK_SECRET to web/.env.example
+- Defined adapter architecture: trigger/fulfill-order.ts → lib/pod/index.ts → lib/pod/prodigi.ts (swappable to Gelato with one file change)
+- Learning: Prodigi sandbox key has no separate subdomain — same base URL, environment determined by key prefix (sandbox_ vs live_); duplicate-order prevention must be at job level since Prodigi has no native idempotency key

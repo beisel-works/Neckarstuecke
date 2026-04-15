@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { tasks } from "@trigger.dev/sdk/v3";
 import { getStripe } from "@/lib/stripe";
 import { getServiceClient } from "@/lib/supabase/service";
 
