@@ -42,7 +42,7 @@ export default function CartDrawer() {
   }, [isOpen, closeCart]);
 
   /** Stub: Posts cart to /api/checkout (implemented in Stripe task BEI-36). */
-  function handleCheckout() {
+  async function handleCheckout() {
     const payload: CheckoutPayload = {
       lineItems: items.map((item) => ({
         variantId: item.variantId,
@@ -50,9 +50,22 @@ export default function CartDrawer() {
         priceInCents: item.priceInCents,
       })),
     };
-    // TODO(BEI-36): POST payload to /api/checkout to create a Stripe session.
-    // eslint-disable-next-line no-console
-    console.info("[Checkout stub] payload", payload);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string };
+        throw new Error(data.error ?? `HTTP ${res.status}`);
+      }
+      const { url } = (await res.json()) as { url: string };
+      window.location.href = url;
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("[Checkout] failed:", err);
+    }
   }
 
   if (!isOpen) return null;
