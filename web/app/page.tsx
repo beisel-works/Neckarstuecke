@@ -1,12 +1,59 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+import { getAvailablePrints } from "@/lib/supabase/server";
+import type { PrintWithVariants } from "@/types/print";
 
-export default function HomePage() {
+export const metadata: Metadata = {
+  title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
+  description:
+    "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle Fine Art Papier. Signiert und nummeriert.",
+  openGraph: {
+    title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
+    description:
+      "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle Fine Art Papier.",
+    type: "website",
+    locale: "de_DE",
+  },
+};
+
+// Fallback prints shown when Supabase is not configured (dev without env vars).
+const FALLBACK_PRINTS: Pick<
+  PrintWithVariants,
+  "slug" | "title" | "location" | "image_thumbnail_url"
+>[] = [
+  { slug: "minneburg", title: "Minneburg", location: "Neckartal bei Neckargerach", image_thumbnail_url: null },
+  { slug: "dilsberg", title: "Dilsberg", location: "Dilsberg, Neckar-Odenwald-Kreis", image_thumbnail_url: null },
+  { slug: "hirschhorn", title: "Hirschhorn", location: "Hirschhorn am Neckar", image_thumbnail_url: null },
+  { slug: "heidelberg", title: "Heidelberg", location: "Heidelberg, Philosophenweg", image_thumbnail_url: null },
+];
+
+async function getFeaturedPrints(): Promise<
+  Pick<PrintWithVariants, "slug" | "title" | "location" | "image_thumbnail_url">[]
+> {
+  try {
+    const prints = await getAvailablePrints();
+    return prints.slice(0, 4).map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      location: p.location,
+      image_thumbnail_url: p.image_thumbnail_url,
+    }));
+  } catch {
+    // Return fallback when Supabase is unavailable (local dev without env vars).
+    return FALLBACK_PRINTS;
+  }
+}
+
+export default async function HomePage() {
+  const featuredPrints = await getFeaturedPrints();
+
   return (
     <div className="flex flex-col">
-      {/* Hero */}
+      {/* ── Hero ──────────────────────────────────────────────────── */}
       <section className="flex flex-col items-center justify-center px-6 py-24 text-center md:py-36 md:px-10">
         <p
-          className="mb-6 tracking-[0.12em] uppercase text-[var(--color-sage)]"
+          className="mb-6 uppercase text-[var(--color-sage)]"
           style={{
             fontSize: "var(--text-overline)",
             fontFamily: "var(--font-sans)",
@@ -15,6 +62,7 @@ export default function HomePage() {
         >
           Erste Kollektion — 2026
         </p>
+
         <h1
           className="mb-6 max-w-3xl text-[var(--color-charcoal)]"
           style={{
@@ -28,6 +76,7 @@ export default function HomePage() {
           <br />
           Unvergänglich.
         </h1>
+
         <p
           className="mb-10 max-w-xl text-[var(--color-charcoal)]"
           style={{
@@ -40,6 +89,7 @@ export default function HomePage() {
           geblieben sind, und jene, die gegangen sind und es noch immer in sich
           tragen.
         </p>
+
         <Link
           href="/kollektion"
           className="inline-flex items-center justify-center rounded-none border border-[var(--color-charcoal)] bg-[var(--color-charcoal)] px-8 py-3 text-[var(--color-paper)] transition-colors hover:bg-[var(--color-sage)] hover:border-[var(--color-sage)]"
@@ -54,20 +104,21 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* Divider */}
+      {/* ── Divider ───────────────────────────────────────────────── */}
       <div
         className="mx-auto h-px w-16 bg-[var(--color-loess)]"
         aria-hidden="true"
       />
 
-      {/* Collection teaser placeholder */}
-      <section className="px-6 py-16 md:px-10 md:py-24">
-        <div
-          className="mx-auto"
-          style={{ maxWidth: "var(--container-content)" }}
-        >
+      {/* ── Featured prints grid ──────────────────────────────────── */}
+      <section
+        className="px-6 py-16 md:px-10 md:py-24"
+        aria-labelledby="kollektion-heading"
+      >
+        <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>
           <p
-            className="mb-10 tracking-[0.12em] uppercase text-[var(--color-sage)] text-center"
+            id="kollektion-heading"
+            className="mb-10 text-center uppercase text-[var(--color-sage)]"
             style={{
               fontSize: "var(--text-overline)",
               fontFamily: "var(--font-sans)",
@@ -76,13 +127,53 @@ export default function HomePage() {
           >
             Kollektion 01
           </p>
+
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-            {["Minneburg", "Dilsberg", "Hirschhorn", "Heidelberg"].map(
-              (location) => (
-                <div
-                  key={location}
-                  className="aspect-[2/3] bg-[var(--color-loess)] flex items-end p-4"
-                >
+            {featuredPrints.map((print) => (
+              <Link
+                key={print.slug}
+                href={`/kollektion/${print.slug}`}
+                className="group flex flex-col"
+                aria-label={`${print.title} — ${print.location}`}
+              >
+                {/* Print thumbnail */}
+                <div className="relative aspect-[2/3] overflow-hidden bg-[var(--color-loess)]">
+                  {print.image_thumbnail_url ? (
+                    <Image
+                      src={print.image_thumbnail_url}
+                      alt={print.title}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    /* Placeholder when no image is available */
+                    <div className="absolute inset-0 flex items-end p-4">
+                      <span
+                        className="text-[var(--color-stone)]"
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "var(--text-caption)",
+                        }}
+                      >
+                        {print.location}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Print label */}
+                <div className="mt-3 flex flex-col gap-0.5">
+                  <span
+                    className="text-[var(--color-charcoal)] group-hover:text-[var(--color-sage)] transition-colors"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "var(--text-h4)",
+                      lineHeight: "var(--leading-h4)",
+                    }}
+                  >
+                    {print.title}
+                  </span>
                   <span
                     className="text-[var(--color-stone)]"
                     style={{
@@ -90,11 +181,125 @@ export default function HomePage() {
                       fontSize: "var(--text-caption)",
                     }}
                   >
-                    {location}
+                    {print.location}
                   </span>
                 </div>
-              )
-            )}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/kollektion"
+              className="inline-flex items-center gap-2 text-[var(--color-charcoal)] hover:text-[var(--color-sage)] transition-colors"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--text-label)",
+                letterSpacing: "var(--tracking-label)",
+              }}
+            >
+              Alle Drucke ansehen
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Divider ───────────────────────────────────────────────── */}
+      <div
+        className="mx-auto h-px w-16 bg-[var(--color-loess)]"
+        aria-hidden="true"
+      />
+
+      {/* ── Brand promise ─────────────────────────────────────────── */}
+      <section
+        className="px-6 py-16 md:px-10 md:py-24 bg-[var(--color-loess)]"
+        aria-labelledby="versprechen-heading"
+      >
+        <div
+          className="mx-auto"
+          style={{ maxWidth: "var(--container-prose)" }}
+        >
+          <p
+            id="versprechen-heading"
+            className="mb-8 uppercase text-[var(--color-sage)]"
+            style={{
+              fontSize: "var(--text-overline)",
+              fontFamily: "var(--font-sans)",
+              letterSpacing: "var(--tracking-overline)",
+            }}
+          >
+            Was Neckarstücke ist
+          </p>
+
+          <h2
+            className="mb-8 text-[var(--color-charcoal)]"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.5rem, 3vw, var(--text-h2))",
+              lineHeight: "var(--leading-h2)",
+              letterSpacing: "var(--tracking-h2)",
+            }}
+          >
+            Keine Massenware. Kein generisches Wandbild.
+          </h2>
+
+          <div
+            className="space-y-5 text-[var(--color-charcoal)]"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--text-body)",
+              lineHeight: "var(--leading-body)",
+            }}
+          >
+            <p>
+              Jeder Druck in der Kollektion entsteht auf Bestellung — auf{" "}
+              <strong>310 g/m² Hahnemühle Photo Rag</strong>, einem der
+              angesehensten Fine-Art-Papiere der Welt. Pigmentbasierter Druck,
+              lichtecht für über 100 Jahre.
+            </p>
+            <p>
+              Die Motive sind keine Fotografien. Sie sind Illustrationen — im
+              Stil der großen amerikanischen WPA-Poster der 1930er Jahre,
+              übertragen auf Orte, die einen kennen, wenn man das Neckartal
+              kennt: die Minneburg im Herbst, der Dilsberg im Morgenlicht,
+              Hirschhorn im goldenen Stundenlicht, Heidelberg abseits der
+              Postkarte.
+            </p>
+            <p>
+              Jede Edition ist nummeriert und signiert. Die Auflage bleibt
+              begrenzt.
+            </p>
+          </div>
+
+          <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:gap-10">
+            {[
+              { label: "Hahnemühle Fine Art", detail: "310 g/m² Photo Rag" },
+              { label: "Lichtecht", detail: "Über 100 Jahre" },
+              { label: "Auf Bestellung", detail: "Signiert & nummeriert" },
+            ].map(({ label, detail }) => (
+              <div key={label} className="flex flex-col gap-1">
+                <span
+                  className="text-[var(--color-charcoal)] font-medium"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--text-label)",
+                    letterSpacing: "var(--tracking-label)",
+                  }}
+                >
+                  {label}
+                </span>
+                <span
+                  className="text-[var(--color-stone)]"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--text-caption)",
+                  }}
+                >
+                  {detail}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
