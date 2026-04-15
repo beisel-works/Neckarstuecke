@@ -29,6 +29,15 @@ interface ProdigiOrderUpdate {
   carrier?: string | null;
 }
 
+const STATUS_RANK: Record<FulfilmentStatus, number> = {
+  paid: 0,
+  submitted: 1,
+  in_production: 2,
+  shipped: 3,
+  delivered: 4,
+  failed: 5,
+};
+
 function signaturesMatch(expected: string, received: string): boolean {
   const expectedBuffer = Buffer.from(expected);
   const receivedBuffer = Buffer.from(received);
@@ -116,6 +125,37 @@ export function buildProdigiOrderUpdate(
   return null;
 }
 
+export function shouldAdvanceOrderStatus(
+  currentStatus: FulfilmentStatus | null | undefined,
+  nextStatus: FulfilmentStatus | null | undefined
+): boolean {
+  if (!nextStatus) {
+    return false;
+  }
+
+  if (!currentStatus) {
+    return true;
+  }
+
+  if (currentStatus === nextStatus) {
+    return false;
+  }
+
+  if (currentStatus === "delivered") {
+    return false;
+  }
+
+  if (nextStatus === "failed") {
+    return currentStatus !== "shipped";
+  }
+
+  if (currentStatus === "failed") {
+    return true;
+  }
+
+  return STATUS_RANK[nextStatus] > STATUS_RANK[currentStatus];
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const rawBody = await request.text();
   const signature = request.headers.get("x-prodigi-signature");
@@ -157,28 +197,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ received: true, ignored: true });
   }
 
-  const patch: {
-    status?: FulfilmentStatus;
-    tracking_number?: string | null;
-    carrier?: string | null;
-  } = {};
-
-  if (update.status) {
-    patch.status = update.status;
-  }
-  if ("tracking_number" in update) {
-    patch.tracking_number = update.tracking_number ?? null;
-  }
-  if ("carrier" in update) {
-    patch.carrier = update.carrier ?? null;
-  }
-
   const db = getServiceClient();
   const { data: order, error } = await db
     .from("orders")
-    .update(patch)
+    .select("id, status, tracking_number, carrier")
     .eq("supplier_order_id", update.supplierOrderId)
-    .select("id")
     .maybeSingle();
 
   if (error) {
@@ -190,6 +213,41 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       { error: "No order found for supplier_order_id." },
       { status: 500 }
     );
+  }
+
+  const patch: {
+    status?: FulfilmentStatus;
+    tracking_number?: string | null;
+    carrier?: string | null;
+  } = {};
+
+  if (update.status && shouldAdvanceOrderStatus(order.status, update.status)) {
+    patch.status = update.status;
+  }
+
+  if (
+    "tracking_number" in update &&
+    update.tracking_number &&
+    update.tracking_number !== order.tracking_number
+  ) {
+    patch.tracking_number = update.tracking_number;
+  }
+
+  if ("carrier" in update && update.carrier && update.carrier !== order.carrier) {
+    patch.carrier = update.carrier;
+  }
+
+  if (Object.keys(patch).length === 0) {
+    return NextResponse.json({ received: true, ignored: true });
+  }
+
+  const { error: updateError } = await db
+    .from("orders")
+    .update(patch)
+    .eq("id", order.id);
+
+  if (updateError) {
+    return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });

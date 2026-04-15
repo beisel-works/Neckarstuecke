@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildProdigiOrderUpdate,
   mapProdigiStageToStatus,
+  shouldAdvanceOrderStatus,
   verifyProdigiSignature,
 } from "@/app/api/webhooks/prodigi/route";
 
@@ -78,5 +79,26 @@ describe("buildProdigiOrderUpdate", () => {
         },
       })
     ).toBeNull();
+  });
+});
+
+describe("shouldAdvanceOrderStatus", () => {
+  it("advances forward through the fulfilment lifecycle", () => {
+    expect(shouldAdvanceOrderStatus("submitted", "in_production")).toBe(true);
+    expect(shouldAdvanceOrderStatus("in_production", "shipped")).toBe(true);
+  });
+
+  it("ignores stale regressions", () => {
+    expect(shouldAdvanceOrderStatus("shipped", "in_production")).toBe(false);
+    expect(shouldAdvanceOrderStatus("delivered", "shipped")).toBe(false);
+  });
+
+  it("allows failure before shipment but not after shipment", () => {
+    expect(shouldAdvanceOrderStatus("submitted", "failed")).toBe(true);
+    expect(shouldAdvanceOrderStatus("shipped", "failed")).toBe(false);
+  });
+
+  it("allows recovery from a failed state", () => {
+    expect(shouldAdvanceOrderStatus("failed", "in_production")).toBe(true);
   });
 });
