@@ -12,6 +12,7 @@ Task coverage:
 - Stripe live keys, webhook secret, and product price IDs are configured
 - Trigger.dev is deployed with `fulfill-order`
 - Prodigi sandbox or live credentials are configured
+- Prodigi callback URL is configured either in the dashboard or via `PRODIGI_CALLBACK_URL`
 - Sentry DSN and auth settings are configured
 - print asset CDN is reachable from Prodigi
 
@@ -23,7 +24,8 @@ Server-side:
 - `STRIPE_WEBHOOK_SECRET`
 - `TRIGGER_SECRET_KEY`
 - `PRODIGI_API_KEY`
-- `PRODIGI_WEBHOOK_SECRET`
+- `PRODIGI_API_BASE_URL`
+- `PRODIGI_CALLBACK_URL`
 - `SENTRY_DSN`
 - `SENTRY_AUTH_TOKEN`
 - `SENTRY_ORG`

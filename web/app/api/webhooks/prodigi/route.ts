@@ -1,25 +1,30 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/service";
 import type { FulfilmentStatus } from "@/types/order";
 
+interface ProdigiShipment {
+  carrier?: {
+    name?: string | null;
+  } | null;
+  tracking?: {
+    number?: string | null;
+  } | null;
+}
+
+interface ProdigiOrderData {
+  id?: string;
+  status?: {
+    stage?: string;
+  };
+  shipments?: ProdigiShipment[] | null;
+}
+
 interface ProdigiWebhookPayload {
-  event?: string;
   type?: string;
-  order?: {
-    id?: string;
-    status?: {
-      stage?: string;
-    };
-  };
-  shipment?: {
-    carrier?: {
-      name?: string | null;
-    };
-    tracking?: {
-      number?: string | null;
-    };
-  };
+  subject?: string;
+  data?: ProdigiOrderData | { order?: ProdigiOrderData } | null;
+  order?: ProdigiOrderData;
+  shipment?: ProdigiShipment | null;
 }
 
 interface ProdigiOrderUpdate {
@@ -38,31 +43,6 @@ const STATUS_RANK: Record<FulfilmentStatus, number> = {
   failed: 5,
 };
 
-function signaturesMatch(expected: string, received: string): boolean {
-  const expectedBuffer = Buffer.from(expected);
-  const receivedBuffer = Buffer.from(received);
-
-  if (expectedBuffer.length !== receivedBuffer.length) {
-    return false;
-  }
-
-  return timingSafeEqual(expectedBuffer, receivedBuffer);
-}
-
-export function verifyProdigiSignature(
-  rawBody: string,
-  signature: string,
-  secret: string
-): boolean {
-  const normalizedSignature = signature.trim().replace(/^sha256=/i, "");
-  const digest = createHmac("sha256", secret).update(rawBody).digest();
-
-  return (
-    signaturesMatch(digest.toString("hex"), normalizedSignature) ||
-    signaturesMatch(digest.toString("base64"), normalizedSignature)
-  );
-}
-
 export function mapProdigiStageToStatus(
   stage?: string | null
 ): FulfilmentStatus | null {
@@ -73,8 +53,7 @@ export function mapProdigiStageToStatus(
       return "in_production";
     case "complete":
     case "completed":
-    case "delivered":
-      return "delivered";
+      return "shipped";
     case "cancelled":
     case "canceled":
     case "failed":
@@ -84,34 +63,56 @@ export function mapProdigiStageToStatus(
   }
 }
 
+function getProdigiOrderData(
+  payload: ProdigiWebhookPayload
+): ProdigiOrderData | null {
+  if (payload.data && typeof payload.data === "object") {
+    if ("order" in payload.data && payload.data.order) {
+      return payload.data.order;
+    }
+
+    return payload.data as ProdigiOrderData;
+  }
+
+  return payload.order ?? null;
+}
+
+function getProdigiShipment(
+  payload: ProdigiWebhookPayload,
+  order: ProdigiOrderData | null
+): ProdigiShipment | null {
+  if (payload.shipment) {
+    return payload.shipment;
+  }
+
+  return order?.shipments?.[0] ?? null;
+}
+
 export function buildProdigiOrderUpdate(
   payload: ProdigiWebhookPayload
 ): ProdigiOrderUpdate | null {
-  const supplierOrderId = payload.order?.id;
+  const order = getProdigiOrderData(payload);
+  const supplierOrderId = order?.id ?? payload.subject;
   if (!supplierOrderId) {
     return null;
   }
 
-  const eventType = payload.event ?? payload.type;
+  const eventType = payload.type?.trim();
+  const normalizedType = eventType?.toLowerCase() ?? "";
+  const shipment = getProdigiShipment(payload, order);
 
-  if (eventType === "shipment.complete") {
+  if (normalizedType.includes("shipment")) {
     return {
       supplierOrderId,
       status: "shipped",
-      tracking_number: payload.shipment?.tracking?.number ?? null,
-      carrier: payload.shipment?.carrier?.name ?? null,
+      tracking_number: shipment?.tracking?.number ?? null,
+      carrier: shipment?.carrier?.name ?? null,
     };
   }
 
-  if (eventType === "order.outcome.complete") {
-    return {
-      supplierOrderId,
-      status: "delivered",
-    };
-  }
-
-  if (eventType === "order.status.changed") {
-    const status = mapProdigiStageToStatus(payload.order?.status?.stage);
+  if (normalizedType.includes("status.stage.changed")) {
+    const fragmentStage = eventType?.split("#")[1] ?? null;
+    const status = mapProdigiStageToStatus(fragmentStage ?? order?.status?.stage);
     if (!status) {
       return null;
     }
@@ -158,30 +159,6 @@ export function shouldAdvanceOrderStatus(
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const rawBody = await request.text();
-  const signature = request.headers.get("x-prodigi-signature");
-
-  if (!signature) {
-    return NextResponse.json(
-      { error: "Missing x-prodigi-signature header." },
-      { status: 400 }
-    );
-  }
-
-  const secret = process.env.PRODIGI_WEBHOOK_SECRET;
-  if (!secret) {
-    return NextResponse.json(
-      { error: "Webhook secret not configured." },
-      { status: 500 }
-    );
-  }
-
-  if (!verifyProdigiSignature(rawBody, signature, secret)) {
-    return NextResponse.json(
-      { error: "Webhook signature verification failed." },
-      { status: 401 }
-    );
-  }
-
   let payload: ProdigiWebhookPayload;
   try {
     payload = JSON.parse(rawBody) as ProdigiWebhookPayload;
