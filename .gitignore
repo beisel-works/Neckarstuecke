@@ -34,3 +34,5 @@ web/out/
 
 # pnpm
 web/node_modules/
+
+.hamster/**/*
