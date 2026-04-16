@@ -135,6 +135,31 @@ jobs:
             --token "$VERCEL_TOKEN"
           exit 1
 
+      - name: Resolve Vercel protection bypass secret
+        id: protection-bypass
+        if: steps.deployment-target.outputs.environment == 'preview'
+        run: |
+          project_json="$(curl --fail --silent --show-error \
+            --header "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID")"
+
+          bypass_secret="$(node -e '
+            const project = JSON.parse(process.argv[1]);
+            const protectionBypass = project.protectionBypass ?? {};
+            const token = Object.entries(protectionBypass).find(
+              ([, value]) => value?.scope === "automation-bypass"
+            )?.[0] ?? "";
+            process.stdout.write(token);
+          ' "$project_json")"
+
+          if [ -z "$bypass_secret" ]; then
+            echo "::error::Missing Vercel automation bypass secret in project deployment protection settings"
+            exit 1
+          fi
+
+          echo "::add-mask::$bypass_secret"
+          echo "secret=$bypass_secret" >> "$GITHUB_OUTPUT"
+
       - name: Install Playwright browser
         working-directory: web
         run: pnpm exec playwright install --with-deps chromium
@@ -143,6 +168,7 @@ jobs:
         working-directory: web
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.wait-for-deployment.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ steps.protection-bypass.outputs.secret }}
         run: pnpm test:e2e
 
       - name: Summarize JUnit results

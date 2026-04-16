@@ -14,6 +14,7 @@ The workflow uses the Vercel CLI to look up the deployment created by the Vercel
 
 - The Vercel project must already exist.
 - The GitHub repository must be connected to the Vercel project.
+- Preview deployments protected by Vercel Authentication must have a "Protection Bypass for Automation" secret configured in Project Settings -> Deployment Protection.
 - The Vercel project must be configured with:
   - Root Directory: `web`
   - Framework: `nextjs`
@@ -28,6 +29,7 @@ If you need the ids locally, `vercel link` writes them into `.vercel/project.jso
 ## Workflow behavior
 
 - Pull requests wait for the Vercel preview deployment for the current commit, run `pnpm lint`, `pnpm typecheck`, `pnpm test`, then run `pnpm test:e2e` against that deployed URL.
+- For protected previews, the workflow reads the project `protectionBypass` settings from the Vercel API, passes the automation bypass secret into Playwright, and seeds the Vercel bypass cookie before storefront navigation.
 - Pushes to `main` wait for the production deployment for the current commit and run the same validation plus E2E suite against that URL.
 - Pull requests receive a summary comment with the deployment URL, workflow result, and test counts.
 - Playwright HTML report, traces, screenshots, and videos are uploaded as workflow artifacts.

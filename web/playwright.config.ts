@@ -9,6 +9,11 @@ const baseURL =
   process.env.PLAYWRIGHT_BASE_URL ??
   process.env.E2E_BASE_URL ??
   "http://localhost:3000";
+const vercelAutomationBypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+const extraHTTPHeaders =
+  vercelAutomationBypassSecret && baseURL.includes(".vercel.app")
+    ? { "x-vercel-protection-bypass": vercelAutomationBypassSecret }
+    : undefined;
 
 function getReporters(): ReporterDescription[] {
   if (isCI) {
@@ -33,6 +38,7 @@ export default defineConfig({
   outputDir: "test-results/e2e",
   use: {
     baseURL,
+    extraHTTPHeaders,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "retain-on-failure",

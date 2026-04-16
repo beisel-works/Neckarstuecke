@@ -1,9 +1,29 @@
 import { expect, test, type Page } from "@playwright/test";
 
+const baseURL =
+  process.env.PLAYWRIGHT_BASE_URL ??
+  process.env.E2E_BASE_URL ??
+  "http://localhost:3000";
+const vercelAutomationBypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+
+async function primeVercelProtectionBypass(page: Page) {
+  if (!vercelAutomationBypassSecret || !baseURL.includes(".vercel.app")) {
+    return;
+  }
+
+  const bypassUrl = new URL("/", baseURL);
+  bypassUrl.searchParams.set("x-vercel-set-bypass-cookie", "true");
+
+  await page.goto(bypassUrl.toString());
+  await page.waitForURL((url) => url.origin === bypassUrl.origin && url.pathname === "/");
+}
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.clear();
   });
+
+  await primeVercelProtectionBypass(page);
 });
 
 function escapeRegex(value: string): string {
