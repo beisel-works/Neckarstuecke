@@ -39,3 +39,4 @@ web/node_modules/
 
 .hamster/**/*
 .claude/**/*
+supabase/.temp/

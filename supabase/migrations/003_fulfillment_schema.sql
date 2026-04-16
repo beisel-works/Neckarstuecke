@@ -37,6 +37,10 @@ end $$;
 alter table orders
   drop constraint if exists orders_status_check;
 
+-- Drop the text default before casting to the enum.
+alter table orders
+  alter column status drop default;
+
 -- Cast existing text values → new enum (best-effort mapping).
 alter table orders
   alter column status type fulfilment_status

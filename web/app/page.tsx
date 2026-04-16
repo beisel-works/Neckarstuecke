@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   },
 };
 
+const hasSupabasePublicConfig = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+);
+
 // Fallback prints shown when Supabase is not configured (dev without env vars).
 const FALLBACK_PRINTS: Pick<
   PrintWithVariants,
@@ -41,7 +47,10 @@ async function getFeaturedPrints(): Promise<
       image_thumbnail_url: p.image_thumbnail_url,
     }));
   } catch {
-    // Return fallback when Supabase is unavailable (local dev without env vars).
+    if (hasSupabasePublicConfig) {
+      throw new Error("Failed to load featured prints from Supabase.");
+    }
+
     return FALLBACK_PRINTS;
   }
 }

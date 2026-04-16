@@ -1,0 +1,74 @@
+name: Supabase Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: supabase-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  supabase-release:
+    name: supabase-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check required Supabase secrets
+        run: |
+          missing=0
+          for key in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD SUPABASE_PROJECT_ID; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Missing required secret: $key"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link Supabase project
+        run: supabase link --project-ref "$SUPABASE_PROJECT_ID" --password "$SUPABASE_DB_PASSWORD"
+
+      - name: Show remote migration status
+        run: supabase migration list --linked --password "$SUPABASE_DB_PASSWORD"
+
+      - name: Push database migrations
+        run: supabase db push --linked --password "$SUPABASE_DB_PASSWORD"
+
+      - name: Seed initial catalog data
+        run: supabase db query --linked -f supabase/seed.sql
+
+      - name: Verify critical tables
+        run: |
+          supabase db query --linked "
+            select
+              to_regclass('public.prints') as prints,
+              to_regclass('public.print_variants') as print_variants,
+              to_regclass('public.orders') as orders,
+              to_regclass('public.analytics_events') as analytics_events
+          "
+
+      - name: Verify seeded catalog
+        run: |
+          supabase db query --linked "
+            select
+              count(*) filter (where available) as available_prints,
+              count(*) as total_prints
+            from public.prints
+          "

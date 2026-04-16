@@ -9,6 +9,12 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const revalidate = 60; // ISR — revalidate each print page every 60 seconds
 
+const hasSupabasePublicConfig = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+);
+
 // ── Fallback data for dev without Supabase env vars ─────────────────────────
 
 const FALLBACK_PRINTS: PrintWithVariants[] = [
@@ -118,7 +124,10 @@ async function getPrint(slug: string): Promise<PrintWithVariants | null> {
   try {
     return await getPrintBySlug(slug);
   } catch {
-    // Supabase unavailable (dev without env vars) — check fallback.
+    if (hasSupabasePublicConfig) {
+      throw new Error(`Failed to load print "${slug}" from Supabase.`);
+    }
+
     return FALLBACK_PRINTS.find((p) => p.slug === slug) ?? null;
   }
 }
@@ -128,6 +137,10 @@ async function getAllSlugs(): Promise<string[]> {
     const prints = await getAvailablePrints();
     return prints.map((p) => p.slug);
   } catch {
+    if (hasSupabasePublicConfig) {
+      throw new Error("Failed to load print slugs from Supabase.");
+    }
+
     return FALLBACK_PRINTS.map((p) => p.slug);
   }
 }

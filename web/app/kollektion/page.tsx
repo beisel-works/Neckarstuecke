@@ -19,6 +19,12 @@ export const metadata: Metadata = {
   },
 };
 
+const hasSupabasePublicConfig = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+);
+
 // Fallback data for dev without Supabase env vars.
 const FALLBACK_PRINTS: PrintWithVariants[] = [
   {
@@ -91,6 +97,10 @@ async function getPrints(): Promise<PrintWithVariants[]> {
   try {
     return await getAvailablePrints();
   } catch {
+    if (hasSupabasePublicConfig) {
+      throw new Error("Failed to load prints from Supabase.");
+    }
+
     return FALLBACK_PRINTS;
   }
 }
