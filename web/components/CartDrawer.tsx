@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { captureHandledException } from "@/lib/sentry";
 import type { CheckoutPayload } from "@/types/cart";
@@ -19,6 +19,12 @@ function formatLabel(format: "print" | "framed"): string {
   return format === "framed" ? "Gerahmt" : "Print";
 }
 
+const CHECKOUT_CONFIGURATION_ERROR =
+  /Missing STRIPE_SECRET_KEY|Missing Stripe Price ID|Stripe session creation failed/i;
+
+const CHECKOUT_UNAVAILABLE_MESSAGE =
+  "Checkout ist gerade nicht verfügbar. Bitte kontaktiere uns direkt für deine Bestellung.";
+
 /**
  * Slide-over cart drawer — Client Component.
  * Renders a panel from the right with all cart line items, qty controls,
@@ -27,6 +33,7 @@ function formatLabel(format: "print" | "framed"): string {
 export default function CartDrawer() {
   const { items, totalCents, isOpen, closeCart, removeItem, updateQuantity } =
     useCart();
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   // Trap focus and close on Escape key.
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -47,7 +54,14 @@ export default function CartDrawer() {
     };
   }, [isOpen, closeCart]);
 
+  useEffect(() => {
+    if (!isOpen || items.length === 0) {
+      setCheckoutError(null);
+    }
+  }, [isOpen, items.length]);
+
   async function handleCheckout() {
+    setCheckoutError(null);
     const payload: CheckoutPayload = {
       lineItems: items.map((item) => ({
         variantId: item.variantId,
@@ -73,11 +87,19 @@ export default function CartDrawer() {
       });
       if (!res.ok) {
         const data = (await res.json()) as { error?: string };
-        throw new Error(data.error ?? `HTTP ${res.status}`);
+        const message = data.error ?? `HTTP ${res.status}`;
+        if (CHECKOUT_CONFIGURATION_ERROR.test(message)) {
+          setCheckoutError(CHECKOUT_UNAVAILABLE_MESSAGE);
+          return;
+        }
+        throw new Error(message);
       }
       const { url } = (await res.json()) as { url: string };
       window.location.href = url;
     } catch (err) {
+      setCheckoutError(
+        "Checkout konnte gerade nicht gestartet werden. Bitte versuche es später erneut."
+      );
       captureHandledException(err, {
         surface: "ui.checkout",
         statusCode: "client_error",
@@ -331,6 +353,19 @@ export default function CartDrawer() {
             >
               Zur Kasse
             </button>
+
+            {checkoutError ? (
+              <p
+                className="text-[var(--color-stone)]"
+                aria-live="polite"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--text-caption)",
+                }}
+              >
+                {checkoutError}
+              </p>
+            ) : null}
           </div>
         )}
       </div>
