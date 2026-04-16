@@ -24,6 +24,10 @@ function stripMotifPrefix(filename, motif) {
   return filename.replace(new RegExp(`^ns-\\d{2}-${motif}-`), "");
 }
 
+function versionedUrl(url, asset) {
+  return `${url}?v=${asset.bytes}`;
+}
+
 function requireAsset(entry, matcher, description) {
   const asset = entry.web.find(({ path: assetPath }) => matcher(assetPath));
   if (!asset) {
@@ -101,10 +105,12 @@ async function main() {
 
     updates.push({
       slug: entry.motif,
-      image_web_preview_url: uploadedUrls.get(path.basename(webPreview.path)),
-      image_thumbnail_url: uploadedUrls.get(path.basename(thumbnail.path)),
-      image_mockup_url: mockup ? uploadedUrls.get(path.basename(mockup.path)) ?? null : null,
-      image_og_url: uploadedUrls.get(path.basename(og.path)),
+      image_web_preview_url: versionedUrl(uploadedUrls.get(path.basename(webPreview.path)), webPreview),
+      image_thumbnail_url: versionedUrl(uploadedUrls.get(path.basename(thumbnail.path)), thumbnail),
+      image_mockup_url: mockup
+        ? versionedUrl(uploadedUrls.get(path.basename(mockup.path)), mockup)
+        : null,
+      image_og_url: versionedUrl(uploadedUrls.get(path.basename(og.path)), og),
     });
   }
 
