@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getStripePriceId } from "@/lib/stripe";
 import { captureHandledException } from "@/lib/sentry";
+import { getServiceClient } from "@/lib/supabase/service";
 import type { CheckoutPayload } from "@/types/cart";
+import type { PrintFormat } from "@/types/print";
 
 /** Countries accepted for physical shipping at launch (EU + diaspora markets). */
 const ALLOWED_COUNTRIES = [
@@ -29,6 +31,16 @@ const ALLOWED_COUNTRIES = [
   "SK",
   "US",
 ] as const;
+
+type VariantLookupRow = {
+  id: string;
+  size_label: string;
+  format: PrintFormat;
+  price_cents: number;
+  in_stock: boolean;
+  available_on_request: boolean;
+  prints: { slug?: string } | { slug?: string }[] | null;
+};
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   let body: unknown;
@@ -105,6 +117,85 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     "http://localhost:3000";
 
   try {
+    const db = getServiceClient();
+    const variantIds = [...new Set(lineItems.map((item) => item.variantId))];
+    const { data: variantRows, error: variantLookupError } = await db
+      .from("print_variants")
+      .select(
+        "id, size_label, format, price_cents, in_stock, available_on_request, prints!inner(slug)"
+      )
+      .in("id", variantIds);
+
+    if (variantLookupError) {
+      throw new Error(`Variant lookup failed: ${variantLookupError.message}`);
+    }
+
+    const variantsById = new Map(
+      ((variantRows ?? []) as VariantLookupRow[]).map((variant) => [
+        variant.id,
+        variant,
+      ])
+    );
+    const stripeLineItems = [];
+
+    for (const item of lineItems) {
+      const variant = variantsById.get(item.variantId);
+
+      if (!variant) {
+        return NextResponse.json(
+          { error: `Unknown variant: ${item.variantId}.` },
+          { status: 400 }
+        );
+      }
+
+      if (!variant.in_stock || variant.available_on_request) {
+        return NextResponse.json(
+          { error: `Variant ${item.variantId} is not available for checkout.` },
+          { status: 400 }
+        );
+      }
+
+      const printRecord = Array.isArray(variant.prints)
+        ? variant.prints[0]
+        : variant.prints;
+      const printSlug = printRecord?.slug;
+
+      if (!printSlug) {
+        throw new Error(`Print slug missing for variant ${item.variantId}.`);
+      }
+
+      const priceId = getStripePriceId(
+        printSlug,
+        variant.size_label,
+        variant.format
+      );
+
+      if (!priceId) {
+        captureHandledException(
+          `Missing Stripe Price ID for ${printSlug} ${variant.size_label} ${variant.format}.`,
+          {
+            surface: "api.checkout",
+            statusCode: 500,
+            extras: {
+              variant_id: item.variantId,
+              print_slug: printSlug,
+              size_label: variant.size_label,
+              format: variant.format,
+            },
+          }
+        );
+        return NextResponse.json(
+          { error: `Missing Stripe Price ID for variant ${item.variantId}.` },
+          { status: 500 }
+        );
+      }
+
+      stripeLineItems.push({
+        price: priceId,
+        quantity: item.quantity,
+      });
+    }
+
     const stripe = getStripe();
     const metadata: Record<string, string> = {};
     if (sessionId) {
@@ -113,20 +204,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (source) {
       metadata.analytics_source = source;
     }
+    metadata.cart_items = JSON.stringify(
+      lineItems.map((item) => ({
+        variantId: item.variantId,
+        quantity: item.quantity,
+      }))
+    );
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
-      line_items: lineItems.map((item) => ({
-        price_data: {
-          currency: "eur",
-          unit_amount: item.priceInCents,
-          product_data: {
-            name: item.variantId, // variant ID as fallback; BEI-22 may enrich this
-          },
-        },
-        quantity: item.quantity,
-      })),
+      line_items: stripeLineItems,
       shipping_address_collection: {
         allowed_countries: [...ALLOWED_COUNTRIES],
       },

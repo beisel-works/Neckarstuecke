@@ -10,6 +10,7 @@ const ANALYTICS_EVENTS: AnalyticsEventName[] = [
   "add_to_cart",
   "checkout_started",
   "purchase_complete",
+  "inquiry_submitted",
   "feedback_submitted",
 ];
 

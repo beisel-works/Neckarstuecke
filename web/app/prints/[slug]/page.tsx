@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAvailablePrints, getPrintBySlug } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
-import SizeSelector from "@/components/SizeSelector";
+import PrintPurchasePanel from "@/components/PrintPurchasePanel";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import PrintGallery from "@/components/PrintGallery";
 
@@ -37,11 +37,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v1a", print_id: "fallback-1", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v1b", print_id: "fallback-1", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v1c", print_id: "fallback-1", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v1d", print_id: "fallback-1", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v1e", print_id: "fallback-1", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v1a", print_id: "fallback-1", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v1b", print_id: "fallback-1", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v1c", print_id: "fallback-1", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v1d", print_id: "fallback-1", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v1e", print_id: "fallback-1", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v1f", print_id: "fallback-1", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
   {
@@ -63,11 +64,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v2a", print_id: "fallback-2", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v2b", print_id: "fallback-2", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v2c", print_id: "fallback-2", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v2d", print_id: "fallback-2", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v2e", print_id: "fallback-2", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v2a", print_id: "fallback-2", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v2b", print_id: "fallback-2", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v2c", print_id: "fallback-2", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v2d", print_id: "fallback-2", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v2e", print_id: "fallback-2", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v2f", print_id: "fallback-2", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
   {
@@ -89,11 +91,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v3a", print_id: "fallback-3", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v3b", print_id: "fallback-3", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v3c", print_id: "fallback-3", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v3d", print_id: "fallback-3", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v3e", print_id: "fallback-3", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v3a", print_id: "fallback-3", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v3b", print_id: "fallback-3", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v3c", print_id: "fallback-3", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v3d", print_id: "fallback-3", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v3e", print_id: "fallback-3", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v3f", print_id: "fallback-3", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
   {
@@ -115,11 +118,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v4a", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v4b", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v4c", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v4d", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v4e", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v4a", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v4b", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v4c", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v4d", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v4e", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v4f", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
   {
@@ -141,11 +145,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v5a", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v5b", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v5c", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v5d", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v5e", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v5a", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v5b", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v5c", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v5d", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v5e", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v5f", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
   {
@@ -167,11 +172,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v6a", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
-      { id: "v6b", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
-      { id: "v6c", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
-      { id: "v6d", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
-      { id: "v6e", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+      { id: "v6a", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v6b", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v6c", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v6d", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v6e", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v6f", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
 ];
@@ -376,7 +382,7 @@ export default async function PrintDetailPage({
               <div className="h-px bg-[var(--color-loess)]" aria-hidden="true" />
 
               {/* Size selector + add to cart */}
-              <SizeSelector
+              <PrintPurchasePanel
                 variants={print.variants}
                 printTitle={print.title}
                 printId={print.id}

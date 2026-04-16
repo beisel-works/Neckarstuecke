@@ -14,6 +14,7 @@ export interface PrintVariant {
   format: PrintFormat;
   price_cents: number; // in EUR cents
   in_stock: boolean;
+  available_on_request: boolean;
 }
 
 export interface Print {

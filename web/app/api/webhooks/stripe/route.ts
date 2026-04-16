@@ -6,6 +6,19 @@ import { captureHandledException } from "@/lib/sentry";
 import { getStripe } from "@/lib/stripe";
 import { getServiceClient } from "@/lib/supabase/service";
 
+type CartMetadataItem = {
+  variantId: string;
+  quantity: number;
+};
+
+type VariantRow = {
+  id: string;
+  print_id: string;
+  size_label: string;
+  format: string;
+  price_cents: number;
+};
+
 // ---------------------------------------------------------------------------
 // Stripe webhook handler: POST /api/webhooks/stripe
 //
@@ -104,14 +117,40 @@ async function handleCheckoutSessionCompleted(
     return;
   }
 
-  // 7. Build the order record.
-  const lineItems = (fullSession.line_items?.data ?? []).map((item) => ({
-    description: item.description ?? "",
-    quantity: item.quantity ?? 1,
-    amount_total: item.amount_total ?? 0,
-    currency: item.currency ?? "eur",
-  }));
+  const cartItems = extractCartItems(fullSession);
+  if (cartItems.length === 0) {
+    throw new Error(`No cart items available for Stripe session ${sessionId}.`);
+  }
 
+  const variantIds = [...new Set(cartItems.map((item) => item.variantId))];
+  const { data: variantRows, error: variantLookupError } = await db
+    .from("print_variants")
+    .select("id, print_id, size_label, format, price_cents")
+    .in("id", variantIds);
+
+  if (variantLookupError) {
+    throw new Error(`Variant lookup failed: ${variantLookupError.message}`);
+  }
+
+  const variantsById = new Map(
+    ((variantRows ?? []) as VariantRow[]).map((variant) => [variant.id, variant])
+  );
+
+  const storedLineItems = cartItems.map((item) => {
+    const variant = variantsById.get(item.variantId);
+    if (!variant) {
+      throw new Error(`Unknown variant ${item.variantId} for Stripe session ${sessionId}.`);
+    }
+
+    return {
+      description: item.variantId,
+      quantity: item.quantity,
+      amount_total: variant.price_cents * item.quantity,
+      currency: fullSession.currency ?? "eur",
+    };
+  });
+
+  // 7. Build the order record.
   const shippingAddress = fullSession.collected_information?.shipping_details?.address ?? null;
   const customerEmail =
     fullSession.customer_details?.email ?? fullSession.customer_email ?? null;
@@ -125,7 +164,7 @@ async function handleCheckoutSessionCompleted(
     status: "paid" as const,
     customer_email: customerEmail,
     shipping_address: shippingAddress,
-    line_items: lineItems,
+    line_items: storedLineItems,
     total_cents: fullSession.amount_total ?? null,
     currency: fullSession.currency ?? "eur",
   };
@@ -141,6 +180,70 @@ async function handleCheckoutSessionCompleted(
     throw new Error(`Supabase insert failed: ${insertError.message}`);
   }
 
+  const { error: orderItemsInsertError } = await db.from("order_items").insert(
+    cartItems.map((item) => {
+      const variant = variantsById.get(item.variantId);
+      if (!variant) {
+        throw new Error(`Unknown variant ${item.variantId} for order item insert.`);
+      }
+
+      return {
+        order_id: insertedOrder.id,
+        product_sku: `${variant.print_id}:${variant.size_label}:${variant.format}`,
+        supplier_product_id: null,
+        quantity: item.quantity,
+        unit_price_cents: variant.price_cents,
+        currency: fullSession.currency ?? "eur",
+        description: item.variantId,
+      };
+    })
+  );
+
+  if (orderItemsInsertError) {
+    throw new Error(`Order item insert failed: ${orderItemsInsertError.message}`);
+  }
+
+  const { data: existingEditionRows, error: existingEditionLookupError } = await db
+    .from("edition_numbers")
+    .select("id")
+    .eq("order_id", insertedOrder.id)
+    .limit(1);
+
+  if (existingEditionLookupError) {
+    throw new Error(
+      `Edition idempotency lookup failed: ${existingEditionLookupError.message}`
+    );
+  }
+
+  if (!existingEditionRows || existingEditionRows.length === 0) {
+    for (const item of cartItems) {
+      const variant = variantsById.get(item.variantId);
+      if (!variant) {
+        throw new Error(`Unknown variant ${item.variantId} for edition assignment.`);
+      }
+
+      for (let copy = 0; copy < item.quantity; copy += 1) {
+        const { error: assignEditionError } = await db.rpc("assign_edition_number", {
+          p_print_id: variant.print_id,
+          p_order_id: insertedOrder.id,
+        });
+
+        if (assignEditionError) {
+          captureHandledException(assignEditionError, {
+            surface: "api.webhooks.stripe",
+            statusCode: 500,
+            extras: {
+              stripe_session_id: sessionId,
+              order_id: insertedOrder.id,
+              print_id: variant.print_id,
+            },
+          });
+          throw new Error(assignEditionError.message);
+        }
+      }
+    }
+  }
+
   await recordPurchaseCompleteEvent(db, fullSession);
 
   await tasks.trigger(
@@ -148,6 +251,47 @@ async function handleCheckoutSessionCompleted(
     { orderId: insertedOrder.id },
     { idempotencyKey: fulfillmentIdempotencyKey }
   );
+}
+
+function extractCartItems(session: Stripe.Checkout.Session): CartMetadataItem[] {
+  const raw = session.metadata?.cart_items;
+  if (typeof raw === "string" && raw.length > 0) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed.flatMap((item) => {
+        if (
+          !item ||
+          typeof item !== "object" ||
+          typeof item.variantId !== "string" ||
+          typeof item.quantity !== "number" ||
+          !Number.isInteger(item.quantity) ||
+          item.quantity < 1
+        ) {
+          return [];
+        }
+
+        return [{ variantId: item.variantId, quantity: item.quantity }];
+      });
+    } catch {
+      return [];
+    }
+  }
+
+  return (session.line_items?.data ?? []).flatMap((item) => {
+    if (
+      typeof item.description !== "string" ||
+      typeof item.quantity !== "number" ||
+      item.quantity < 1
+    ) {
+      return [];
+    }
+
+    return [{ variantId: item.description, quantity: item.quantity }];
+  });
 }
 
 async function recordPurchaseCompleteEvent(
