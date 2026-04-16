@@ -101,6 +101,23 @@ jobs:
             from public.prints
           "
 
+      - name: Verify print variants are deduplicated
+        run: |
+          supabase db query --linked "
+            do \$\$
+            begin
+              if exists (
+                select 1
+                from public.print_variants
+                group by print_id, width_mm, height_mm, format
+                having count(*) > 1
+              ) then
+                raise exception 'Found duplicated print variants after seeding.';
+              end if;
+            end
+            \$\$;
+          "
+
       - name: Verify catalog images are populated
         run: |
           supabase db query --linked "
