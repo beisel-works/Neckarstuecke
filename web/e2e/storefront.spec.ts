@@ -137,7 +137,9 @@ test("starts checkout or keeps the shopper in-cart when Stripe is not configured
   }
 
   const body = (await checkoutResponse.json()) as { error?: string };
-  expect(body.error).toMatch(/Missing STRIPE_SECRET_KEY|Stripe session creation failed/i);
+  expect(body.error).toMatch(
+    /Missing STRIPE_SECRET_KEY|Missing Stripe Price ID|Stripe session creation failed/i
+  );
   await expect(cart).toBeVisible();
   await expect(page).toHaveURL(/\/prints\//);
 });
