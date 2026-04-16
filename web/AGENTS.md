@@ -30,3 +30,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Checkout can no longer rely on Stripe line-item descriptions once it uses saved Stripe Price IDs. Persist `cart_items` in Checkout Session metadata and rebuild `orders.line_items` / `order_items` from that metadata in the webhook.
 - The repo still has no first-party admin auth stack. Internal `/admin/coa` access is currently gated with HTTP Basic Auth via `COA_ADMIN_USERNAME` / `COA_ADMIN_PASSWORD`.
 - Vercel environment variable names cannot contain hyphens. Keep Stripe lookup keys as `BAD-WIMPFEN__30X40-CM__PRINT`, but convert hyphens to underscores in actual `STRIPE_PRICE_*` env var names and support the legacy hyphenated names as a fallback in code.
+- Collection brief notes may reference `web/app/prints/page.tsx`, but the actual collection catalog route is `web/app/kollektion/page.tsx`.
