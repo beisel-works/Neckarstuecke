@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useCart } from "@/context/CartContext";
+import { captureHandledException } from "@/lib/sentry";
 import type { CheckoutPayload } from "@/types/cart";
 import {
   getAnalyticsSessionId,
@@ -77,6 +78,14 @@ export default function CartDrawer() {
       const { url } = (await res.json()) as { url: string };
       window.location.href = url;
     } catch (err) {
+      captureHandledException(err, {
+        surface: "ui.checkout",
+        statusCode: "client_error",
+        extras: {
+          line_item_count: items.length,
+          total_cents: totalCents,
+        },
+      });
       console.error("[Checkout] failed:", err);
     }
   }

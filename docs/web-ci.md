@@ -67,3 +67,4 @@ For full checkout and order-pipeline coverage, also configure:
 - `PRODIGI_WEBHOOK_SECRET`
 - `TRIGGER_PROJECT_REF`
 - `NEXT_PUBLIC_PRINT_CDN_BASE`
+- `SENTRY_SMOKE_TOKEN`

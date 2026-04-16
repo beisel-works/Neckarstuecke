@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { submitFeedback, trackEvent } from "@/lib/analytics/client";
+import { captureHandledException } from "@/lib/sentry";
 
 interface FeedbackFormProps {
   page: string;
@@ -53,7 +54,16 @@ export default function FeedbackForm({
       setState("done");
       setEmail("");
       setMessage("");
-    } catch {
+    } catch (error) {
+      captureHandledException(error, {
+        surface: "ui.feedback",
+        statusCode: "client_error",
+        extras: {
+          page,
+          order_reference: orderReference ?? null,
+          resonance_rating: rating,
+        },
+      });
       setState("error");
     }
   }

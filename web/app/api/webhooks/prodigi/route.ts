@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { captureHandledException } from "@/lib/sentry";
 import { getServiceClient } from "@/lib/supabase/service";
 import type { FulfilmentStatus } from "@/types/order";
 
@@ -182,10 +183,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     .maybeSingle();
 
   if (error) {
+    captureHandledException(error.message, {
+      surface: "api.webhooks.prodigi",
+      statusCode: 500,
+      extras: {
+        supplier_order_id: update.supplierOrderId,
+        payload_type: payload.type ?? null,
+      },
+    });
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   if (!order) {
+    captureHandledException("No order found for supplier_order_id.", {
+      surface: "api.webhooks.prodigi",
+      statusCode: 500,
+      extras: {
+        supplier_order_id: update.supplierOrderId,
+        payload_type: payload.type ?? null,
+      },
+    });
     return NextResponse.json(
       { error: "No order found for supplier_order_id." },
       { status: 500 }
@@ -224,6 +241,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     .eq("id", order.id);
 
   if (updateError) {
+    captureHandledException(updateError.message, {
+      surface: "api.webhooks.prodigi",
+      statusCode: 500,
+      extras: {
+        order_id: order.id,
+        supplier_order_id: update.supplierOrderId,
+        next_status: patch.status ?? null,
+      },
+    });
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 

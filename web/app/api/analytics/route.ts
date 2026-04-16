@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseAnalyticsPayload } from "@/lib/analytics/shared";
+import { captureHandledException } from "@/lib/sentry";
 import { getServiceClient } from "@/lib/supabase/service";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -32,9 +33,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     if (error) {
+      captureHandledException(error.message, {
+        surface: "api.analytics",
+        statusCode: 500,
+        extras: {
+          event_name: payload.event,
+          page: payload.page,
+          motif_slug: payload.motifSlug ?? null,
+          session_id: payload.sessionId,
+        },
+      });
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-  } catch {
+  } catch (error) {
+    captureHandledException(error, {
+      surface: "api.analytics",
+      statusCode: 202,
+      extras: {
+        event_name: payload.event,
+        page: payload.page,
+        motif_slug: payload.motifSlug ?? null,
+        session_id: payload.sessionId,
+      },
+    });
     return NextResponse.json({ accepted: true }, { status: 202 });
   }
 

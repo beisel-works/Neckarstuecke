@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { tasks } from "@trigger.dev/sdk/v3";
 import { normalizeSessionId } from "@/lib/analytics/shared";
+import { captureHandledException } from "@/lib/sentry";
 import { getStripe } from "@/lib/stripe";
 import { getServiceClient } from "@/lib/supabase/service";
 
@@ -25,6 +26,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
+    captureHandledException("Webhook secret not configured.", {
+      surface: "api.webhooks.stripe",
+      statusCode: 500,
+      extras: {
+        event_type: "checkout.session.completed",
+      },
+    });
     console.error("STRIPE_WEBHOOK_SECRET is not configured.");
     return NextResponse.json({ error: "Webhook secret not configured." }, { status: 500 });
   }
@@ -44,6 +52,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Order persistence failed.";
+      captureHandledException(err, {
+        surface: "api.webhooks.stripe",
+        statusCode: 500,
+        extras: {
+          event_type: event.type,
+          stripe_session_id:
+            typeof event.data.object?.id === "string" ? event.data.object.id : null,
+        },
+      });
       console.error("Webhook order persistence error:", message);
       // Return 500 so Stripe will retry. Do NOT return 200 on write failure.
       return NextResponse.json({ error: message }, { status: 500 });

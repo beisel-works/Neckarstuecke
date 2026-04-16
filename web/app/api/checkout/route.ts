@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { captureHandledException } from "@/lib/sentry";
 import type { CheckoutPayload } from "@/types/cart";
 
 /** Countries accepted for physical shipping at launch (EU + diaspora markets). */
@@ -135,6 +136,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     if (!session.url) {
+      captureHandledException("Stripe did not return a checkout URL.", {
+        surface: "api.checkout",
+        statusCode: 500,
+        extras: {
+          line_item_count: lineItems.length,
+          session_id: sessionId || null,
+          source: source || null,
+        },
+      });
       return NextResponse.json(
         { error: "Stripe did not return a checkout URL." },
         { status: 500 }
@@ -145,6 +155,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Stripe session creation failed.";
+    captureHandledException(err, {
+      surface: "api.checkout",
+      statusCode: 500,
+      extras: {
+        line_item_count: lineItems.length,
+        session_id: sessionId || null,
+        source: source || null,
+      },
+    });
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

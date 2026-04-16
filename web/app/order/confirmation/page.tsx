@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getStripe } from "@/lib/stripe";
+import { captureHandledException } from "@/lib/sentry";
 import type Stripe from "stripe";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import FeedbackForm from "@/components/FeedbackForm";
@@ -52,6 +53,13 @@ async function retrieveSession(sessionId: string): Promise<SessionResult> {
     ) {
       return { ok: false, reason: "invalid_session" };
     }
+    captureHandledException(err, {
+      surface: "page.order_confirmation",
+      statusCode: "stripe_error",
+      extras: {
+        stripe_session_id: sessionId,
+      },
+    });
     return { ok: false, reason: "stripe_error" };
   }
 }

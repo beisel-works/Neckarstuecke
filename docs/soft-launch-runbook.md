@@ -14,6 +14,7 @@ Task coverage:
 - Prodigi sandbox or live credentials are configured
 - Prodigi callback URL is configured either in the dashboard or via `PRODIGI_CALLBACK_URL`
 - Sentry DSN and auth settings are configured
+- `SENTRY_SMOKE_TOKEN` is configured
 - print asset CDN is reachable from Prodigi
 
 ## Required Environment Variables
@@ -30,6 +31,7 @@ Server-side:
 - `SENTRY_AUTH_TOKEN`
 - `SENTRY_ORG`
 - `SENTRY_PROJECT`
+- `SENTRY_SMOKE_TOKEN`
 - `SENTRY_RELEASE`
 - `OTEL_EXPORTER_OTLP_ENDPOINT`
 - `OTEL_EXPORTER_OTLP_HEADERS`
@@ -56,6 +58,8 @@ Client-visible:
 2. Verify observability before purchase:
 - request `GET /api/health/observability`
 - confirm a trace appears in the OTel backend
+- request `POST /api/health/sentry` with `Authorization: Bearer <SENTRY_SMOKE_TOKEN>`
+- confirm a Sentry event appears with tags `surface=health.sentry`, `handled=true`, and `smoke=true`
 - trigger a controlled frontend error in production or preview and confirm Sentry captures it with the correct release and environment
 
 3. Run one real purchase:
