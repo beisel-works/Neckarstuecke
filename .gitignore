@@ -36,3 +36,4 @@ web/out/
 web/node_modules/
 
 .hamster/**/*
+.claude/**/*
