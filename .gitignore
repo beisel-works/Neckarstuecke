@@ -31,6 +31,8 @@ tasks/
 # Next.js
 web/.next/
 web/out/
+web/playwright-report/
+web/test-results/
 
 # pnpm
 web/node_modules/
