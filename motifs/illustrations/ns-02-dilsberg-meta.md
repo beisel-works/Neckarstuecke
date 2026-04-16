@@ -4,24 +4,24 @@ title_de: Dilsberg
 title_en: Dilsberg
 collection: "01"
 series_number: NS-02
-location: Neckar-Odenwald-Kreis, Baden-Württemberg
+location: Dilsberg, Neckargemuend
 coordinates: [49.3792, 8.7644]
 season: Frühsommer
 viewpoint: Talebene L532 südöstlich des Ortseingangs, Blick nach Nordwesten auf den Plateauhügel
 colors: ["#1C2826", "#3D6154", "#EDE9DC", "#FAFAF5", "#6E7B77", "#8B5A14"]
 format: 50×70 cm (2:3)
 status: approved
-illustration_format: SVG (vector, resolution-independent)
-source_file: ns-02-dilsberg.svg
+illustration_format: PNG (upscaled raster source master)
+source_file: ns-02-dilsberg.png
 ---
 
 ## Beschreibung (DE)
 
-Dilsberg ist das unwahrscheinlichste Dorf der Region: eine vollständige Ortschaft auf einem isolierten Buntsandsteinhügel, als hätte die Geologie vergessen, dass hier gebaut werden sollte. Im Frühsommerlicht steht das Plateau wie eine Insel — Dach und Turm, reduziert auf Form.
+Dilsberg wirkt hier wie ein geschlossener Ort auf Abstand: Mauern, Daecher und Herbstkronen sitzen gesammelt auf dem Bergkegel ueber dem Neckar. Das Bild haelt nicht das Dorfinnere fest, sondern seine Haltung zur Landschaft.
 
 ## Description (EN)
 
-Dilsberg is the most improbable village in the region: a complete settlement on an isolated sandstone hill, as if geology forgot that building here was possible. In early summer light the plateau stands like an island — roofline and tower, reduced to pure form.
+Dilsberg reads here as a complete settlement held at a distance: walls, roofs, and autumn crowns gathered on the hill above the Neckar. The image is not about the village interior, but about its stance within the landscape.
 
 ## Komposition — Entscheidungsprotokoll
 
@@ -40,7 +40,7 @@ Dilsberg is the most improbable village in the region: a complete settlement on 
 - [x] Text-Entfernungs-Test: Bild verliert seinen Aussagekern ohne Titel ✓
 - [x] Thumbnail-Test: Insel-Silhouette auf 5×7 cm lesbar ✓
 - [x] Keine Anachronismen ✓
-- [x] Vektordatei: auflösungsunabhängig ✓
+- [x] Rasterquelle: als hochaufgeloester PNG-Master fuer 300 dpi Export freigegeben ✓
 - [x] Metadaten-Sheet vollständig ✓
 - [ ] Web-Vorschau (1200×1680 px WebP) — Export ausstehend
 - [ ] Thumbnail (600×840 px WebP) — Export ausstehend

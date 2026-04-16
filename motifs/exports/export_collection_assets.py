@@ -18,7 +18,6 @@ ILLUSTRATIONS_DIR = ROOT / "motifs" / "illustrations"
 EXPORTS_DIR = ROOT / "motifs" / "exports"
 PRINT_DIR = EXPORTS_DIR / "print"
 WEB_DIR = EXPORTS_DIR / "web"
-MOCKUPS_DIR = EXPORTS_DIR / "mockups"
 MANIFEST_PATH = EXPORTS_DIR / "manifest.json"
 PREFLIGHT_PATH = EXPORTS_DIR / "preflight-report.md"
 
@@ -47,8 +46,7 @@ class Motif:
     code: str
     slug: str
     title: str
-    illustration: Path
-    framed_mockup: Path
+    source_art: Path
 
 
 MOTIFS = [
@@ -56,29 +54,37 @@ MOTIFS = [
         code="ns-01",
         slug="minneburg",
         title="Minneburg",
-        illustration=ILLUSTRATIONS_DIR / "ns-01-minneburg.svg",
-        framed_mockup=MOCKUPS_DIR / "ns-01-minneburg-mockup-framed.svg",
+        source_art=ILLUSTRATIONS_DIR / "ns-01-minneburg.png",
     ),
     Motif(
         code="ns-02",
         slug="dilsberg",
         title="Dilsberg",
-        illustration=ILLUSTRATIONS_DIR / "ns-02-dilsberg.svg",
-        framed_mockup=MOCKUPS_DIR / "ns-02-dilsberg-mockup-framed.svg",
+        source_art=ILLUSTRATIONS_DIR / "ns-02-dilsberg.png",
     ),
     Motif(
         code="ns-03",
         slug="hirschhorn",
         title="Hirschhorn",
-        illustration=ILLUSTRATIONS_DIR / "ns-03-hirschhorn.svg",
-        framed_mockup=MOCKUPS_DIR / "ns-03-hirschhorn-mockup-framed.svg",
+        source_art=ILLUSTRATIONS_DIR / "ns-03-hirschhorn.svg",
     ),
     Motif(
         code="ns-04",
         slug="heidelberg",
         title="Heidelberg",
-        illustration=ILLUSTRATIONS_DIR / "ns-04-heidelberg.svg",
-        framed_mockup=MOCKUPS_DIR / "ns-04-heidelberg-mockup-framed.svg",
+        source_art=ILLUSTRATIONS_DIR / "ns-04-heidelberg.png",
+    ),
+    Motif(
+        code="ns-05",
+        slug="guttenberg",
+        title="Guttenberg",
+        source_art=ILLUSTRATIONS_DIR / "ns-05-guttenberg.png",
+    ),
+    Motif(
+        code="ns-06",
+        slug="bad-wimpfen",
+        title="Bad Wimpfen",
+        source_art=ILLUSTRATIONS_DIR / "ns-06-bad-wimpfen.png",
     ),
 ]
 
@@ -115,6 +121,17 @@ def rasterize_svg_cover(svg_path: Path, target_size: tuple[int, int]) -> Image.I
     return image.crop((left, top, left + width, top + height))
 
 
+def rasterize_image_cover(source_image: Image.Image, target_size: tuple[int, int]) -> Image.Image:
+    width, height = target_size
+    scale = max(width / source_image.width, height / source_image.height)
+    render_width = int(round(source_image.width * scale))
+    render_height = int(round(source_image.height * scale))
+    image = source_image.resize((render_width, render_height), Image.Resampling.LANCZOS)
+    left = max((image.width - width) // 2, 0)
+    top = max((image.height - height) // 2, 0)
+    return image.crop((left, top, left + width, top + height))
+
+
 def rasterize_svg_fit(
     svg_path: Path,
     target_size: tuple[int, int],
@@ -141,14 +158,41 @@ def rasterize_svg_fit(
     return canvas_image
 
 
-def rasterize_mockup(svg_path: Path, target_size: tuple[int, int]) -> Image.Image:
+def rasterize_image_fit(
+    source_image: Image.Image,
+    target_size: tuple[int, int],
+    background: str = PAPER,
+    inset: int = 0,
+) -> Image.Image:
     width, height = target_size
-    png_bytes = cairosvg.svg2png(
-        url=str(svg_path),
-        output_width=width,
-        output_height=height,
-    )
-    return Image.open(BytesIO(png_bytes)).convert("RGBA")
+    inner_width = width - inset * 2
+    inner_height = height - inset * 2
+    scale = min(inner_width / source_image.width, inner_height / source_image.height)
+    render_width = int(round(source_image.width * scale))
+    render_height = int(round(source_image.height * scale))
+    artwork = source_image.resize((render_width, render_height), Image.Resampling.LANCZOS)
+    canvas_image = Image.new("RGB", (width, height), background)
+    x = (width - render_width) // 2
+    y = (height - render_height) // 2
+    canvas_image.paste(artwork, (x, y))
+    return canvas_image
+
+
+def rasterize_source_cover(source_path: Path, target_size: tuple[int, int]) -> Image.Image:
+    if source_path.suffix.lower() == ".svg":
+        return rasterize_svg_cover(source_path, target_size)
+    return rasterize_image_cover(Image.open(source_path).convert("RGB"), target_size)
+
+
+def rasterize_source_fit(
+    source_path: Path,
+    target_size: tuple[int, int],
+    background: str = PAPER,
+    inset: int = 0,
+) -> Image.Image:
+    if source_path.suffix.lower() == ".svg":
+        return rasterize_svg_fit(source_path, target_size, background=background, inset=inset)
+    return rasterize_image_fit(Image.open(source_path).convert("RGB"), target_size, background=background, inset=inset)
 
 
 def save_tiff(image: Image.Image, path: Path) -> None:
@@ -230,6 +274,42 @@ def build_og_image(preview: Image.Image, motif: Motif) -> Image.Image:
     return canvas_image
 
 
+def build_framed_mockup(preview: Image.Image, motif: Motif) -> Image.Image:
+    canvas_image = Image.new("RGB", MOCKUP_RETINA, LOESS)
+    draw = ImageDraw.Draw(canvas_image)
+
+    for y in range(MOCKUP_RETINA[1]):
+        blend = y / MOCKUP_RETINA[1]
+        r0, g0, b0 = (245, 241, 233)
+        r1, g1, b1 = (233, 228, 218)
+        color = (
+            int(r0 + (r1 - r0) * blend),
+            int(g0 + (g1 - g0) * blend),
+            int(b0 + (b1 - b0) * blend),
+        )
+        draw.line((0, y, MOCKUP_RETINA[0], y), fill=color)
+
+    draw.rectangle((0, 1840, MOCKUP_RETINA[0], MOCKUP_RETINA[1]), fill="#C8C1B4")
+    draw.rectangle((0, 1810, MOCKUP_RETINA[0], 1840), fill="#BEB5A8")
+
+    shadow = Image.new("RGBA", MOCKUP_RETINA, (0, 0, 0, 0))
+    shadow_draw = ImageDraw.Draw(shadow)
+    shadow_draw.rounded_rectangle((760, 220, 2040, 1680), radius=36, fill=(0, 0, 0, 110))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(52))
+    canvas_image.paste(shadow, (0, 0), shadow)
+
+    frame_rect = (840, 260, 1960, 1620)
+    draw.rectangle(frame_rect, fill="#D7CCBB", outline="#B9AA93", width=8)
+    draw.rectangle((912, 332, 1888, 1548), fill=PAPER)
+
+    artwork = preview.resize((760, 1064), Image.Resampling.LANCZOS)
+    canvas_image.paste(artwork, (1020, 410))
+
+    draw.text((MOCKUP_RETINA[0] // 2 - 240, 1710), f"{motif.title.upper()} · {motif.code.upper()}", fill=CHARCOAL)
+    draw.text((MOCKUP_RETINA[0] // 2 - 430, 1770), "Giclee Feinkunstdruck · 50 × 70 cm · Hahnemuehle Fine Art", fill=STONE)
+    return canvas_image
+
+
 def build_room_context(mockup: Image.Image, motif: Motif) -> Image.Image:
     canvas_image = Image.new("RGB", MOCKUP_RETINA, PAPER)
     draw = ImageDraw.Draw(canvas_image)
@@ -272,7 +352,7 @@ def build_room_context(mockup: Image.Image, motif: Motif) -> Image.Image:
     canvas_image.paste(room_shadow, (0, 0), room_shadow)
 
     mockup_scaled = mockup.resize((1180, 885), Image.Resampling.LANCZOS)
-    canvas_image.paste(mockup_scaled.convert("RGB"), (810, 260), mockup_scaled)
+    canvas_image.paste(mockup_scaled.convert("RGB"), (810, 260))
 
     draw.text((150, 130), f"{motif.title.upper()} · ROOM CONTEXT", fill=CHARCOAL)
     draw.text((150, 185), "NECKARSTUECKE · EXPORT PREVIEW", fill=STONE)
@@ -293,20 +373,23 @@ def build_manifest_entry(path: Path, image: Image.Image | None = None) -> dict[s
 def export_motif(motif: Motif) -> dict[str, object]:
     print_base = f"{motif.code}-{motif.slug}"
 
-    print_image = rasterize_svg_cover(motif.illustration, PRINT_SIZE)
-    preview_retina = rasterize_svg_fit(motif.illustration, MAIN_RETINA, inset=140)
+    print_image = rasterize_source_cover(motif.source_art, PRINT_SIZE)
+    preview_retina = rasterize_source_fit(motif.source_art, MAIN_RETINA, inset=140)
     thumb_retina = resize(preview_retina, THUMB_RETINA)
-    detail_retina = build_detail_crop(rasterize_svg_cover(motif.illustration, (2400, 3600)), DETAIL_RETINA)
-    framed_retina = rasterize_mockup(motif.framed_mockup, MOCKUP_RETINA)
+    detail_retina = build_detail_crop(rasterize_source_cover(motif.source_art, (2400, 3600)), DETAIL_RETINA)
+    framed_retina = build_framed_mockup(preview_retina, motif)
     room_retina = build_room_context(framed_retina, motif)
 
     print_tiff = PRINT_DIR / f"{print_base}-print-300dpi.tiff"
     print_pdf = PRINT_DIR / f"{print_base}-print-300dpi.pdf"
-    vector_pdf = PRINT_DIR / f"{print_base}-vector-master.pdf"
+    source_pdf = PRINT_DIR / f"{print_base}-source-master.pdf"
 
     save_tiff(print_image, print_tiff)
     save_pdf(print_image, print_pdf)
-    cairosvg.svg2pdf(url=str(motif.illustration), write_to=str(vector_pdf))
+    if motif.source_art.suffix.lower() == ".svg":
+        cairosvg.svg2pdf(url=str(motif.source_art), write_to=str(source_pdf))
+    else:
+        save_pdf(Image.open(motif.source_art).convert("RGB"), source_pdf)
 
     web_outputs = {
         WEB_DIR / f"{print_base}-web-2400.webp": (preview_retina, 92),
@@ -337,7 +420,7 @@ def export_motif(motif: Motif) -> dict[str, object]:
         "print": [
             build_manifest_entry(print_tiff, print_image),
             build_manifest_entry(print_pdf),
-            build_manifest_entry(vector_pdf),
+            build_manifest_entry(source_pdf),
         ],
         "web": manifest_assets,
         "preflight": {
@@ -347,6 +430,7 @@ def export_motif(motif: Motif) -> dict[str, object]:
             "print_height": PRINT_SIZE[1],
             "tiff_compression": "raw",
             "icc_profile_embedded": bool(SRGB_PROFILE),
+            "source_format": motif.source_art.suffix.lower().removeprefix("."),
         },
     }
 
@@ -357,8 +441,8 @@ def write_preflight_report(manifest: list[dict[str, object]]) -> None:
         "",
         "Generated by `motifs/exports/export_collection_assets.py`.",
         "",
-        "| Motif | TIFF | PDF | Vector PDF | Geometry | DPI | Colorspace | ICC |",
-        "|-------|------|-----|------------|----------|-----|------------|-----|",
+        "| Motif | TIFF | PDF | Source PDF | Geometry | DPI | Colorspace | ICC | Source |",
+        "|-------|------|-----|------------|----------|-----|------------|-----|--------|",
     ]
 
     for entry in manifest:
@@ -367,13 +451,14 @@ def write_preflight_report(manifest: list[dict[str, object]]) -> None:
         print_files = entry["print"]
         tiff_path = Path(print_files[0]["path"]).name
         pdf_path = Path(print_files[1]["path"]).name
-        vector_path = Path(print_files[2]["path"]).name
+        source_path = Path(print_files[2]["path"]).name
         lines.append(
-            f"| {motif} | {tiff_path} | {pdf_path} | {vector_path} | "
+            f"| {motif} | {tiff_path} | {pdf_path} | {source_path} | "
             f"{preflight['print_width']}×{preflight['print_height']} px | "
             f"{preflight['dpi'][0]}×{preflight['dpi'][1]} | "
             f"{preflight['colorspace']} | "
-            f"{'yes' if preflight['icc_profile_embedded'] else 'no'} |"
+            f"{'yes' if preflight['icc_profile_embedded'] else 'no'} | "
+            f"{preflight['source_format']} |"
         )
 
     lines.extend(
@@ -383,7 +468,7 @@ def write_preflight_report(manifest: list[dict[str, object]]) -> None:
             "",
             "- Print TIFF exports are uncompressed and written at 300 DPI.",
             "- Supplier-ready PDF exports are generated at the same physical page size as the TIFF masters.",
-            "- Vector master PDFs are exported directly from the SVG originals.",
+            "- Source PDFs are exported from the active motif source art.",
             "- Web assets include standard and retina variants, plus framed and room-context mockups.",
         ]
     )

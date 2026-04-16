@@ -2,17 +2,23 @@
 ## Collection 01 — Neckar · Odenwald · Burgenstille
 
 > Version 1.0 · April 2026  
-> Status: Freigegeben — verbindlicher Arbeitsauftrag für alle Motive der ersten Kollektion  
-> Gültig für: Minneburg · Dilsberg · Hirschhorn · [Burg Hornberg — Reserve]  
+> Status: Freigegeben - verbindlicher Arbeitsauftrag fuer alle Motive der ersten Kollektion  
+> Gueltig fuer: Minneburg · Dilsberg · Hirschhorn · Heidelberg · Guttenberg · Bad Wimpfen  
 > Basis: `brand/visual-art-direction.md` (technische Prinzipien) + `brand/typography-and-colour.md` (Palette)
 
 ---
 
 ## Serienstatement
 
-Diese Kollektion hält inne. Vier Orte im Neckar-Odenwald-Raum, vier Augenblicke der Stille: eine Ruine gegen das Licht, ein Dorf auf seinem Hügel, ein Burgberg über dem Flussknick, ein Grenzstein zwischen Tal und Plateau. Was sie verbindet, ist nicht Idylle — es ist Gewicht. Die Motive zeigen, was bleibt, wenn der Lärm der Saison verklungen ist: die Form des Landes, die Geometrie des Gemauerten, den Horizont als Versprechen. Jedes Blatt ist ein Portrait ohne Gesicht — der Ort, nicht das Ereignis.
+Diese Kollektion haelt inne. Sechs Orte im Neckarraum, sechs Augenblicke der Stille: eine Ruine gegen das Licht, ein Dorf auf seinem Huegel, ein Burgberg ueber dem Flussknick, eine Stadt zwischen Bruecke und Schloss, eine erhaltene Hoehenburg im Waldsaum und eine Kaiserpfalz ueber dem Tal. Was sie verbindet, ist nicht Idylle - es ist Gewicht. Die Motive zeigen, was bleibt, wenn der Laerm der Saison verklungen ist: die Form des Landes, die Geometrie des Gemauerten, den Horizont als Versprechen. Jedes Blatt ist ein Portrait ohne Gesicht - der Ort, nicht das Ereignis.
 
-*These prints pause. Four places in the Neckar-Odenwald region; four moments of stillness: a ruin against the light, a village on its hill, a castle above the river bend, a threshold between valley and plateau. What unites them is not idyll — it is weight.*
+*These prints pause. Six places in the Neckar region; six moments of stillness: a ruin against the light, a village on its hill, a castle above the river bend, a city between bridge and castle, a hilltop fortress at the forest edge, and an imperial town above the valley. What unites them is not idyll - it is weight.*
+
+## Release-Stand April 2026
+
+- Collection 01 besteht jetzt aus sechs aktiven Motiven: `minneburg`, `dilsberg`, `hirschhorn`, `heidelberg`, `guttenberg`, `bad-wimpfen`.
+- Die aktiven Quelldateien duerfen SVG oder PNG sein. Die Export-Pipeline behandelt beide Formate gleichrangig.
+- Burg Hornberg ist nicht Teil der ersten Verkaufsfassung.
 
 ---
 

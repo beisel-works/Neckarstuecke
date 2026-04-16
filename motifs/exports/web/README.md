@@ -1,6 +1,6 @@
 # Web-Assets · Collection 01
 
-Dieses Verzeichnis nimmt die optimierten Web-Vorschaubilder für den Storefront auf.
+Dieses Verzeichnis nimmt die optimierten Web-Vorschaubilder fuer den Storefront auf.
 
 ## Erwartete Dateien (pro Motiv)
 
@@ -18,7 +18,7 @@ ns-01-minneburg-mockup-framed-2800.webp   — Retina-Variante gerahmt
 ns-01-minneburg-mockup-room-1400.webp     — Room-Context-Mockup
 ns-01-minneburg-mockup-room-2800.webp     — Retina-Variante Room-Context
 
-(je 11 Dateien × 4 Motive = 44 Dateien gesamt)
+(je 11 Dateien × 6 Motive = 66 Dateien gesamt)
 ```
 
 ## Export ausführen
@@ -27,17 +27,17 @@ ns-01-minneburg-mockup-room-2800.webp     — Retina-Variante Room-Context
 python3 ../export_collection_assets.py
 ```
 
-Siehe `../manifest.json` fuer die vollständige Inventarliste.
+Siehe `../manifest.json` fuer die vollstaendige Inventarliste.
 
 ## Werkzeuge
 
-- **Inkscape** (CLI) — SVG → PNG bei Zielauflösung
-- **cwebp** (libwebp) — PNG → WebP mit Qualitätsstufe 90/85
-- **ImageMagick** (`convert`) — Cropping, Resizing, OG-Format
-- **Mockup-Export:** SVG in `../mockups/` als Basis, gleicher Inkscape+cwebp-Workflow
+- **Python 3** — Orchestrierung des gesamten Exports
+- **CairoSVG** — SVG-Quellen zu Print- und Web-Rastern
+- **Pillow** — Resizing, Cropping, OG-Format und generische gerahmte Mockups
+- **ReportLab** — Liefer-PDFs in Druckgroesse
 
 ## Spezifikation
 
 - Alle WebP-Dateien liegen als Standard- und Retina-Variante vor
-- Kein progressives JPEG — nur die OG-Images als JPEG, Qualität 90
+- Kein progressives JPEG - nur die OG-Images als JPEG, Qualitaet 90
 - **Status:** Generiert — siehe `../manifest.json`

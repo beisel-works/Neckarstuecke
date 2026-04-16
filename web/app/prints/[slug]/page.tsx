@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAvailablePrints, getPrintBySlug } from "@/lib/supabase/server";
 import type { PrintWithVariants } from "@/types/print";
 import SizeSelector from "@/components/SizeSelector";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import PrintGallery from "@/components/PrintGallery";
 
 export const revalidate = 60; // ISR — revalidate each print page every 60 seconds
 
@@ -25,13 +25,14 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     location: "Neckartal bei Neckargerach",
     collection: "kollektion-01",
     description:
-      "Herbstsilhouette der Minneburg über dem Neckar — Bergfried und kahle Bäume gegen einen kühlen Himmel.",
+      "Abendlicht über dem Talweg unterhalb der Minneburg - die offene Mauer und der Bergfried stehen warm gegen einen weiten Himmel.",
     emotional_narrative:
-      "Manche Orte brauchen keinen Namen. Die Minneburg ist einer davon — für alle, die das Neckartal wirklich kennen.",
+      "Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.",
     material_description:
       "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
+    image_mockup_url: null,
     image_og_url: null,
     available: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -47,16 +48,17 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     id: "fallback-2",
     slug: "dilsberg",
     title: "Dilsberg",
-    location: "Dilsberg, Neckar-Odenwald-Kreis",
+    location: "Dilsberg, Neckargemünd",
     collection: "kollektion-01",
     description:
-      "Frühsommer am Dilsberg — der befestigte Bergsporn über dem Neckartal, drei Bildebenen, Morgenlicht.",
+      "Der befestigte Bergkegel von Dilsberg erhebt sich geschlossen über dem Neckar - Mauern, Dächer und Herbstkronen in einer ruhigen Abendordnung.",
     emotional_narrative:
-      "Die Ruine thront über dem Tal wie eh und je. Wer unten steht, weiß warum Menschen hierher gezogen sind.",
+      "Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.",
     material_description:
       "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
+    image_mockup_url: null,
     image_og_url: null,
     available: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -82,6 +84,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
       "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
+    image_mockup_url: null,
     image_og_url: null,
     available: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -97,16 +100,17 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     id: "fallback-4",
     slug: "heidelberg",
     title: "Heidelberg",
-    location: "Heidelberg, Philosophenweg",
+    location: "Heidelberg, Alte Brücke und Schloss",
     collection: "kollektion-01",
     description:
-      "Blaue Stunde am Philosophenweg — das Schloss als geometrische Kubatur über der Stadt, Valley-Sage-Himmel.",
+      "Heidelberg im warmen Abendlicht - Alte Brücke, Schloss und Dachlandschaft greifen über den Neckar ineinander, ohne ins Postkartenhafte zu kippen.",
     emotional_narrative:
-      "Heidelberg aus der Sicht derer, die es wirklich kennen — nicht die Postkarte, sondern der Abend.",
+      "Nicht das touristische Heidelberg, sondern das, das bleibt, wenn der Tag leiser wird: Stein, Fluss, Hang und eine Stadt mit Gedächtnis.",
     material_description:
       "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
+    image_mockup_url: null,
     image_og_url: null,
     available: true,
     created_at: "2026-01-01T00:00:00Z",
@@ -116,6 +120,58 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
       { id: "v4c", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
       { id: "v4d", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
       { id: "v4e", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+    ],
+  },
+  {
+    id: "fallback-5",
+    slug: "guttenberg",
+    title: "Guttenberg",
+    location: "Burg Guttenberg, Neckarmühlbach",
+    collection: "kollektion-01",
+    description:
+      "Burg Guttenberg über Neckarmühlbach - die erhaltene Höhenburg sitzt fest im Hang, gerahmt von dunklem Wald und spätem Licht.",
+    emotional_narrative:
+      "Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.",
+    material_description:
+      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+    image_web_preview_url: null,
+    image_thumbnail_url: null,
+    image_mockup_url: null,
+    image_og_url: null,
+    available: true,
+    created_at: "2026-01-01T00:00:00Z",
+    variants: [
+      { id: "v5a", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
+      { id: "v5b", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
+      { id: "v5c", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
+      { id: "v5d", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
+      { id: "v5e", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
+    ],
+  },
+  {
+    id: "fallback-6",
+    slug: "bad-wimpfen",
+    title: "Bad Wimpfen",
+    location: "Bad Wimpfen am Neckar",
+    collection: "kollektion-01",
+    description:
+      "Bad Wimpfen oberhalb des Neckars - die Silhouette von Stiftskirche, Kaiserpfalz und Altstadtdächern liegt ruhig im warmen Abendton.",
+    emotional_narrative:
+      "Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Türme, Mauern und Gassen zusammen eine Haltung ergeben.",
+    material_description:
+      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+    image_web_preview_url: null,
+    image_thumbnail_url: null,
+    image_mockup_url: null,
+    image_og_url: null,
+    available: true,
+    created_at: "2026-01-01T00:00:00Z",
+    variants: [
+      { id: "v6a", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 8900, in_stock: true },
+      { id: "v6b", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 13900, in_stock: true },
+      { id: "v6c", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 21900, in_stock: true },
+      { id: "v6d", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 18900, in_stock: true },
+      { id: "v6e", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 28900, in_stock: true },
     ],
   },
 ];
@@ -239,41 +295,11 @@ export default async function PrintDetailPage({
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16 lg:gap-20">
 
             {/* ── Artwork image ──────────────────────────────────── */}
-            <div className="relative aspect-[2/3] w-full overflow-hidden bg-[var(--color-loess)]">
-              {print.image_web_preview_url ? (
-                <Image
-                  src={print.image_web_preview_url}
-                  alt={print.title}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-contain"
-                />
-              ) : (
-                /* Placeholder when no artwork image is available */
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8">
-                  <span
-                    className="text-center text-[var(--color-stone)]"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "var(--text-h2)",
-                      lineHeight: "var(--leading-h2)",
-                    }}
-                  >
-                    {print.title}
-                  </span>
-                  <span
-                    className="text-[var(--color-stone)]"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "var(--text-caption)",
-                    }}
-                  >
-                    {print.location}
-                  </span>
-                </div>
-              )}
-            </div>
+            <PrintGallery
+              title={print.title}
+              artworkUrl={print.image_web_preview_url}
+              mockupUrl={print.image_mockup_url}
+            />
 
             {/* ── Product details ────────────────────────────────── */}
             <div className="flex flex-col justify-center gap-8">

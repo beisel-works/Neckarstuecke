@@ -7,16 +7,22 @@ Dieses Verzeichnis nimmt die druckfertigen Produktionsdateien auf.
 ```
 ns-01-minneburg-print-300dpi.pdf
 ns-01-minneburg-print-300dpi.tiff
-ns-01-minneburg-vector-master.pdf
+ns-01-minneburg-source-master.pdf
 ns-02-dilsberg-print-300dpi.pdf
 ns-02-dilsberg-print-300dpi.tiff
-ns-02-dilsberg-vector-master.pdf
+ns-02-dilsberg-source-master.pdf
 ns-03-hirschhorn-print-300dpi.pdf
 ns-03-hirschhorn-print-300dpi.tiff
-ns-03-hirschhorn-vector-master.pdf
+ns-03-hirschhorn-source-master.pdf
 ns-04-heidelberg-print-300dpi.pdf
 ns-04-heidelberg-print-300dpi.tiff
-ns-04-heidelberg-vector-master.pdf
+ns-04-heidelberg-source-master.pdf
+ns-05-guttenberg-print-300dpi.pdf
+ns-05-guttenberg-print-300dpi.tiff
+ns-05-guttenberg-source-master.pdf
+ns-06-bad-wimpfen-print-300dpi.pdf
+ns-06-bad-wimpfen-print-300dpi.tiff
+ns-06-bad-wimpfen-source-master.pdf
 ```
 
 ## Export ausführen
@@ -31,7 +37,7 @@ Siehe `../export-guide.md` fuer die Spezifikation und `../preflight-report.md` f
 
 - **Auflösung:** 300 dpi bei 50×70 cm Druckgröße
 - **Pixel:** 6378 × 8740 px (Export mit Beschnitt gemäß Repo-Spezifikation)
-- **Format:** PDF + TIFF unkomprimiert, zusätzlich Vektor-Master-PDF
+- **Format:** PDF + TIFF unkomprimiert, zusaetzlich Source-Master-PDF aus der aktiven SVG- oder PNG-Quelle
 - **Farbraum:** sRGB IEC 61966-2.1 eingebettet
 - **Status:** Generiert — siehe `../manifest.json`
 

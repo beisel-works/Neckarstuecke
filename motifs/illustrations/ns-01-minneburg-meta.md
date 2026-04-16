@@ -11,17 +11,17 @@ viewpoint: Südhang Burgweg, Blick nach Nordosten, Abstand ~80–100 m zum Bergf
 colors: ["#1C2826", "#3D6154", "#6E7B77", "#EDE9DC", "#FAFAF5"]
 format: 50×70 cm (2:3)
 status: approved
-illustration_format: SVG (vector, resolution-independent)
-source_file: ns-01-minneburg.svg
+illustration_format: PNG (upscaled raster source master)
+source_file: ns-01-minneburg.png
 ---
 
 ## Beschreibung (DE)
 
-Minneburg ist kein Ausflugsziel, sondern ein Überbleibsel. Der romanische Bergfried steht im Oktober-Nachmittagslicht gegen einen hellen Herbsthimmel — nicht als Verfallsbild, sondern als Haltung. Das Gemäuer hat Jahrhunderte überlebt; der Wald wächst schweigend darum herum.
+Minneburg erscheint hier im warmen Spaetlicht ueber dem Talweg - offene Mauer, Bergfried und Hangwald stehen ruhig gegen einen weiten Himmel. Nicht Verfall ist das Thema, sondern das Beharren des Ortes.
 
 ## Description (EN)
 
-Minneburg is not a destination — it is a remnant. The romanesque keep stands against a pale autumn sky in October afternoon light, not as ruin but as resolve. The masonry has outlasted centuries; the forest grows silently around it.
+Minneburg appears here in late warm light above the valley path - open wall, keep, and wooded slope held against a wide sky. The point is not decay, but the place's persistence.
 
 ## Komposition — Entscheidungsprotokoll
 
@@ -38,7 +38,7 @@ Minneburg is not a destination — it is a remnant. The romanesque keep stands a
 - [x] Text-Entfernungs-Test: Bild fühlt sich ohne Titel unvollständig an ✓
 - [x] Thumbnail-Test: Hauptelement auf 5×7 cm Bildschirmgröße lesbar ✓
 - [x] Keine Anachronismen ✓
-- [x] Vektordatei: auflösungsunabhängig, skaliert verlustfrei auf 300 dpi / A2 ✓
+- [x] Rasterquelle: als hochaufgeloester PNG-Master fuer 300 dpi Export freigegeben ✓
 - [x] Metadaten-Sheet vollständig ✓
 - [ ] Web-Vorschau (1200×1680 px WebP) — Export ausstehend
 - [ ] Thumbnail (600×840 px WebP) — Export ausstehend

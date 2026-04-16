@@ -16,6 +16,10 @@ function escapeSql(value) {
   return value.replaceAll("'", "''");
 }
 
+function sqlString(value) {
+  return value === null ? "null" : `'${escapeSql(value)}'`;
+}
+
 function stripMotifPrefix(filename, motif) {
   return filename.replace(new RegExp(`^ns-\\d{2}-${motif}-`), "");
 }
@@ -91,12 +95,15 @@ async function main() {
 
     const webPreview = requireAsset(entry, (assetPath) => assetPath.endsWith("-web-2400.webp"), "web preview");
     const thumbnail = requireAsset(entry, (assetPath) => assetPath.endsWith("-thumb-1200.webp"), "thumbnail");
+    const mockup =
+      entry.web.find(({ path: assetPath }) => assetPath.endsWith("-mockup-framed-1400.webp")) ?? null;
     const og = requireAsset(entry, (assetPath) => assetPath.endsWith("-og-1200.jpg"), "OG image");
 
     updates.push({
       slug: entry.motif,
       image_web_preview_url: uploadedUrls.get(path.basename(webPreview.path)),
       image_thumbnail_url: uploadedUrls.get(path.basename(thumbnail.path)),
+      image_mockup_url: mockup ? uploadedUrls.get(path.basename(mockup.path)) ?? null : null,
       image_og_url: uploadedUrls.get(path.basename(og.path)),
     });
   }
@@ -105,9 +112,10 @@ async function main() {
     .map(
       (update) => `update public.prints
 set
-  image_web_preview_url = '${escapeSql(update.image_web_preview_url)}',
-  image_thumbnail_url = '${escapeSql(update.image_thumbnail_url)}',
-  image_og_url = '${escapeSql(update.image_og_url)}'
+  image_web_preview_url = ${sqlString(update.image_web_preview_url)},
+  image_thumbnail_url = ${sqlString(update.image_thumbnail_url)},
+  image_mockup_url = ${sqlString(update.image_mockup_url)},
+  image_og_url = ${sqlString(update.image_og_url)}
 where slug = '${escapeSql(update.slug)}';`
     )
     .join("\n\n")}

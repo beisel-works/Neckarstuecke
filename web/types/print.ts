@@ -27,6 +27,7 @@ export interface Print {
   material_description: string;
   image_web_preview_url: string | null;
   image_thumbnail_url: string | null;
+  image_mockup_url: string | null;
   image_og_url: string | null;
   available: boolean;
   created_at: string;

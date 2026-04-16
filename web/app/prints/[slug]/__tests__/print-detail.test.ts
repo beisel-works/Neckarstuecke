@@ -145,6 +145,8 @@ describe("generateStaticParams contract", () => {
       { slug: "dilsberg" },
       { slug: "hirschhorn" },
       { slug: "heidelberg" },
+      { slug: "guttenberg" },
+      { slug: "bad-wimpfen" },
     ];
     for (const p of params) {
       expect(typeof p.slug).toBe("string");

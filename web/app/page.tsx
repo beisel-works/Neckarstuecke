@@ -24,15 +24,23 @@ const hasSupabasePublicConfig = Boolean(
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 );
 
+const FEATURED_SLUGS = ["minneburg", "dilsberg", "hirschhorn", "heidelberg"] as const;
+
+function isFeaturedPrint(
+  print: Pick<PrintWithVariants, "slug" | "title" | "location" | "image_thumbnail_url"> | undefined
+): print is Pick<PrintWithVariants, "slug" | "title" | "location" | "image_thumbnail_url"> {
+  return Boolean(print);
+}
+
 // Fallback prints shown when Supabase is not configured (dev without env vars).
 const FALLBACK_PRINTS: Pick<
   PrintWithVariants,
   "slug" | "title" | "location" | "image_thumbnail_url"
 >[] = [
   { slug: "minneburg", title: "Minneburg", location: "Neckartal bei Neckargerach", image_thumbnail_url: null },
-  { slug: "dilsberg", title: "Dilsberg", location: "Dilsberg, Neckar-Odenwald-Kreis", image_thumbnail_url: null },
+  { slug: "dilsberg", title: "Dilsberg", location: "Dilsberg, Neckargemünd", image_thumbnail_url: null },
   { slug: "hirschhorn", title: "Hirschhorn", location: "Hirschhorn am Neckar", image_thumbnail_url: null },
-  { slug: "heidelberg", title: "Heidelberg", location: "Heidelberg, Philosophenweg", image_thumbnail_url: null },
+  { slug: "heidelberg", title: "Heidelberg", location: "Heidelberg, Alte Brücke und Schloss", image_thumbnail_url: null },
 ];
 
 async function getFeaturedPrints(): Promise<
@@ -40,12 +48,18 @@ async function getFeaturedPrints(): Promise<
 > {
   try {
     const prints = await getAvailablePrints();
-    return prints.slice(0, 4).map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      location: p.location,
-      image_thumbnail_url: p.image_thumbnail_url,
-    }));
+    const printsBySlug = new Map(
+      prints.map((p) => [
+        p.slug,
+        {
+          slug: p.slug,
+          title: p.title,
+          location: p.location,
+          image_thumbnail_url: p.image_thumbnail_url,
+        },
+      ])
+    );
+    return FEATURED_SLUGS.map((slug) => printsBySlug.get(slug)).filter(isFeaturedPrint);
   } catch {
     if (hasSupabasePublicConfig) {
       throw new Error("Failed to load featured prints from Supabase.");

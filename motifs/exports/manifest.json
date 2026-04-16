@@ -11,77 +11,77 @@
       },
       {
         "path": "motifs/exports/print/ns-01-minneburg-print-300dpi.pdf",
-        "bytes": 380728
+        "bytes": 94613419
       },
       {
-        "path": "motifs/exports/print/ns-01-minneburg-vector-master.pdf",
-        "bytes": 8721
+        "path": "motifs/exports/print/ns-01-minneburg-source-master.pdf",
+        "bytes": 32259389
       }
     ],
     "web": [
       {
         "path": "motifs/exports/web/ns-01-minneburg-web-2400.webp",
-        "bytes": 41554,
+        "bytes": 842110,
         "width": 2400,
         "height": 3360
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-web-1200.webp",
-        "bytes": 17332,
+        "bytes": 306148,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-thumb-1200.webp",
-        "bytes": 16124,
+        "bytes": 273508,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-thumb-600.webp",
-        "bytes": 7016,
+        "bytes": 95602,
         "width": 600,
         "height": 840
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-detail-1600.webp",
-        "bytes": 14712,
+        "bytes": 368838,
         "width": 1600,
         "height": 1600
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-detail-800.webp",
-        "bytes": 5802,
+        "bytes": 128012,
         "width": 800,
         "height": 800
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-mockup-framed-2800.webp",
-        "bytes": 33428,
+        "bytes": 212196,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-mockup-framed-1400.webp",
-        "bytes": 14306,
+        "bytes": 68818,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-mockup-room-2800.webp",
-        "bytes": 43804,
+        "bytes": 91640,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-mockup-room-1400.webp",
-        "bytes": 16626,
+        "bytes": 29510,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-01-minneburg-og-1200.jpg",
-        "bytes": 39536,
+        "bytes": 107214,
         "width": 1200,
         "height": 630
       }
@@ -95,7 +95,8 @@
       "print_width": 6378,
       "print_height": 8740,
       "tiff_compression": "raw",
-      "icc_profile_embedded": true
+      "icc_profile_embedded": true,
+      "source_format": "png"
     }
   },
   {
@@ -110,77 +111,77 @@
       },
       {
         "path": "motifs/exports/print/ns-02-dilsberg-print-300dpi.pdf",
-        "bytes": 353466
+        "bytes": 85614901
       },
       {
-        "path": "motifs/exports/print/ns-02-dilsberg-vector-master.pdf",
-        "bytes": 8883
+        "path": "motifs/exports/print/ns-02-dilsberg-source-master.pdf",
+        "bytes": 29850130
       }
     ],
     "web": [
       {
         "path": "motifs/exports/web/ns-02-dilsberg-web-2400.webp",
-        "bytes": 42088,
+        "bytes": 687590,
         "width": 2400,
         "height": 3360
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-web-1200.webp",
-        "bytes": 16926,
+        "bytes": 274024,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-thumb-1200.webp",
-        "bytes": 15654,
+        "bytes": 244340,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-thumb-600.webp",
-        "bytes": 6802,
+        "bytes": 83200,
         "width": 600,
         "height": 840
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-detail-1600.webp",
-        "bytes": 16352,
+        "bytes": 288958,
         "width": 1600,
         "height": 1600
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-detail-800.webp",
-        "bytes": 6886,
+        "bytes": 110466,
         "width": 800,
         "height": 800
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-mockup-framed-2800.webp",
-        "bytes": 35202,
+        "bytes": 191604,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-mockup-framed-1400.webp",
-        "bytes": 14160,
+        "bytes": 61404,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-mockup-room-2800.webp",
-        "bytes": 43732,
+        "bytes": 86400,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-mockup-room-1400.webp",
-        "bytes": 16348,
+        "bytes": 28460,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-02-dilsberg-og-1200.jpg",
-        "bytes": 37952,
+        "bytes": 99640,
         "width": 1200,
         "height": 630
       }
@@ -194,7 +195,8 @@
       "print_width": 6378,
       "print_height": 8740,
       "tiff_compression": "raw",
-      "icc_profile_embedded": true
+      "icc_profile_embedded": true,
+      "source_format": "png"
     }
   },
   {
@@ -212,7 +214,7 @@
         "bytes": 481220
       },
       {
-        "path": "motifs/exports/print/ns-03-hirschhorn-vector-master.pdf",
+        "path": "motifs/exports/print/ns-03-hirschhorn-source-master.pdf",
         "bytes": 10294
       }
     ],
@@ -255,25 +257,25 @@
       },
       {
         "path": "motifs/exports/web/ns-03-hirschhorn-mockup-framed-2800.webp",
-        "bytes": 36438,
+        "bytes": 38104,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-03-hirschhorn-mockup-framed-1400.webp",
-        "bytes": 15238,
+        "bytes": 14494,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-03-hirschhorn-mockup-room-2800.webp",
-        "bytes": 45014,
+        "bytes": 45016,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-03-hirschhorn-mockup-room-1400.webp",
-        "bytes": 16956,
+        "bytes": 16866,
         "width": 1400,
         "height": 1050
       },
@@ -293,7 +295,8 @@
       "print_width": 6378,
       "print_height": 8740,
       "tiff_compression": "raw",
-      "icc_profile_embedded": true
+      "icc_profile_embedded": true,
+      "source_format": "svg"
     }
   },
   {
@@ -308,77 +311,77 @@
       },
       {
         "path": "motifs/exports/print/ns-04-heidelberg-print-300dpi.pdf",
-        "bytes": 379210
+        "bytes": 76754376
       },
       {
-        "path": "motifs/exports/print/ns-04-heidelberg-vector-master.pdf",
-        "bytes": 10595
+        "path": "motifs/exports/print/ns-04-heidelberg-source-master.pdf",
+        "bytes": 27229531
       }
     ],
     "web": [
       {
         "path": "motifs/exports/web/ns-04-heidelberg-web-2400.webp",
-        "bytes": 45444,
+        "bytes": 696352,
         "width": 2400,
         "height": 3360
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-web-1200.webp",
-        "bytes": 18986,
+        "bytes": 282172,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-thumb-1200.webp",
-        "bytes": 17860,
+        "bytes": 255156,
         "width": 1200,
         "height": 1680
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-thumb-600.webp",
-        "bytes": 7608,
+        "bytes": 86010,
         "width": 600,
         "height": 840
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-detail-1600.webp",
-        "bytes": 14486,
+        "bytes": 335552,
         "width": 1600,
         "height": 1600
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-detail-800.webp",
-        "bytes": 6044,
+        "bytes": 124264,
         "width": 800,
         "height": 800
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-mockup-framed-2800.webp",
-        "bytes": 30782,
+        "bytes": 195374,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-mockup-framed-1400.webp",
-        "bytes": 12678,
+        "bytes": 62758,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-mockup-room-2800.webp",
-        "bytes": 42836,
+        "bytes": 86602,
         "width": 2800,
         "height": 2100
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-mockup-room-1400.webp",
-        "bytes": 16226,
+        "bytes": 28568,
         "width": 1400,
         "height": 1050
       },
       {
         "path": "motifs/exports/web/ns-04-heidelberg-og-1200.jpg",
-        "bytes": 41985,
+        "bytes": 100916,
         "width": 1200,
         "height": 630
       }
@@ -392,7 +395,208 @@
       "print_width": 6378,
       "print_height": 8740,
       "tiff_compression": "raw",
-      "icc_profile_embedded": true
+      "icc_profile_embedded": true,
+      "source_format": "png"
+    }
+  },
+  {
+    "motif": "guttenberg",
+    "title": "Guttenberg",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-05-guttenberg-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-05-guttenberg-print-300dpi.pdf",
+        "bytes": 72638634
+      },
+      {
+        "path": "motifs/exports/print/ns-05-guttenberg-source-master.pdf",
+        "bytes": 25002254
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-web-2400.webp",
+        "bytes": 781142,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-web-1200.webp",
+        "bytes": 292144,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-thumb-1200.webp",
+        "bytes": 264960,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-thumb-600.webp",
+        "bytes": 78700,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-detail-1600.webp",
+        "bytes": 336204,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-detail-800.webp",
+        "bytes": 120652,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-mockup-framed-2800.webp",
+        "bytes": 188660,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-mockup-framed-1400.webp",
+        "bytes": 55566,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-mockup-room-2800.webp",
+        "bytes": 79342,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-mockup-room-1400.webp",
+        "bytes": 26072,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-05-guttenberg-og-1200.jpg",
+        "bytes": 91665,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true,
+      "source_format": "png"
+    }
+  },
+  {
+    "motif": "bad-wimpfen",
+    "title": "Bad Wimpfen",
+    "print": [
+      {
+        "path": "motifs/exports/print/ns-06-bad-wimpfen-print-300dpi.tiff",
+        "bytes": 167231952,
+        "width": 6378,
+        "height": 8740
+      },
+      {
+        "path": "motifs/exports/print/ns-06-bad-wimpfen-print-300dpi.pdf",
+        "bytes": 78649098
+      },
+      {
+        "path": "motifs/exports/print/ns-06-bad-wimpfen-source-master.pdf",
+        "bytes": 27639662
+      }
+    ],
+    "web": [
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-web-2400.webp",
+        "bytes": 562564,
+        "width": 2400,
+        "height": 3360
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-web-1200.webp",
+        "bytes": 199666,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-thumb-1200.webp",
+        "bytes": 177544,
+        "width": 1200,
+        "height": 1680
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-thumb-600.webp",
+        "bytes": 61114,
+        "width": 600,
+        "height": 840
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-detail-1600.webp",
+        "bytes": 256852,
+        "width": 1600,
+        "height": 1600
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-detail-800.webp",
+        "bytes": 95104,
+        "width": 800,
+        "height": 800
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-mockup-framed-2800.webp",
+        "bytes": 148962,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-mockup-framed-1400.webp",
+        "bytes": 48910,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-mockup-room-2800.webp",
+        "bytes": 75358,
+        "width": 2800,
+        "height": 2100
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-mockup-room-1400.webp",
+        "bytes": 25642,
+        "width": 1400,
+        "height": 1050
+      },
+      {
+        "path": "motifs/exports/web/ns-06-bad-wimpfen-og-1200.jpg",
+        "bytes": 86197,
+        "width": 1200,
+        "height": 630
+      }
+    ],
+    "preflight": {
+      "colorspace": "RGB / sRGB",
+      "dpi": [
+        300,
+        300
+      ],
+      "print_width": 6378,
+      "print_height": 8740,
+      "tiff_compression": "raw",
+      "icc_profile_embedded": true,
+      "source_format": "png"
     }
   }
 ]

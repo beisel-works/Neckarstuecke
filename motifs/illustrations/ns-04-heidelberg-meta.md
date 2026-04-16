@@ -4,24 +4,24 @@ title_de: Heidelberg
 title_en: Heidelberg
 collection: "01"
 series_number: NS-04
-location: Heidelberg, Baden-Württemberg
+location: Heidelberg, Alte Brücke und Schloss
 coordinates: [49.4093, 8.6978]
-season: Frühling (März/April)
-viewpoint: Philosophenweg, mittlere Höhe ~200 m NN, Blick nach Süd-Südwest
+season: Spaeter Nachmittag / Abend
+viewpoint: Ufernaher Blick auf Alte Bruecke, Altstadt und Schloss
 colors: ["#3D6154", "#1C2826", "#6E7B77", "#EDE9DC", "#FAFAF5"]
 format: 50×70 cm (2:3)
 status: approved
-illustration_format: SVG (vector, resolution-independent)
-source_file: ns-04-heidelberg.svg
+illustration_format: PNG (upscaled raster source master)
+source_file: ns-04-heidelberg.png
 ---
 
 ## Beschreibung (DE)
 
-Heidelberg, ohne Nostalgie. Blaue Stunde, kein Goldlicht — das Schloss steht als geometrische Masse im Mittelgrund, die Altstadt darunter als Textur. Der Neckar ist eine Trennlinie, keine Romantikkulisse. Der Blick eines Beobachters, nicht eines Begeisterten.
+Heidelberg im warmen Abendlicht - Alte Bruecke, Schloss und Dachlandschaft greifen ueber den Neckar ineinander, ohne ins Postkartenhafte zu kippen. Das Motiv bleibt bei Stein, Fluss und Hang, nicht bei Souvenir-Romantik.
 
 ## Description (EN)
 
-Heidelberg, without nostalgia. Blue hour, no golden light — the castle stands as geometric mass in the midground; the old town below as texture. The Neckar is a dividing line, not a romantic backdrop. The view of an observer, not an enthusiast.
+Heidelberg in warm evening light - the Old Bridge, castle, and roofs lock together across the Neckar without sliding into postcard sentiment. The focus stays on stone, river, and slope rather than souvenir romance.
 
 ## Komposition — Entscheidungsprotokoll
 
@@ -30,7 +30,7 @@ Heidelberg, without nostalgia. Blue hour, no golden light — the castle stands 
 - **Zwei Türme:** Dicker Turm (west, breiter) und Glockenturm (ost) als Vertikalankerpunkte
 - **Altstadt:** Dichte Zackensilhouette, klarer Abstand zum Schloss durch Neckar-Linie
 - **Neckar:** River Stone-Gradient als schmales Band (~3 % Bildhöhe)
-- **Philosophenweg:** Loess-Pfadlinie andeutend im Vordergrundgras
+- **Brueckenraum:** Altstadt und Bruecke bleiben als zusammenhaengende untere Bildzone lesbar
 - **Himmelszone:** Valley Sage (kühles Grüntief) → River Stone → blass — Blaue Stunde Farbgebung
 - **Farbzahl:** 5 (Kollektion-Palette cool, kein Ochre) — schärfster Kontrast zur Wärme von NS-03
 
@@ -41,8 +41,8 @@ Heidelberg, without nostalgia. Blue hour, no golden light — the castle stands 
 - [x] Text-Entfernungs-Test: Schloss-Form ist wiedererkennbar, aber ohne Titel fehlt Verortung ✓
 - [x] Thumbnail-Test: Schloss-Silhouette gegen Blaue-Stunde-Himmel auf 5×7 cm dominant ✓
 - [x] Keine Anachronismen ✓
-- [x] Keine romantisierende Schlossbeleuchtung (Orange-Flutlicht vermieden) ✓
-- [x] Vektordatei: auflösungsunabhängig ✓
+- [x] Keine touristische Suesslichkeit - Bruecke und Schloss bleiben als Form lesbar ✓
+- [x] Rasterquelle: als hochaufgeloester PNG-Master fuer 300 dpi Export freigegeben ✓
 - [x] Metadaten-Sheet vollständig ✓
 - [ ] Web-Vorschau (1200×1680 px WebP) — Export ausstehend
 - [ ] Thumbnail (600×840 px WebP) — Export ausstehend
