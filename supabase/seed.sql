@@ -1,5 +1,5 @@
 -- ============================================================
--- Seed: Collection 01 - six initial Neckarstuecke motifs
+-- Seed: Collection 01 - four initial Neckarstuecke motifs
 -- Run after migration 001_prints_schema.sql
 -- ============================================================
 
@@ -12,6 +12,9 @@ declare
   id_guttenberg  uuid := 'a1000001-0000-0000-0000-000000000005';
   id_bad_wimpfen uuid := 'a1000001-0000-0000-0000-000000000006';
 begin
+
+  delete from prints
+  where id in (id_hirschhorn, id_heidelberg);
 
   insert into prints (
     id, slug, title, location, collection,
@@ -37,28 +40,6 @@ begin
       'kollektion-01',
       'Der befestigte Bergkegel von Dilsberg erhebt sich geschlossen ueber dem Neckar - Mauern, Daecher und Herbstkronen in einer ruhigen Abendordnung.',
       'Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
-      true
-    ),
-    (
-      id_hirschhorn,
-      'hirschhorn',
-      'Hirschhorn',
-      'Hirschhorn am Neckar',
-      'kollektion-01',
-      'Goldene Stunde in Hirschhorn - Burg auf dem Felsen, Spiegelung im Neckar, warmes Licht.',
-      'Das Licht trifft den Sandstein genau eine Stunde am Tag so. Dieses Bild ist diese Stunde.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
-      true
-    ),
-    (
-      id_heidelberg,
-      'heidelberg',
-      'Heidelberg',
-      'Heidelberg, Alte Bruecke und Schloss',
-      'kollektion-01',
-      'Heidelberg im warmen Abendlicht - Alte Bruecke, Schloss und Dachlandschaft greifen ueber den Neckar ineinander, ohne ins Postkartenhafte zu kippen.',
-      'Nicht das touristische Heidelberg, sondern das, das bleibt, wenn der Tag leiser wird: Stein, Fluss, Hang und eine Stadt mit Gedaechtnis.',
       'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
     ),
@@ -118,18 +99,6 @@ begin
     (id_dilsberg, '30×40 cm', 300, 400, 'framed', 19900, true, false),
     (id_dilsberg, '50×70 cm', 500, 700, 'framed', 34900, true, false),
     (id_dilsberg, '70×100 cm', 700, 1000, 'framed', 53900, false, true),
-    (id_hirschhorn, '30×40 cm', 300, 400, 'print', 9900, true, false),
-    (id_hirschhorn, '50×70 cm', 500, 700, 'print', 16900, true, false),
-    (id_hirschhorn, '70×100 cm', 700, 1000, 'print', 27900, true, false),
-    (id_hirschhorn, '30×40 cm', 300, 400, 'framed', 19900, true, false),
-    (id_hirschhorn, '50×70 cm', 500, 700, 'framed', 34900, true, false),
-    (id_hirschhorn, '70×100 cm', 700, 1000, 'framed', 53900, false, true),
-    (id_heidelberg, '30×40 cm', 300, 400, 'print', 9900, true, false),
-    (id_heidelberg, '50×70 cm', 500, 700, 'print', 16900, true, false),
-    (id_heidelberg, '70×100 cm', 700, 1000, 'print', 27900, true, false),
-    (id_heidelberg, '30×40 cm', 300, 400, 'framed', 19900, true, false),
-    (id_heidelberg, '50×70 cm', 500, 700, 'framed', 34900, true, false),
-    (id_heidelberg, '70×100 cm', 700, 1000, 'framed', 53900, false, true),
     (id_guttenberg, '30×40 cm', 300, 400, 'print', 9900, true, false),
     (id_guttenberg, '50×70 cm', 500, 700, 'print', 16900, true, false),
     (id_guttenberg, '70×100 cm', 700, 1000, 'print', 27900, true, false),
