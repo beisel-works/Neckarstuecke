@@ -45,14 +45,14 @@ Use `web-e2e` as the required status check name.
 At minimum, configure these for Preview in Vercel before expecting meaningful E2E signal:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `NEXT_PUBLIC_SITE_URL`
 
 For full checkout and order-pipeline coverage, also configure:
 
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SECRET_KEY`
 - `PRODIGI_API_KEY`
 - `PRODIGI_WEBHOOK_SECRET`
 - `TRIGGER_PROJECT_REF`
