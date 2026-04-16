@@ -7,6 +7,10 @@
 import { describe, it, expect } from "vitest";
 import type {
   FulfilmentStatus,
+  EditionNumber,
+  EditionsRemainingRow,
+  CoaStatus,
+  CertificateOfAuthenticity,
   Order,
   OrderItem,
   OrderWithItems,
@@ -28,6 +32,8 @@ const VALID_FULFILMENT_STATUSES: FulfilmentStatus[] = [
   "delivered",
   "failed",
 ];
+
+const VALID_COA_STATUSES: CoaStatus[] = ["pending", "printed", "dispatched"];
 
 function makeOrder(overrides: Partial<Order> = {}): Order {
   return {
@@ -65,6 +71,37 @@ function makeOrderItem(overrides: Partial<OrderItem> = {}): OrderItem {
     currency: "eur",
     description: "Minneburg — 30×40 cm Print",
     created_at: "2026-04-15T12:00:00.000Z",
+    ...overrides,
+  };
+}
+
+function makeEditionNumber(
+  overrides: Partial<EditionNumber> = {}
+): EditionNumber {
+  return {
+    id: "00000000-0000-0000-0000-000000000020",
+    print_id: "00000000-0000-0000-0000-000000000030",
+    order_id: "00000000-0000-0000-0000-000000000001",
+    edition_number: 42,
+    created_at: "2026-04-15T12:00:00.000Z",
+    ...overrides,
+  };
+}
+
+function makeCertificate(
+  overrides: Partial<CertificateOfAuthenticity> = {}
+): CertificateOfAuthenticity {
+  return {
+    id: "00000000-0000-0000-0000-000000000040",
+    order_item_id: "00000000-0000-0000-0000-000000000010",
+    edition_number: 42,
+    print_slug: "minneburg",
+    format_label: "30×40 cm, Print",
+    buyer_name: "Ada Käuferin",
+    pdf_storage_path: "coa-pdfs/order-1/item-1.pdf",
+    coa_status: "printed",
+    created_at: "2026-04-15T12:00:00.000Z",
+    updated_at: "2026-04-15T12:05:00.000Z",
     ...overrides,
   };
 }
@@ -153,6 +190,53 @@ describe("OrderItem", () => {
   it("accepts a supplier_product_id once the fulfilment job has run", () => {
     const item = makeOrderItem({ supplier_product_id: "GLOBAL-FAP-A3" });
     expect(item.supplier_product_id).toBe("GLOBAL-FAP-A3");
+  });
+});
+
+describe("EditionNumber", () => {
+  it("constructs a valid edition assignment", () => {
+    const assignment = makeEditionNumber();
+    expect(assignment.edition_number).toBe(42);
+    expect(assignment.order_id).not.toBeNull();
+  });
+
+  it("allows a null order_id before assignment is finalised", () => {
+    const assignment = makeEditionNumber({ order_id: null });
+    expect(assignment.order_id).toBeNull();
+  });
+});
+
+describe("EditionsRemainingRow", () => {
+  it("stores the remaining edition count per print", () => {
+    const row: EditionsRemainingRow = {
+      print_id: "00000000-0000-0000-0000-000000000030",
+      editions_remaining: 108,
+    };
+    expect(row.editions_remaining).toBe(108);
+  });
+});
+
+describe("CoaStatus", () => {
+  it("accepts all valid COA status values", () => {
+    expect(VALID_COA_STATUSES).toEqual([
+      "pending",
+      "printed",
+      "dispatched",
+    ]);
+  });
+});
+
+describe("CertificateOfAuthenticity", () => {
+  it("constructs a valid COA record", () => {
+    const certificate = makeCertificate();
+    expect(certificate.coa_status).toBe("printed");
+    expect(certificate.pdf_storage_path).toContain(".pdf");
+  });
+
+  it("allows a null storage path before the PDF is uploaded", () => {
+    const certificate = makeCertificate({ pdf_storage_path: null, coa_status: "pending" });
+    expect(certificate.pdf_storage_path).toBeNull();
+    expect(certificate.coa_status).toBe("pending");
   });
 });
 
