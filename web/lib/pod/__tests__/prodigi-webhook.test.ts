@@ -1,32 +1,17 @@
-import { createHmac } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   buildProdigiOrderUpdate,
   mapProdigiStageToStatus,
-  verifyProdigiSignature,
+  shouldAdvanceOrderStatus,
 } from "@/app/api/webhooks/prodigi/route";
-
-describe("verifyProdigiSignature", () => {
-  it("accepts a hex-encoded HMAC signature", () => {
-    const body = JSON.stringify({ event: "shipment.complete" });
-    const secret = "prodigi-secret";
-    const signature = createHmac("sha256", secret).update(body).digest("hex");
-
-    expect(verifyProdigiSignature(body, signature, secret)).toBe(true);
-  });
-
-  it("accepts a base64-encoded HMAC signature with sha256 prefix", () => {
-    const body = JSON.stringify({ event: "shipment.complete" });
-    const secret = "prodigi-secret";
-    const signature = createHmac("sha256", secret).update(body).digest("base64");
-
-    expect(verifyProdigiSignature(body, `sha256=${signature}`, secret)).toBe(true);
-  });
-});
 
 describe("mapProdigiStageToStatus", () => {
   it("maps InProgress to in_production", () => {
     expect(mapProdigiStageToStatus("InProgress")).toBe("in_production");
+  });
+
+  it("maps Complete to shipped", () => {
+    expect(mapProdigiStageToStatus("Complete")).toBe("shipped");
   });
 
   it("maps cancelled stages to failed", () => {
@@ -35,14 +20,19 @@ describe("mapProdigiStageToStatus", () => {
 });
 
 describe("buildProdigiOrderUpdate", () => {
-  it("maps shipment.complete to shipped with tracking data", () => {
+  it("maps CloudEvent shipment callbacks to shipped with tracking data", () => {
     expect(
       buildProdigiOrderUpdate({
-        event: "shipment.complete",
-        order: { id: "ord_123" },
-        shipment: {
-          carrier: { name: "DHL" },
-          tracking: { number: "TRACK-123" },
+        type: "com.prodigi.order.shipment.created",
+        subject: "ord_123",
+        data: {
+          id: "ord_123",
+          shipments: [
+            {
+              carrier: { name: "DHL" },
+              tracking: { number: "TRACK-123" },
+            },
+          ],
         },
       })
     ).toEqual({
@@ -53,11 +43,12 @@ describe("buildProdigiOrderUpdate", () => {
     });
   });
 
-  it("maps order.status.changed to in_production", () => {
+  it("maps CloudEvent status callbacks to in_production", () => {
     expect(
       buildProdigiOrderUpdate({
-        event: "order.status.changed",
-        order: {
+        type: "com.prodigi.order.status.stage.changed#InProgress",
+        subject: "ord_456",
+        data: {
           id: "ord_456",
           status: { stage: "InProgress" },
         },
@@ -71,12 +62,51 @@ describe("buildProdigiOrderUpdate", () => {
   it("ignores unknown stages", () => {
     expect(
       buildProdigiOrderUpdate({
-        event: "order.status.changed",
-        order: {
+        type: "com.prodigi.order.status.stage.changed#Queued",
+        data: {
           id: "ord_789",
           status: { stage: "Queued" },
         },
       })
     ).toBeNull();
+  });
+
+  it("supports the nested data.order callback variant", () => {
+    expect(
+      buildProdigiOrderUpdate({
+        type: "com.prodigi.order.status.stage.changed#Complete",
+        subject: "ord_999",
+        data: {
+          order: {
+            id: "ord_999",
+            status: { stage: "Complete" },
+          },
+        },
+      })
+    ).toEqual({
+      supplierOrderId: "ord_999",
+      status: "shipped",
+    });
+  });
+});
+
+describe("shouldAdvanceOrderStatus", () => {
+  it("advances forward through the fulfilment lifecycle", () => {
+    expect(shouldAdvanceOrderStatus("submitted", "in_production")).toBe(true);
+    expect(shouldAdvanceOrderStatus("in_production", "shipped")).toBe(true);
+  });
+
+  it("ignores stale regressions", () => {
+    expect(shouldAdvanceOrderStatus("shipped", "in_production")).toBe(false);
+    expect(shouldAdvanceOrderStatus("delivered", "shipped")).toBe(false);
+  });
+
+  it("allows failure before shipment but not after shipment", () => {
+    expect(shouldAdvanceOrderStatus("submitted", "failed")).toBe(true);
+    expect(shouldAdvanceOrderStatus("shipped", "failed")).toBe(false);
+  });
+
+  it("allows recovery from a failed state", () => {
+    expect(shouldAdvanceOrderStatus("failed", "in_production")).toBe(true);
   });
 });

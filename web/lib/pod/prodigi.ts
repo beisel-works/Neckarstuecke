@@ -5,12 +5,19 @@
  * See `docs/pod-supplier-decision.md` for full API specification and SKU map.
  *
  * Environment variables required:
- *   PRODIGI_API_KEY — sandbox_... or live_...; environment determined by key prefix.
+ *   PRODIGI_API_KEY       — Prodigi API key for sandbox or live.
+ *   PRODIGI_API_BASE_URL — optional full base URL, e.g.
+ *                          https://api.sandbox.prodigi.com/v4.0
  */
 
 import type { PodAdapter, PodOrderPayload, PodOrderResult } from "./index";
 
 const PRODIGI_BASE_URL = "https://api.prodigi.com/v4.0";
+
+function normalizeProdigiBaseUrl(baseUrl?: string): string {
+  const trimmed = (baseUrl ?? PRODIGI_BASE_URL).replace(/\/+$/, "");
+  return trimmed.endsWith("/v4.0") ? trimmed : `${trimmed}/v4.0`;
+}
 
 // ---------------------------------------------------------------------------
 // SKU map: internal size_label + format → Prodigi catalogue SKU
@@ -81,12 +88,16 @@ export class ProdigiAdapter implements PodAdapter {
       throw new Error("PRODIGI_API_KEY is not configured.");
     }
     this.apiKey = key;
-    this.baseUrl = baseUrl ?? PRODIGI_BASE_URL;
+    this.baseUrl = normalizeProdigiBaseUrl(
+      baseUrl ?? process.env.PRODIGI_API_BASE_URL
+    );
   }
 
   async placeOrder(payload: PodOrderPayload): Promise<PodOrderResult> {
     const body = {
       merchantReference: `NS-ORDER-${payload.orderId}`,
+      idempotencyKey: payload.orderId,
+      callbackUrl: process.env.PRODIGI_CALLBACK_URL ?? undefined,
       shippingMethod: "Standard",
       recipient: {
         name: payload.recipient.name,

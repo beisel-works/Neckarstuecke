@@ -11,3 +11,5 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - If purchase analytics must be authoritative, pass the storefront analytics session ID and UTM source through Stripe Checkout metadata so the webhook can persist `purchase_complete` server-side without relying on the confirmation page.
 - In Next 16 with `@sentry/nextjs`, prefer root `instrumentation.ts` plus `instrumentation-client.ts`; `sentry.client.config.ts` is effectively legacy and triggers Turbopack deprecation warnings.
 - `hamster task status` can fail in the sandbox because it attempts re-auth via a local callback server and browser launch. When that happens, reconcile the local `.hamster/.../tasks/*.md` status fields directly.
+- Prodigi webhooks can arrive out of order. Keep order status updates forward-only so a late `in_production` or `failed` event cannot regress an order that is already `shipped` or `delivered`.
+- Current Prodigi v4 callbacks are unsigned CloudEvents. Parse the order from `data`/`data.order`, use `subject` as the order id, and configure sandbox vs live explicitly via `PRODIGI_API_BASE_URL`.

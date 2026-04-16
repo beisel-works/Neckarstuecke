@@ -32,11 +32,11 @@ Gelato is a valid fallback if Prodigi's Hahnemühle SKUs become unavailable; the
 ### 2.1 Base URL
 
 ```
-Sandbox:    https://api.prodigi.com/v4.0
+Sandbox:    https://api.sandbox.prodigi.com/v4.0
 Production: https://api.prodigi.com/v4.0
 ```
 
-Both environments use the same base URL; the environment is determined by the API key used (sandbox key vs. live key). There is no separate subdomain.
+Sandbox and live use different API hosts. The integration should point at the correct host explicitly via `PRODIGI_API_BASE_URL`.
 
 ### 2.2 Authentication
 
@@ -46,7 +46,7 @@ All requests require an `X-API-Key` header:
 X-API-Key: <PRODIGI_API_KEY>
 ```
 
-Keys are scoped per account. Sandbox keys begin with `sandbox_`. Production keys are issued separately.
+The API key is sent in the `X-API-Key` header. Prodigi's current docs show UUID-like keys in examples; do not assume a specific prefix format in code.
 
 ### 2.3 Order Creation Endpoint
 
@@ -64,6 +64,8 @@ X-API-Key: <PRODIGI_API_KEY>
 ```json
 {
   "merchantReference": "NS-ORDER-<supabase-order-id>",
+  "idempotencyKey": "<supabase-order-id>",
+  "callbackUrl": "https://neckarstuecke.de/api/webhooks/prodigi",
   "shippingMethod": "Standard",
   "recipient": {
     "name": "string",
@@ -131,16 +133,16 @@ The `order.id` must be persisted as `supplier_order_id` in the Supabase `orders`
 
 ### 2.4 Webhook Events (Prodigi → Neckarstücke)
 
-Register a webhook endpoint in the Prodigi dashboard pointing to:
-`https://neckarstücke.de/api/webhooks/prodigi`
+Register a callback endpoint in the Prodigi dashboard pointing to:
+`https://neckarstuecke.de/api/webhooks/prodigi`
 
 | Event type | Trigger | Relevant fields |
 |------------|---------|-----------------|
-| `order.status.changed` | Status transitions (InProgress → Complete, Cancelled) | `order.id`, `order.status.stage` |
-| `order.outcome.complete` | All items dispatched | `order.id` |
-| `shipment.complete` | Package handed to carrier | `order.id`, `shipment.carrier.name`, `shipment.tracking.number`, `shipment.tracking.url` |
+| `com.prodigi.order.status.stage.changed#InProgress` | Status transition to fulfilment | `subject`, `data.status.stage` |
+| `com.prodigi.order.status.stage.changed#Complete` | All shipments sent | `subject`, `data.status.stage` |
+| shipment callback type containing `shipment` | Package handed to carrier | `subject`, `data.shipments[]` |
 
-All webhook payloads are signed with `X-Prodigi-Signature` (HMAC-SHA256). Verify before processing.
+Prodigi documents callbacks as unsigned CloudEvents. There is no documented webhook signing secret in the v4 reference. The callback payload includes the full order object in `data`, and `subject` contains the Prodigi order id.
 
 ### 2.5 SKU Mapping
 
@@ -158,7 +160,7 @@ Neckarstücke variants map to Prodigi SKUs as follows:
 
 ### 2.6 Idempotency
 
-Prodigi does not natively support an idempotency key. Duplicate-order prevention must be implemented at the Trigger.dev job level by checking `supplier_order_id IS NOT NULL` in the `orders` table before placing a new order.
+Prodigi order objects support `idempotencyKey`. We also keep the Trigger.dev-side guard by checking `supplier_order_id IS NOT NULL` in the `orders` table before placing a new order.
 
 ---
 
@@ -168,11 +170,9 @@ Add the following to `.env.local` (already added to `.env.example`):
 
 ```bash
 # POD Supplier — Prodigi
-# Sandbox key starts with sandbox_ ; production key starts with live_
-PRODIGI_API_KEY=sandbox_...
-
-# Webhook signing secret (from Prodigi dashboard → Webhooks)
-PRODIGI_WEBHOOK_SECRET=...
+PRODIGI_API_KEY=<prodigi-api-key>
+PRODIGI_API_BASE_URL=https://api.sandbox.prodigi.com/v4.0
+PRODIGI_CALLBACK_URL=https://neckarstuecke.de/api/webhooks/prodigi
 ```
 
 ---
@@ -180,33 +180,33 @@ PRODIGI_WEBHOOK_SECRET=...
 ## 4. Sandbox Account Setup
 
 **Manual step required:** Create a free Prodigi account at prodigi.com and retrieve:
-1. A sandbox API key from the dashboard (API Keys section)
-2. Register a webhook endpoint and obtain the signing secret
+1. A sandbox or live API key from the Prodigi dashboard
+2. A callback URL configured either globally in merchant settings or per order via `callbackUrl`
 
-Store both values in `.env.local` as shown above. The Trigger.dev job uses `PRODIGI_API_KEY` server-side only — never exposed to the browser.
+Store the API key in `.env.local` as shown above. The Trigger.dev job uses `PRODIGI_API_KEY` server-side only — never exposed to the browser.
 
 ---
 
 ## 5. Test API Call — Documented Response Structure
 
-The following `GET /catalogue` call confirms API connectivity and key validity. Run once after sandbox account is created:
+The following `GET /orders` call confirms API connectivity and key validity. Run once after the sandbox account is created:
 
 ```bash
 curl -s \
   -H "X-API-Key: $PRODIGI_API_KEY" \
-  "https://api.prodigi.com/v4.0/catalogue" \
-  | jq '{totalCount: .totalCount, firstSku: .products[0].sku}'
+  "$PRODIGI_API_BASE_URL/orders" \
+  | jq '{outcome: .outcome, count: (.orders | length)}'
 ```
 
 Expected response shape:
 ```json
 {
-  "totalCount": 1234,
-  "firstSku": "GLOBAL-FAP-..."
+  "outcome": "Ok",
+  "count": 0
 }
 ```
 
-A `200 OK` with `totalCount > 0` confirms the key is valid and the integration is ready for order submission.
+A `200 OK` with `outcome = "Ok"` confirms the key is valid and the integration is reachable.
 
 ---
 
