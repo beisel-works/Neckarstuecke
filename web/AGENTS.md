@@ -6,6 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Learnings
 
+- The legal pages live in `web/app/impressum/page.tsx` and `web/app/datenschutz/page.tsx`. `web/app/layout.tsx` mounts `Footer` globally, and `web/components/Footer.tsx` already links both legal routes, so footer-level legal reachability is a verification task unless the brief explicitly asks for header changes.
 - Hamster task status in `.hamster/` can lag the actual `web/` implementation. Audit the codebase and run `pnpm lint`, `pnpm typecheck`, and `pnpm test` before treating a `todo` task as unimplemented.
 - The Stripe webhook must enqueue `fulfill-order` with an idempotency key derived from the Stripe session ID so retries remain safe even after the `orders` row already exists.
 - If purchase analytics must be authoritative, pass the storefront analytics session ID and UTM source through Stripe Checkout metadata so the webhook can persist `purchase_complete` server-side without relying on the confirmation page.
