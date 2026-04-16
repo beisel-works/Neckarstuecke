@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 export default function DatenschutzPage() {
   return (
     <div className="flex flex-col">
-      {/* ── Page header ───────────────────────────────────────────── */}
       <section className="px-6 pt-16 pb-10 md:px-10 md:pt-24 md:pb-14">
         <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>
           <h1
@@ -31,7 +30,6 @@ export default function DatenschutzPage() {
         aria-hidden="true"
       />
 
-      {/* ── Content ───────────────────────────────────────────────── */}
       <section className="px-6 py-14 md:px-10 md:py-20">
         <div
           className="mx-auto flex flex-col gap-10"
@@ -43,167 +41,250 @@ export default function DatenschutzPage() {
             color: "var(--color-charcoal)",
           }}
         >
-          <Section title="1. Verantwortlicher">
+          <Section title="1. Datenschutz auf einen Blick">
             <p>
-              Verantwortlicher im Sinne der DSGVO ist:
-              <br />
-              Florian Beisel, beisel.works
-              <br />
-              [Straße und Hausnummer], [PLZ] [Ort]
-              <br />
-              E-Mail:{" "}
-              <a
-                href="mailto:hallo@neckartuecke.de"
-                className="text-[var(--color-sage)] hover:underline"
-              >
-                hallo@neckartuecke.de
-              </a>
+              Die folgenden Hinweise geben einen einfachen Überblick darüber,
+              was mit Ihren personenbezogenen Daten passiert, wenn Sie diese
+              Website besuchen. Personenbezogene Daten sind alle Daten, mit
+              denen Sie persönlich identifiziert werden können.
+            </p>
+            <p>
+              Die Datenverarbeitung auf dieser Website erfolgt durch den
+              Websitebetreiber: Florian Beisel, beisel.works, Aufeldstraße 14,
+              69437 Neckargerach.
+            </p>
+            <p>
+              Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese
+              mitteilen, zum Beispiel durch Ausfüllen eines Bestellformulars.
+              Andere Daten werden automatisch beim Besuch der Website durch
+              unsere IT-Systeme erfasst, etwa technische Daten wie
+              Internetbrowser und Betriebssystem.
+            </p>
+            <p>
+              Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung
+              oder Einschränkung der Verarbeitung Ihrer gespeicherten
+              personenbezogenen Daten sowie ein Widerspruchsrecht gegen die
+              Verarbeitung und ein Recht auf Datenübertragbarkeit.
             </p>
           </Section>
 
-          <Section title="2. Erhebung und Speicherung personenbezogener Daten">
+          <Section title="2. Hosting - Vercel">
             <p>
-              Beim Besuch unserer Website werden automatisch Informationen an den
-              Server unseres Hosters übermittelt. Diese Informationen werden
-              temporär in einem sogenannten Logfile gespeichert. Folgende
-              Informationen werden dabei ohne Ihr Zutun erfasst und bis zur
-              automatisierten Löschung gespeichert:
+              Diese Website wird auf den Servern von Vercel Inc., 340 S. Lemon
+              Ave #4133, Walnut, CA 91789, USA, gehostet. Vercel ist unser
+              technischer Dienstleister im Sinne des Art. 28 DSGVO und betreibt
+              ein globales Edge-Network sowie Serverless-Funktionen zur
+              Bereitstellung dieser Website.
             </p>
-            <ul className="list-disc pl-6 mt-3 flex flex-col gap-1">
-              <li>IP-Adresse des anfragenden Rechners</li>
-              <li>Datum und Uhrzeit des Zugriffs</li>
-              <li>Name und URL der abgerufenen Datei</li>
-              <li>Website, von der aus der Zugriff erfolgt (Referrer-URL)</li>
-              <li>
-                Verwendeter Browser sowie ggf. das Betriebssystem Ihres Rechners
-              </li>
-            </ul>
-            <p className="mt-3">
-              Die genannten Daten werden zur Gewährleistung eines reibungslosen
-              Verbindungsaufbaus und einer komfortablen Nutzung unserer Website
-              verarbeitet (Art. 6 Abs. 1 lit. f DSGVO).
-            </p>
-          </Section>
-
-          <Section title="3. Hosting – Vercel">
             <p>
-              Diese Website wird bei Vercel Inc., 340 Pine Street Suite 701, San
-              Francisco, CA 94104, USA gehostet. Vercel verarbeitet dabei
-              Verbindungsdaten (IP-Adresse, Zeitstempel, aufgerufene URLs) im
-              Rahmen der Bereitstellung des Dienstes. Grundlage ist Art. 6 Abs. 1
-              lit. f DSGVO (berechtigtes Interesse an einem zuverlässigen Betrieb
-              der Website). Weitere Informationen:{" "}
+              Vercel speichert automatisch Zugriffsdaten wie IP-Adressen,
+              HTTP-Header, Zeitstempel und Browser-Informationen für
+              Sicherheits- und Performancezwecke. Diese Daten werden gemäß
+              Standard Contractual Clauses (SCCs) zwischen der EU und den USA
+              übermittelt.
+            </p>
+            <p>
+              Details:{" "}
               <a
                 href="https://vercel.com/legal/privacy-policy"
                 className="text-[var(--color-sage)] hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                vercel.com/legal/privacy-policy
+                https://vercel.com/legal/privacy-policy
               </a>
-              .
+            </p>
+            <p>
+              Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+              Interesse an Sicherheit und Performance).
             </p>
           </Section>
 
-          <Section title="4. Datenbank – Supabase">
+          <Section title="3. Datenbank und Authentifizierung - Supabase">
             <p>
-              Produktdaten (Motive, Varianten, Preise) werden in einer
-              Supabase-Datenbank (Supabase Inc., San Francisco, CA, USA)
-              gespeichert. Zusätzlich speichern wir dort pseudonyme
-              Nutzungsereignisse (z. B. Seitenaufrufe, Produktansichten,
-              In-den-Warenkorb-Aktionen) sowie freiwillig abgegebenes
-              Kundenfeedback nach einer Bestellung. Die Ereignisse werden nur
-              mit einer zufällig erzeugten Session-ID gespeichert, nicht mit
-              Ihrem Namen. Supabase-Server befinden sich innerhalb der EU
-              (Frankfurt, AWS eu-central-1).
+              Die Verwaltung von Benutzerdaten und Authentifizierung erfolgt
+              über Supabase, einen Dienst der Supabase Inc., basierend auf
+              PostgreSQL. Supabase ist unser Auftragsverarbeiter gemäß Art. 28
+              DSGVO.
             </p>
-          </Section>
-
-          <Section title="5. Zahlungsabwicklung – Stripe">
+            <ul className="mt-3 flex list-disc flex-col gap-1 pl-6">
+              <li>E-Mail-Adresse für Authentifizierung</li>
+              <li>Verschlüsselte Passwörter</li>
+              <li>Benutzerprofildaten, wenn angegeben</li>
+              <li>Bestellverlauf und Präferenzen</li>
+            </ul>
+            <p className="mt-3">
+              Supabase unterliegt Auftragsverarbeitungsklauseln nach Art. 28
+              DSGVO.
+            </p>
             <p>
-              Zahlungen werden über Stripe (Stripe Payments Europe, Ltd., 1 Grand
-              Canal Street Lower, Grand Canal Dock, Dublin, Irland) abgewickelt.
-              Beim Bezahlvorgang werden Sie auf die gesicherten Seiten von Stripe
-              weitergeleitet. Stripe verarbeitet dabei Ihre Zahlungsdaten (Name,
-              Adresse, Zahlungsmittel) gemäß der eigenen Datenschutzerklärung.
-              Wir erhalten lediglich eine Bestätigung über den Ausgang der
-              Zahlung. Grundlage ist Art. 6 Abs. 1 lit. b DSGVO
-              (Vertragserfüllung). Weitere Informationen:{" "}
+              Datenschutzerklärung:{" "}
               <a
-                href="https://stripe.com/de/privacy"
+                href="https://supabase.com/privacy"
                 className="text-[var(--color-sage)] hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                stripe.com/de/privacy
+                https://supabase.com/privacy
               </a>
-              .
+            </p>
+            <p>
+              Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO
+              (Vertragserfüllung und Kontoverwaltung).
             </p>
           </Section>
 
-          <Section title="6. Warenkorb (LocalStorage)">
+          <Section title="4. Zahlungsdienstleister - Stripe">
             <p>
-              Der Warenkorb dieser Website wird ausschließlich lokal in Ihrem
-              Browser (localStorage) gespeichert. Diese Daten verlassen Ihr Gerät
-              nicht und werden nicht an unsere Server übertragen. Sie können den
-              Speicher jederzeit über die Einstellungen Ihres Browsers löschen.
+              Die Zahlungsabwicklung erfolgt über Stripe Payments Europe, Ltd.,
+              1 Grand Canal Street Lower, Grand Canal Dock, Dublin, D02 H210,
+              Irland. Stripe ist unser Auftragsverarbeiter gemäß Art. 28 DSGVO.
             </p>
-          </Section>
-
-          <Section title="7. Analyse und Feedback">
-            <p>
-              Wir verwenden keine externen Werbe- oder Trackingnetzwerke. Zur
-              Bewertung der Nutzung unseres Angebots speichern wir ausschließlich
-              eigene, pseudonyme Nutzungsereignisse auf unseren Servern, etwa:
-            </p>
-            <ul className="list-disc pl-6 mt-3 flex flex-col gap-1">
-              <li>aufgerufene Seiten</li>
-              <li>Produktansichten und In-den-Warenkorb-Aktionen</li>
-              <li>Start des Bezahlvorgangs und Bestellabschluss</li>
+            <ul className="mt-3 flex list-disc flex-col gap-1 pl-6">
+              <li>
+                Zahlungsdaten wie Kartennummer, Ablaufdatum und CVC werden
+                nicht auf unseren Servern gespeichert
+              </li>
+              <li>Name und Rechnungsadresse</li>
+              <li>Bestellinformationen und Gesamtbetrag</li>
             </ul>
             <p className="mt-3">
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
-              Interesse liegt darin, die Resonanz auf Motive und die Qualität
-              des Kaufprozesses zu verstehen. Wenn Sie nach einem Kauf freiwillig
-              Feedback absenden, verarbeiten wir diese Angaben ebenfalls auf
-              Grundlage von Art. 6 Abs. 1 lit. f DSGVO zur Produkt- und
-              Angebotsverbesserung.
+              Wir erhalten die vollständigen Zahlungsdaten nicht direkt. Stripe
+              verarbeitet diese verschlüsselt auf eigenen Servern. Die
+              Datenübermittlung erfolgt unter Standard Contractual Clauses
+              (SCCs).
             </p>
-          </Section>
-
-          <Section title="8. Ihre Rechte">
-            <p>Sie haben gegenüber uns folgende Rechte:</p>
-            <ul className="list-disc pl-6 mt-3 flex flex-col gap-1">
-              <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
-              <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
-              <li>Recht auf Löschung (Art. 17 DSGVO)</li>
-              <li>
-                Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)
-              </li>
-              <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
-              <li>
-                Recht auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)
-              </li>
-            </ul>
-            <p className="mt-3">
-              Zur Ausübung Ihrer Rechte wenden Sie sich bitte an:{" "}
+            <p>
+              Datenschutzerklärung von Stripe:{" "}
               <a
-                href="mailto:hallo@neckartuecke.de"
+                href="https://stripe.com/privacy"
+                className="text-[var(--color-sage)] hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://stripe.com/privacy
+              </a>
+            </p>
+            <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+          </Section>
+
+          <Section title="5. Workflow-Automatisierung - Trigger.dev">
+            <p>
+              Für die Automatisierung von Bestellprozessen, Benachrichtigungen
+              und Produktionsaufträgen nutzen wir Trigger.dev. Trigger.dev ist
+              unser Auftragsverarbeiter gemäß Art. 28 DSGVO.
+            </p>
+            <ul className="mt-3 flex list-disc flex-col gap-1 pl-6">
+              <li>Bestellnummern und Status</li>
+              <li>Versandadressen zur Weitergabe an Prodigi</li>
+              <li>Produktkonfigurationen</li>
+              <li>Timing- und Workflow-Logs</li>
+            </ul>
+            <p className="mt-3">
+              Datenschutzerklärung:{" "}
+              <a
+                href="https://trigger.dev/legal/privacy"
+                className="text-[var(--color-sage)] hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://trigger.dev/legal/privacy
+              </a>
+            </p>
+            <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+          </Section>
+
+          <Section title="6. Datenerfassung bei Bestellungen">
+            <p>
+              Wenn Sie in unserem Shop bestellen, erheben wir folgende Daten zur
+              Vertragsabwicklung:
+            </p>
+            <ul className="mt-3 flex list-disc flex-col gap-1 pl-6">
+              <li>Name und Anschrift für den Versand</li>
+              <li>E-Mail-Adresse für Bestellbestätigung und Kundenservice</li>
+              <li>Zahlungsinformationen, verarbeitet durch Stripe</li>
+              <li>Produktauswahl und Konfigurationen</li>
+            </ul>
+            <p className="mt-3">
+              Zur Erfüllung von Bestellungen arbeiten wir mit Prodigi Ltd., 11
+              Curtain Road, London, EC2A 3LT, Großbritannien, zusammen. Prodigi
+              erhält Ihren Namen sowie Ihre Lieferadresse ausschließlich zum
+              Zweck der Produktion und des Versands Ihrer Bestellung.
+            </p>
+            <p>
+              Details:{" "}
+              <a
+                href="https://www.prodigi.com/privacy-and-cookie-policy/"
+                className="text-[var(--color-sage)] hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://www.prodigi.com/privacy-and-cookie-policy/
+              </a>
+            </p>
+            <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+          </Section>
+
+          <Section title="7. Ihre Rechte als betroffene Person">
+            <p>Sie haben gegenüber uns folgende Rechte:</p>
+            <ul className="mt-3 flex list-disc flex-col gap-1 pl-6">
+              <li>Auskunft (Art. 15 DSGVO)</li>
+              <li>Berichtigung (Art. 16 DSGVO)</li>
+              <li>Löschung (Art. 17 DSGVO)</li>
+              <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+              <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+              <li>Widerspruch (Art. 21 DSGVO)</li>
+            </ul>
+            <p className="mt-3">
+              Zur Ausübung Ihrer Rechte wenden Sie sich an:{" "}
+              <a
+                href="mailto:kontakt@beisel.works"
                 className="text-[var(--color-sage)] hover:underline"
               >
-                hallo@neckartuecke.de
+                kontakt@beisel.works
               </a>
-              . Sie haben zudem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde
-              zu beschweren.
+            </p>
+            <p>
+              Zudem haben Sie das Recht, sich bei einer
+              Datenschutz-Aufsichtsbehörde zu beschweren. Die zuständige
+              Aufsichtsbehörde in Baden-Württemberg ist der Landesbeauftragte
+              für den Datenschutz und die Informationsfreiheit (LfDI):{" "}
+              <a
+                href="https://www.baden-wuerttemberg.datenschutz.de"
+                className="text-[var(--color-sage)] hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://www.baden-wuerttemberg.datenschutz.de
+              </a>
             </p>
           </Section>
 
-          <Section title="9. Änderungen dieser Datenschutzerklärung">
+          <Section title="8. Speicherdauer">
             <p>
-              Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit
-              sie stets den aktuellen rechtlichen Anforderungen entspricht oder um
-              Änderungen unserer Leistungen umzusetzen. Für Ihren erneuten Besuch
-              gilt dann die neue Datenschutzerklärung. Stand: April 2026.
+              Personenbezogene Daten werden bei uns gespeichert, solange sie für
+              die Erfüllung des Vertrages und erforderlicher
+              Aufbewahrungspflichten notwendig sind. Nach Vertragserfüllung
+              werden die Daten in der Regel nach 10 Jahren gelöscht, gemäß
+              steuer- und handelsrechtlicher Aufbewahrungspflichten nach § 257
+              HGB.
+            </p>
+          </Section>
+
+          <Section title="9. Datenschutz-Folgenabschätzung (DPIA)">
+            <p>
+              Da personenbezogene Daten in die USA übermittelt werden können,
+              insbesondere bei Vercel, Trigger.dev und teilweise Supabase,
+              verwenden wir Standard Contractual Clauses (SCCs) zur
+              Gewährleistung eines angemessenen Schutzniveaus.
+            </p>
+          </Section>
+
+          <Section title="10. Änderungen dieser Datenschutzerklärung">
+            <p>
+              Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf
+              anzupassen, um sie an aktuelle Anforderungen und technische
+              Entwicklungen anzupassen. Letzte Aktualisierung: Januar 2025.
             </p>
           </Section>
         </div>

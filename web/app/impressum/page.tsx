@@ -3,13 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Impressum – Neckarstücke",
   description:
-    "Anbieterkennzeichnung gemäß § 5 TMG für Neckarstücke — Feinkunstdrucke aus dem Neckartal.",
+    "Anbieterkennzeichnung gemäß § 5 TMG für Neckarstücke - Feinkunstdrucke aus dem Neckartal.",
 };
 
 export default function ImpressumPage() {
   return (
     <div className="flex flex-col">
-      {/* ── Page header ───────────────────────────────────────────── */}
       <section className="px-6 pt-16 pb-10 md:px-10 md:pt-24 md:pb-14">
         <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>
           <h1
@@ -31,7 +30,6 @@ export default function ImpressumPage() {
         aria-hidden="true"
       />
 
-      {/* ── Content ───────────────────────────────────────────────── */}
       <section className="px-6 py-14 md:px-10 md:py-20">
         <div
           className="mx-auto prose prose-sm max-w-none"
@@ -59,11 +57,9 @@ export default function ImpressumPage() {
             <br />
             beisel.works
             <br />
-            [Straße und Hausnummer]
+            Aufeldstraße 14
             <br />
-            [PLZ] [Ort]
-            <br />
-            Deutschland
+            69437 Neckargerach
           </p>
 
           <h2
@@ -78,12 +74,14 @@ export default function ImpressumPage() {
           </h2>
 
           <p style={{ marginBottom: "2rem" }}>
+            Telefon: +49 151 23033390
+            <br />
             E-Mail:{" "}
             <a
-              href="mailto:hallo@neckartuecke.de"
+              href="mailto:kontakt@beisel.works"
               className="text-[var(--color-sage)] hover:underline"
             >
-              hallo@neckartuecke.de
+              kontakt@beisel.works
             </a>
           </p>
 
@@ -95,12 +93,13 @@ export default function ImpressumPage() {
               marginBottom: "0.75rem",
             }}
           >
-            Umsatzsteuer-ID
+            Umsatzsteuer
           </h2>
 
           <p style={{ marginBottom: "2rem" }}>
-            Gemäß § 19 UStG wird keine Umsatzsteuer ausgewiesen
-            (Kleinunternehmerregelung).
+            Gemäß § 19 UStG wird keine Umsatzsteuer berechnet
+            (Kleinunternehmerregelung). Eine Umsatzsteuer-Identifikationsnummer
+            liegt nicht vor.
           </p>
 
           <h2
@@ -111,15 +110,15 @@ export default function ImpressumPage() {
               marginBottom: "0.75rem",
             }}
           >
-            Verantwortlicher für den Inhalt gemäß § 55 Abs. 2 RStV
+            Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
           </h2>
 
           <p style={{ marginBottom: "2rem" }}>
             Florian Beisel
             <br />
-            [Straße und Hausnummer]
+            Aufeldstraße 14
             <br />
-            [PLZ] [Ort]
+            69437 Neckargerach
           </p>
 
           <h2
@@ -130,36 +129,26 @@ export default function ImpressumPage() {
               marginBottom: "0.75rem",
             }}
           >
-            Haftung für Inhalte
+            Streitschlichtung
           </h2>
 
           <p style={{ marginBottom: "2rem" }}>
-            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte
-            auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach
-            §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
-            verpflichtet, übermittelte oder gespeicherte fremde Informationen zu
-            überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige
-            Tätigkeit hinweisen.
+            Die Europäische Kommission stellt eine Plattform zur
+            Online-Streitbeilegung (OS) bereit:{" "}
+            <a
+              href="https://ec.europa.eu/consumers/odr"
+              className="text-[var(--color-sage)] hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://ec.europa.eu/consumers/odr
+            </a>
           </p>
 
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "var(--text-h3)",
-              letterSpacing: "var(--tracking-h3)",
-              marginBottom: "0.75rem",
-            }}
-          >
-            Urheberrecht
-          </h2>
-
           <p>
-            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen
-            Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung,
-            Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
-            Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
-            jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite
-            sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+            Unsere E-Mail-Adresse finden Sie oben im Impressum. Wir sind nicht
+            bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+            Verbraucherschlichtungsstelle teilzunehmen.
           </p>
         </div>
       </section>
