@@ -7,12 +7,13 @@ Add these repository secrets before enabling the workflow:
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
+- `VERCEL_SCOPE`
 - `BLOB_READ_WRITE_TOKEN`
 - `SUPABASE_ACCESS_TOKEN`
 - `SUPABASE_DB_PASSWORD`
 - `SUPABASE_PROJECT_ID`
 
-The workflow uses the Vercel CLI to look up the deployment created by the Vercel GitHub integration for the current commit. `VERCEL_TOKEN` must have access to the linked Vercel team/project. `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` come from `web/.vercel/project.json` after `vercel link`.
+The workflow uses the Vercel CLI to look up the deployment created by the Vercel GitHub integration for the current commit. `VERCEL_TOKEN` must have access to the linked Vercel team/project. `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` come from `web/.vercel/project.json` after `vercel link`. `VERCEL_SCOPE` must be the human-readable Vercel team/account scope used by the CLI, for example `paceypedia-2782s-projects`.
 
 ## Vercel requirements
 

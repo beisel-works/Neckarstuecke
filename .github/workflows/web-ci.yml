@@ -35,6 +35,7 @@ jobs:
       CI: true
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - name: Check out repository
@@ -55,7 +56,7 @@ jobs:
       - name: Check required Vercel secrets
         run: |
           missing=0
-          for key in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+          for key in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID VERCEL_SCOPE; do
             if [ -z "${!key}" ]; then
               echo "::error::Missing required secret: $key"
               missing=1
@@ -98,7 +99,7 @@ jobs:
           deployment_sha="${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
           for attempt in $(seq 1 30); do
             deployments_json="$(vercel list neckarstuecke-web \
-              --scope "$VERCEL_ORG_ID" \
+              --scope "$VERCEL_SCOPE" \
               --environment "$environment" \
               --meta githubCommitSha="$deployment_sha" \
               --status READY \
@@ -128,7 +129,7 @@ jobs:
 
           echo "::error::Timed out waiting for a READY Vercel deployment for $deployment_sha"
           vercel list neckarstuecke-web \
-            --scope "$VERCEL_ORG_ID" \
+            --scope "$VERCEL_SCOPE" \
             --environment "$environment" \
             --meta githubCommitSha="$deployment_sha" \
             --format json \
