@@ -95,11 +95,12 @@ jobs:
         id: wait-for-deployment
         run: |
           environment="${{ steps.deployment-target.outputs.environment }}"
+          deployment_sha="${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
           for attempt in $(seq 1 30); do
             deployments_json="$(vercel list neckarstuecke-web \
               --scope "$VERCEL_ORG_ID" \
               --environment "$environment" \
-              --meta githubCommitSha="$GITHUB_SHA" \
+              --meta githubCommitSha="$deployment_sha" \
               --status READY \
               --format json \
               --token "$VERCEL_TOKEN")"
@@ -125,11 +126,11 @@ jobs:
             sleep 10
           done
 
-          echo "::error::Timed out waiting for a READY Vercel deployment for $GITHUB_SHA"
+          echo "::error::Timed out waiting for a READY Vercel deployment for $deployment_sha"
           vercel list neckarstuecke-web \
             --scope "$VERCEL_ORG_ID" \
             --environment "$environment" \
-            --meta githubCommitSha="$GITHUB_SHA" \
+            --meta githubCommitSha="$deployment_sha" \
             --format json \
             --token "$VERCEL_TOKEN"
           exit 1
