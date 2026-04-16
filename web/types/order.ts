@@ -24,6 +24,34 @@ export interface OrderItem {
   created_at: string;
 }
 
+export interface EditionNumber {
+  id: string;
+  print_id: string;
+  order_id: string | null;
+  edition_number: number;
+  created_at: string;
+}
+
+export interface EditionsRemainingRow {
+  print_id: string;
+  editions_remaining: number;
+}
+
+export type CoaStatus = "pending" | "printed" | "dispatched";
+
+export interface CertificateOfAuthenticity {
+  id: string;
+  order_item_id: string;
+  edition_number: number;
+  print_slug: string;
+  format_label: string;
+  buyer_name: string;
+  pdf_storage_path: string | null;
+  coa_status: CoaStatus;
+  created_at: string;
+  updated_at: string;
+}
+
 /** Order record in Supabase. */
 export interface Order {
   id: string;

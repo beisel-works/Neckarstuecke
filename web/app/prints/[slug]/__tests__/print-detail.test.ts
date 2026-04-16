@@ -36,6 +36,7 @@ const makeVariant = (
   format: "print",
   price_cents: 8900,
   in_stock: true,
+  available_on_request: false,
   ...overrides,
 });
 
@@ -45,6 +46,7 @@ const VARIANTS: PrintVariantRow[] = [
   makeVariant({ id: "v3", format: "print", size_label: "70×100 cm", price_cents: 21900 }),
   makeVariant({ id: "v4", format: "framed", size_label: "30×40 cm", price_cents: 18900 }),
   makeVariant({ id: "v5", format: "framed", size_label: "50×70 cm", price_cents: 28900 }),
+  makeVariant({ id: "v6", format: "framed", size_label: "70×100 cm", price_cents: 53900, in_stock: false, available_on_request: true }),
 ];
 
 // ── formatPrice ───────────────────────────────────────────────────────────────
@@ -85,7 +87,11 @@ describe("getInStockVariants", () => {
   });
 
   it("returns all when all are in stock", () => {
-    expect(getInStockVariants(VARIANTS)).toHaveLength(VARIANTS.length);
+    const allInStock = VARIANTS.map((variant) => ({
+      ...variant,
+      in_stock: true,
+    }));
+    expect(getInStockVariants(allInStock)).toHaveLength(allInStock.length);
   });
 });
 
@@ -125,7 +131,7 @@ describe("variantsByFormat", () => {
 
   it("returns framed variants", () => {
     const framed = variantsByFormat(VARIANTS, "framed");
-    expect(framed).toHaveLength(2);
+    expect(framed).toHaveLength(3);
     expect(framed.every((v) => v.format === "framed")).toBe(true);
   });
 

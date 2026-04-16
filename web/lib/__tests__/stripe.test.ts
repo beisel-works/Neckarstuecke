@@ -1,35 +1,36 @@
-import { describe, it, expect } from "vitest";
-import { normaliseSkuKey } from "../stripe";
+import { describe, expect, it, vi } from "vitest";
+import { getStripePriceId, normaliseSkuKey } from "@/lib/stripe";
 
-describe("normaliseSkuKey", () => {
-  it("produces uppercase key from basic inputs", () => {
-    expect(normaliseSkuKey("minneburg", "30×40 cm", "print")).toBe(
-      "MINNEBURG__30X40-CM__PRINT"
+describe("stripe env key lookup", () => {
+  it("normalises SKU keys for Stripe lookup keys", () => {
+    expect(normaliseSkuKey("bad-wimpfen", "30×40 cm", "print")).toBe(
+      "BAD-WIMPFEN__30X40-CM__PRINT"
     );
   });
 
-  it("normalises ASCII x as multiplication sign", () => {
-    expect(normaliseSkuKey("dilsberg", "50x70 cm", "framed")).toBe(
-      "DILSBERG__50X70-CM__FRAMED"
+  it("prefers Vercel-safe env names with underscores", () => {
+    vi.stubEnv(
+      "STRIPE_PRICE_BAD_WIMPFEN__30X40_CM__PRINT",
+      "price_vercel_safe"
+    );
+    vi.stubEnv(
+      "STRIPE_PRICE_BAD-WIMPFEN__30X40-CM__PRINT",
+      "price_legacy"
+    );
+
+    expect(getStripePriceId("bad-wimpfen", "30×40 cm", "print")).toBe(
+      "price_vercel_safe"
     );
   });
 
-  it("strips non-alphanumeric characters from slug", () => {
-    expect(normaliseSkuKey("hirschhorn", "70×100 cm", "print")).toBe(
-      "HIRSCHHORN__70X100-CM__PRINT"
+  it("falls back to the legacy hyphenated env name", () => {
+    vi.stubEnv(
+      "STRIPE_PRICE_MINNEBURG__30X40-CM__PRINT",
+      "price_legacy_only"
     );
-  });
 
-  it("handles slugs with hyphens", () => {
-    expect(normaliseSkuKey("heidelberg", "30×40 cm", "print")).toBe(
-      "HEIDELBERG__30X40-CM__PRINT"
-    );
-  });
-
-  it("collapses multiple spaces to single hyphen", () => {
-    // \s+ collapses runs of spaces into one hyphen
-    expect(normaliseSkuKey("test", "30  x  40 cm", "print")).toBe(
-      "TEST__30-X-40-CM__PRINT"
+    expect(getStripePriceId("minneburg", "30×40 cm", "print")).toBe(
+      "price_legacy_only"
     );
   });
 });

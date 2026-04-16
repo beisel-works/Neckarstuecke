@@ -4,6 +4,7 @@ export type AnalyticsEventName =
   | "add_to_cart"
   | "checkout_started"
   | "purchase_complete"
+  | "inquiry_submitted"
   | "feedback_submitted";
 
 export interface AnalyticsPayload {

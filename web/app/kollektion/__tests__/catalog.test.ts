@@ -13,6 +13,7 @@ const makeVariant = (overrides: Partial<PrintVariantRow> = {}): PrintVariantRow 
   format: "print",
   price_cents: 4900,
   in_stock: true,
+  available_on_request: false,
   ...overrides,
 });
 

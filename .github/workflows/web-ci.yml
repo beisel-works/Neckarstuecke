@@ -26,17 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
-      deployment_environment: ${{ steps.deployment-target.outputs.environment }}
-      deployment_url: ${{ steps.wait-for-deployment.outputs.url }}
+      deployment_environment: local
+      deployment_url: http://127.0.0.1:3000
       tests: ${{ steps.junit-summary.outputs.tests }}
       failures: ${{ steps.junit-summary.outputs.failures }}
       skipped: ${{ steps.junit-summary.outputs.skipped }}
     env:
       CI: true
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -53,20 +50,37 @@ jobs:
           cache: pnpm
           cache-dependency-path: web/pnpm-lock.yaml
 
-      - name: Check required Vercel secrets
+      - name: Check required Supabase local CI files
         run: |
           missing=0
-          for key in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID VERCEL_SCOPE; do
-            if [ -z "${!key}" ]; then
-              echo "::error::Missing required secret: $key"
-              missing=1
-            fi
-          done
+          [ -f supabase/config.toml ] || { echo "::error::Missing supabase/config.toml"; missing=1; }
+          [ -f supabase/seed.sql ] || { echo "::error::Missing supabase/seed.sql"; missing=1; }
           exit "$missing"
 
       - name: Install web dependencies
         working-directory: web
         run: pnpm install --frozen-lockfile
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase stack
+        run: |
+          supabase start \
+            --exclude studio,imgproxy,mailpit,storage-api,edge-runtime,postgres-meta,logflare,vector,supavisor
+          supabase db reset --local --yes
+
+      - name: Export local Supabase environment
+        run: |
+          supabase status -o env > /tmp/supabase.env
+          . /tmp/supabase.env
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY" >> "$GITHUB_ENV"
+          echo "SUPABASE_SECRET_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
 
       - name: Lint web app
         working-directory: web
@@ -80,97 +94,17 @@ jobs:
         working-directory: web
         run: pnpm test
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@51.4.0
-
-      - name: Select deployment target
-        id: deployment-target
-        run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            echo "environment=production" >> "$GITHUB_OUTPUT"
-          else
-            echo "environment=preview" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Wait for Vercel deployment
-        id: wait-for-deployment
-        run: |
-          environment="${{ steps.deployment-target.outputs.environment }}"
-          deployment_sha="${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
-          for attempt in $(seq 1 30); do
-            deployments_json="$(vercel list neckarstuecke-web \
-              --scope "$VERCEL_SCOPE" \
-              --environment "$environment" \
-              --meta githubCommitSha="$deployment_sha" \
-              --status READY \
-              --format json \
-              --token "$VERCEL_TOKEN")"
-
-            deployment_url="$(node -e '
-              let parsed;
-              try {
-                parsed = JSON.parse(process.argv[1]);
-              } catch {
-                process.stdout.write("");
-                process.exit(0);
-              }
-              const first = Array.isArray(parsed) ? parsed[0] : parsed?.deployments?.[0];
-              process.stdout.write(first?.url ? `https://${first.url}` : "");
-            ' "$deployments_json")"
-
-            if [ -n "$deployment_url" ]; then
-              echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
-              echo "Deployment URL: $deployment_url"
-              exit 0
-            fi
-
-            sleep 10
-          done
-
-          echo "::error::Timed out waiting for a READY Vercel deployment for $deployment_sha"
-          vercel list neckarstuecke-web \
-            --scope "$VERCEL_SCOPE" \
-            --environment "$environment" \
-            --meta githubCommitSha="$deployment_sha" \
-            --format json \
-            --token "$VERCEL_TOKEN"
-          exit 1
-
-      - name: Resolve Vercel protection bypass secret
-        id: protection-bypass
-        if: steps.deployment-target.outputs.environment == 'preview'
-        run: |
-          project_json="$(curl --fail --silent --show-error \
-            --header "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID")"
-
-          bypass_secret="$(node -e '
-            const project = JSON.parse(process.argv[1]);
-            const protectionBypass = project.protectionBypass ?? {};
-            const token = Object.entries(protectionBypass).find(
-              ([, value]) => value?.scope === "automation-bypass"
-            )?.[0] ?? "";
-            process.stdout.write(token);
-          ' "$project_json")"
-
-          if [ -z "$bypass_secret" ]; then
-            echo "::error::Missing Vercel automation bypass secret in project deployment protection settings"
-            exit 1
-          fi
-
-          echo "::add-mask::$bypass_secret"
-          echo "secret=$bypass_secret" >> "$GITHUB_OUTPUT"
-
       - name: Install Playwright browser
         working-directory: web
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run Playwright E2E tests
         working-directory: web
-        env:
-          PLAYWRIGHT_BASE_URL: ${{ steps.wait-for-deployment.outputs.url }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ steps.protection-bypass.outputs.secret }}
         run: pnpm test:e2e
+
+      - name: Stop local Supabase stack
+        if: always()
+        run: supabase stop --project-id neckarstuecke --no-backup
 
       - name: Summarize JUnit results
         id: junit-summary
@@ -216,12 +150,8 @@ jobs:
           {
             echo "## web-e2e"
             echo ""
-            echo "- Target: ${{ steps.deployment-target.outputs.environment }}"
-            if [ -n "${{ steps.wait-for-deployment.outputs.url }}" ]; then
-              echo "- Deployment: ${{ steps.wait-for-deployment.outputs.url }}"
-            else
-              echo "- Deployment: unavailable"
-            fi
+            echo "- Target: local"
+            echo "- Deployment: http://127.0.0.1:3000"
             echo "- Tests: ${{ steps.junit-summary.outputs.tests }}"
             echo "- Failures: ${{ steps.junit-summary.outputs.failures }}"
             echo "- Skipped: ${{ steps.junit-summary.outputs.skipped }}"
@@ -257,10 +187,10 @@ jobs:
               "## web-e2e",
               "",
               `- Status: ${process.env.JOB_RESULT}`,
-              `- Vercel target: ${process.env.DEPLOYMENT_MODE || "preview"}`,
+              `- Target: ${process.env.DEPLOYMENT_MODE || "local"}`,
               process.env.DEPLOYMENT_URL
                 ? `- Deployment: ${process.env.DEPLOYMENT_URL}`
-                : "- Deployment: unavailable",
+                : "- Deployment: http://127.0.0.1:3000",
               `- Tests: ${process.env.TESTS || "0"}`,
               `- Failures: ${process.env.FAILURES || "0"}`,
               `- Skipped: ${process.env.SKIPPED || "0"}`,

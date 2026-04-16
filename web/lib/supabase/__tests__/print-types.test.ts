@@ -38,6 +38,7 @@ describe("Print type structure", () => {
       format: "print",
       price_cents: 8900,
       in_stock: true,
+      available_on_request: false,
     };
     expect(variant.price_cents).toBe(8900);
     expect(variant.format).toBe("print");
@@ -53,6 +54,7 @@ describe("Print type structure", () => {
       format: "framed",
       price_cents: 28900,
       in_stock: true,
+      available_on_request: false,
     };
     expect(variant.format).toBe("framed");
   });
@@ -83,6 +85,7 @@ describe("Print type structure", () => {
           format: "print",
           price_cents: 8900,
           in_stock: true,
+          available_on_request: false,
         },
       ],
     };

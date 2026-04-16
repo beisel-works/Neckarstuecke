@@ -18,6 +18,8 @@
  */
 
 import { task } from "@trigger.dev/sdk/v3";
+import { generateCoaPdf } from "@/lib/coa/generate-pdf";
+import { uploadCoaPdf } from "@/lib/coa/upload-pdf";
 import { getServiceClient } from "@/lib/supabase/service";
 import { getPodAdapter } from "@/lib/pod/prodigi";
 import { resolveProdigiSku } from "@/lib/pod/prodigi";
@@ -210,6 +212,165 @@ export const fulfillOrder = task({
     console.info(
       `[fulfill-order] Order ${orderId} submitted to Prodigi. supplier_order_id=${result.supplierOrderId}`
     );
+
+    try {
+      const { data: orderItems, error: orderItemsError } = await db
+        .from("order_items")
+        .select("id, quantity, description, created_at")
+        .eq("order_id", orderId)
+        .order("created_at");
+
+      if (orderItemsError) {
+        throw new Error(orderItemsError.message);
+      }
+
+      const variantIds = (orderItems ?? [])
+        .map((item) => item.description)
+        .filter((value): value is string => typeof value === "string" && value.length > 0);
+      const { data: variantRows, error: variantRowsError } = await db
+        .from("print_variants")
+        .select("id, print_id, size_label, format, prints(title, slug)")
+        .in("id", variantIds);
+
+      if (variantRowsError) {
+        throw new Error(variantRowsError.message);
+      }
+
+      const variantsById = new Map(
+        (
+          (variantRows ?? []) as Array<{
+            id: string;
+            print_id: string;
+            size_label: string;
+            format: string;
+            prints: { title?: string; slug?: string } | { title?: string; slug?: string }[] | null;
+          }>
+        ).map((variant) => [
+          variant.id,
+          {
+            printId: variant.print_id,
+            sizeLabel: variant.size_label,
+            formatLabel:
+              variant.format === "framed"
+                ? `${variant.size_label}, Gerahmt`
+                : `${variant.size_label}, Print`,
+            printTitle: Array.isArray(variant.prints)
+              ? variant.prints[0]?.title ?? variant.print_id
+              : variant.prints?.title ?? variant.print_id,
+            printSlug: Array.isArray(variant.prints)
+              ? variant.prints[0]?.slug ?? ""
+              : variant.prints?.slug ?? "",
+          },
+        ])
+      );
+
+      const { data: editionRows, error: editionRowsError } = await db
+        .from("edition_numbers")
+        .select("print_id, edition_number")
+        .eq("order_id", orderId)
+        .order("edition_number");
+
+      if (editionRowsError) {
+        throw new Error(editionRowsError.message);
+      }
+
+      const editionsByPrint = new Map<string, number[]>();
+      for (const row of editionRows ?? []) {
+        const editions = editionsByPrint.get(row.print_id) ?? [];
+        editions.push(row.edition_number);
+        editionsByPrint.set(row.print_id, editions);
+      }
+
+      const orderItemIds = (orderItems ?? []).map((item) => item.id);
+      const { data: existingCertificates, error: existingCertificatesError } = await db
+        .from("certificates_of_authenticity")
+        .select("order_item_id, edition_number")
+        .in("order_item_id", orderItemIds);
+
+      if (existingCertificatesError) {
+        throw new Error(existingCertificatesError.message);
+      }
+
+      const existingCertificateKeys = new Set(
+        (existingCertificates ?? []).map(
+          (certificate) => `${certificate.order_item_id}:${certificate.edition_number}`
+        )
+      );
+
+      for (const item of orderItems ?? []) {
+        const variantId = item.description;
+        if (!variantId) {
+          continue;
+        }
+
+        const variant = variantsById.get(variantId);
+        if (!variant) {
+          throw new Error(`Missing variant ${variantId} for COA generation.`);
+        }
+
+        const editions = editionsByPrint.get(variant.printId) ?? [];
+        for (let copy = 0; copy < item.quantity; copy += 1) {
+          const editionNumber = editions.shift();
+          if (!editionNumber) {
+            throw new Error(
+              `Missing edition number for order ${orderId}, print ${variant.printId}.`
+            );
+          }
+
+          const certificateKey = `${item.id}:${editionNumber}`;
+          if (existingCertificateKeys.has(certificateKey)) {
+            continue;
+          }
+
+          const { data: certificate, error: insertCertificateError } = await db
+            .from("certificates_of_authenticity")
+            .insert({
+              order_item_id: item.id,
+              edition_number: editionNumber,
+              print_slug: variant.printSlug,
+              format_label: variant.formatLabel,
+              buyer_name: recipientName,
+              coa_status: "pending",
+            })
+            .select("id")
+            .single();
+
+          if (insertCertificateError || !certificate) {
+            throw new Error(
+              `Failed to create COA record: ${insertCertificateError?.message ?? "no data"}`
+            );
+          }
+
+          const pdfBytes = await generateCoaPdf({
+            buyerName: recipientName,
+            editionNumber,
+            motifTitle: variant.printTitle,
+            formatLabel: variant.formatLabel,
+            issuedAt: new Date().toISOString().slice(0, 10),
+          });
+          const pdfStoragePath = await uploadCoaPdf(orderId, certificate.id, pdfBytes);
+
+          const { error: updateCertificateError } = await db
+            .from("certificates_of_authenticity")
+            .update({
+              pdf_storage_path: pdfStoragePath,
+              coa_status: "printed",
+            })
+            .eq("id", certificate.id);
+
+          if (updateCertificateError) {
+            throw new Error(updateCertificateError.message);
+          }
+
+          existingCertificateKeys.add(certificateKey);
+        }
+      }
+    } catch (coaError) {
+      console.error(
+        `[fulfill-order] COA creation failed for order ${orderId}:`,
+        coaError instanceof Error ? coaError.message : coaError
+      );
+    }
 
     return { supplierOrderId: result.supplierOrderId };
   },

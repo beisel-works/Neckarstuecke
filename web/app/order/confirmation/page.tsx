@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getStripe } from "@/lib/stripe";
 import { captureHandledException } from "@/lib/sentry";
+import { getServiceClient } from "@/lib/supabase/service";
 import type Stripe from "stripe";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import FeedbackForm from "@/components/FeedbackForm";
@@ -28,6 +29,11 @@ export function formatCents(cents: number): string {
 type SessionResult =
   | { ok: true; session: Stripe.Checkout.Session }
   | { ok: false; reason: "missing_id" | "invalid_session" | "not_paid" | "stripe_error" };
+
+interface EditionAssignmentRow {
+  edition_number: number;
+  prints: { title?: string } | { title?: string }[] | null;
+}
 
 async function retrieveSession(sessionId: string): Promise<SessionResult> {
   if (!sessionId.trim()) {
@@ -61,6 +67,35 @@ async function retrieveSession(sessionId: string): Promise<SessionResult> {
       },
     });
     return { ok: false, reason: "stripe_error" };
+  }
+}
+
+async function getEditionAssignments(sessionId: string): Promise<EditionAssignmentRow[]> {
+  try {
+    const db = getServiceClient();
+    const { data: order, error: orderError } = await db
+      .from("orders")
+      .select("id")
+      .eq("stripe_session_id", sessionId)
+      .maybeSingle();
+
+    if (orderError || !order) {
+      return [];
+    }
+
+    const { data: assignments, error: assignmentsError } = await db
+      .from("edition_numbers")
+      .select("edition_number, prints(title)")
+      .eq("order_id", order.id)
+      .order("edition_number");
+
+    if (assignmentsError) {
+      return [];
+    }
+
+    return (assignments ?? []) as EditionAssignmentRow[];
+  } catch {
+    return [];
   }
 }
 
@@ -195,6 +230,7 @@ export default async function OrderConfirmationPage({
   const lineItems = session.line_items?.data ?? [];
   const customerEmail = session.customer_details?.email ?? null;
   const totalCents = session.amount_total ?? 0;
+  const editionAssignments = await getEditionAssignments(session.id);
 
   return (
     <div className="flex flex-col">
@@ -354,6 +390,56 @@ export default async function OrderConfirmationPage({
                     {formatCents(totalCents)}
                   </span>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {editionAssignments.length > 0 && (
+            <div>
+              <h2
+                className="mb-6 text-[var(--color-charcoal)]"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "var(--text-h3)",
+                  lineHeight: "var(--leading-h3)",
+                  letterSpacing: "var(--tracking-h3)",
+                }}
+              >
+                Ihre Editionen
+              </h2>
+
+              <div className="flex flex-col divide-y divide-[var(--color-loess)] border border-[var(--color-loess)]">
+                {editionAssignments.map((assignment) => {
+                  const printRecord = Array.isArray(assignment.prints)
+                    ? assignment.prints[0]
+                    : assignment.prints;
+                  return (
+                    <div
+                      key={`${printRecord?.title ?? "print"}-${assignment.edition_number}`}
+                      className="flex items-center justify-between gap-6 px-6 py-4"
+                    >
+                      <span
+                        className="text-[var(--color-charcoal)]"
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "var(--text-body)",
+                          lineHeight: "var(--leading-body)",
+                        }}
+                      >
+                        {printRecord?.title ?? "Motiv"}
+                      </span>
+                      <span
+                        className="text-[var(--color-stone)]"
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "var(--text-caption)",
+                        }}
+                      >
+                        Nr. {assignment.edition_number} von 150
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
