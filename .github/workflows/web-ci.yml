@@ -1,0 +1,273 @@
+name: Web CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: web-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  web-e2e:
+    name: web-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      deployment_environment: ${{ steps.deployment-target.outputs.environment }}
+      deployment_url: ${{ steps.wait-for-deployment.outputs.url }}
+      tests: ${{ steps.junit-summary.outputs.tests }}
+      failures: ${{ steps.junit-summary.outputs.failures }}
+      skipped: ${{ steps.junit-summary.outputs.skipped }}
+    env:
+      CI: true
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Check required Vercel secrets
+        run: |
+          missing=0
+          for key in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Missing required secret: $key"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Install web dependencies
+        working-directory: web
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint web app
+        working-directory: web
+        run: pnpm lint
+
+      - name: Typecheck web app
+        working-directory: web
+        run: pnpm typecheck
+
+      - name: Run unit tests
+        working-directory: web
+        run: pnpm test
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@51.4.0
+
+      - name: Select deployment target
+        id: deployment-target
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "environment=preview" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Wait for Vercel deployment
+        id: wait-for-deployment
+        run: |
+          environment="${{ steps.deployment-target.outputs.environment }}"
+          for attempt in $(seq 1 30); do
+            deployments_json="$(vercel list neckarstuecke-web \
+              --scope "$VERCEL_ORG_ID" \
+              --environment "$environment" \
+              --meta githubCommitSha="$GITHUB_SHA" \
+              --status READY \
+              --format json \
+              --token "$VERCEL_TOKEN")"
+
+            deployment_url="$(node -e '
+              let parsed;
+              try {
+                parsed = JSON.parse(process.argv[1]);
+              } catch {
+                process.stdout.write("");
+                process.exit(0);
+              }
+              const first = Array.isArray(parsed) ? parsed[0] : parsed?.deployments?.[0];
+              process.stdout.write(first?.url ? `https://${first.url}` : "");
+            ' "$deployments_json")"
+
+            if [ -n "$deployment_url" ]; then
+              echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+              echo "Deployment URL: $deployment_url"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for a READY Vercel deployment for $GITHUB_SHA"
+          vercel list neckarstuecke-web \
+            --scope "$VERCEL_ORG_ID" \
+            --environment "$environment" \
+            --meta githubCommitSha="$GITHUB_SHA" \
+            --format json \
+            --token "$VERCEL_TOKEN"
+          exit 1
+
+      - name: Install Playwright browser
+        working-directory: web
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright E2E tests
+        working-directory: web
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.wait-for-deployment.outputs.url }}
+        run: pnpm test:e2e
+
+      - name: Summarize JUnit results
+        id: junit-summary
+        if: always()
+        working-directory: web
+        run: |
+          node <<'EOF' >> "$GITHUB_OUTPUT"
+          const fs = require("node:fs");
+          const xmlPath = "test-results/e2e/junit.xml";
+          const defaults = { tests: "0", failures: "0", skipped: "0" };
+          if (!fs.existsSync(xmlPath)) {
+            for (const [key, value] of Object.entries(defaults)) {
+              console.log(`${key}=${value}`);
+            }
+            process.exit(0);
+          }
+
+          const xml = fs.readFileSync(xmlPath, "utf8");
+          const match =
+            xml.match(/<testsuites[^>]*tests="(\d+)"[^>]*failures="(\d+)"[^>]*skipped="(\d+)"/) ||
+            xml.match(/<testsuite[^>]*tests="(\d+)"[^>]*failures="(\d+)"[^>]*skipped="(\d+)"/);
+
+          const [tests, failures, skipped] = match?.slice(1) ?? ["0", "0", "0"];
+          console.log(`tests=${tests}`);
+          console.log(`failures=${failures}`);
+          console.log(`skipped=${skipped}`);
+          EOF
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-${{ github.run_id }}
+          path: |
+            web/playwright-report
+            web/test-results/e2e
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## web-e2e"
+            echo ""
+            echo "- Target: ${{ steps.deployment-target.outputs.environment }}"
+            if [ -n "${{ steps.wait-for-deployment.outputs.url }}" ]; then
+              echo "- Deployment: ${{ steps.wait-for-deployment.outputs.url }}"
+            else
+              echo "- Deployment: unavailable"
+            fi
+            echo "- Tests: ${{ steps.junit-summary.outputs.tests }}"
+            echo "- Failures: ${{ steps.junit-summary.outputs.failures }}"
+            echo "- Skipped: ${{ steps.junit-summary.outputs.skipped }}"
+            echo "- Artifacts: attached to this workflow run"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  pr-summary:
+    name: PR summary
+    if: github.event_name == 'pull_request' && always()
+    needs:
+      - web-e2e
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Comment on pull request
+        uses: actions/github-script@v7
+        env:
+          DEPLOYMENT_MODE: ${{ needs.web-e2e.outputs.deployment_environment }}
+          DEPLOYMENT_URL: ${{ needs.web-e2e.outputs.deployment_url }}
+          JOB_RESULT: ${{ needs.web-e2e.result }}
+          TESTS: ${{ needs.web-e2e.outputs.tests }}
+          FAILURES: ${{ needs.web-e2e.outputs.failures }}
+          SKIPPED: ${{ needs.web-e2e.outputs.skipped }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const marker = "<!-- web-ci-summary -->";
+            const lines = [
+              marker,
+              "## web-e2e",
+              "",
+              `- Status: ${process.env.JOB_RESULT}`,
+              `- Vercel target: ${process.env.DEPLOYMENT_MODE || "preview"}`,
+              process.env.DEPLOYMENT_URL
+                ? `- Deployment: ${process.env.DEPLOYMENT_URL}`
+                : "- Deployment: unavailable",
+              `- Tests: ${process.env.TESTS || "0"}`,
+              `- Failures: ${process.env.FAILURES || "0"}`,
+              `- Skipped: ${process.env.SKIPPED || "0"}`,
+              `- Workflow run: ${process.env.RUN_URL}`,
+              "- Artifacts: Playwright HTML report, traces, screenshots, and videos are attached to the workflow run.",
+            ];
+
+            if (process.env.JOB_RESULT !== "success") {
+              lines.push("- Inspect the workflow run for the failing step and logs.");
+            }
+
+            const body = lines.join("\n");
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const comment = comments.find((entry) => entry.body?.includes(marker));
+            if (comment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: comment.id,
+                body,
+              });
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body,
+            });

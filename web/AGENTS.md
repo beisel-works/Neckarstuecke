@@ -13,3 +13,5 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `hamster task status` can fail in the sandbox because it attempts re-auth via a local callback server and browser launch. When that happens, reconcile the local `.hamster/.../tasks/*.md` status fields directly.
 - Prodigi webhooks can arrive out of order. Keep order status updates forward-only so a late `in_production` or `failed` event cannot regress an order that is already `shipped` or `delivered`.
 - Current Prodigi v4 callbacks are unsigned CloudEvents. Parse the order from `data`/`data.order`, use `subject` as the order id, and configure sandbox vs live explicitly via `PRODIGI_API_BASE_URL`.
+- The `neckarstuecke-web` Vercel project needs `rootDirectory=web`, `framework=nextjs`, `buildCommand=pnpm build`, `installCommand=pnpm install`, `outputDirectory=.next`, and `nodeVersion=22.x`; patching `/v9/projects/:id` via `vercel api` is the fastest way to fix drift.
+- Vitest will crawl `node_modules` and Playwright files unless `web/vitest.config.ts` narrows `include` to the repo `__tests__` folders and excludes `e2e`, `playwright-report`, and `test-results`.
