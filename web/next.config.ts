@@ -1,8 +1,22 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
+const blobHostname = process.env.NEXT_PUBLIC_PRINT_CDN_BASE
+  ? new URL(process.env.NEXT_PUBLIC_PRINT_CDN_BASE).hostname
+  : null;
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: blobHostname
+    ? {
+        remotePatterns: [
+          {
+            protocol: "https",
+            hostname: blobHostname,
+            pathname: "/**",
+          },
+        ],
+      }
+    : undefined,
 };
 
 export default withSentryConfig(nextConfig, {

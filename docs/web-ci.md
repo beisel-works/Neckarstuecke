@@ -7,6 +7,7 @@ Add these repository secrets before enabling the workflow:
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
+- `BLOB_READ_WRITE_TOKEN`
 - `SUPABASE_ACCESS_TOKEN`
 - `SUPABASE_DB_PASSWORD`
 - `SUPABASE_PROJECT_ID`
@@ -34,13 +35,14 @@ For Supabase:
 - `SUPABASE_ACCESS_TOKEN` comes from `supabase login` / the Supabase dashboard access tokens page.
 - `SUPABASE_PROJECT_ID` is the project ref, for example `cdtotyivzldybjvcxsfx`.
 - `SUPABASE_DB_PASSWORD` is the remote Postgres password for that project.
+- `BLOB_READ_WRITE_TOKEN` comes from the connected Vercel Blob store and lets CI upload deterministic public asset paths.
 
 ## Workflow behavior
 
 - Pull requests wait for the Vercel preview deployment for the current commit, run `pnpm lint`, `pnpm typecheck`, `pnpm test`, then run `pnpm test:e2e` against that deployed URL.
 - For protected previews, the workflow reads the project `protectionBypass` settings from the Vercel API, passes the automation bypass secret into Playwright, and seeds the Vercel bypass cookie before storefront navigation.
 - Pushes to `main` wait for the production deployment for the current commit and run the same validation plus E2E suite against that URL.
-- Pushes to `main` also run `.github/workflows/supabase-release.yml`, which links the remote Supabase project, applies pending migrations with `supabase db push`, and reapplies `supabase/seed.sql`.
+- Pushes to `main` also run `.github/workflows/supabase-release.yml`, which links the remote Supabase project, applies pending migrations with `supabase db push`, reapplies `supabase/seed.sql`, uploads catalog media from `motifs/exports/manifest.json` to Blob, and updates the `prints.image_*_url` fields to those public Blob URLs.
 - Pull requests receive a summary comment with the deployment URL, workflow result, and test counts.
 - Playwright HTML report, traces, screenshots, and videos are uploaded as workflow artifacts.
 
