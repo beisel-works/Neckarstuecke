@@ -66,7 +66,12 @@ export function getStripePriceId(
   format: string
 ): string | undefined {
   const key = normaliseSkuKey(printSlug, sizeLabel, format);
-  return (process.env[`STRIPE_PRICE_${key}`] ?? undefined);
+  const vercelSafeKey = key.replace(/-/g, "_");
+  return (
+    process.env[`STRIPE_PRICE_${vercelSafeKey}`] ??
+    process.env[`STRIPE_PRICE_${key}`] ??
+    undefined
+  );
 }
 
 /**
