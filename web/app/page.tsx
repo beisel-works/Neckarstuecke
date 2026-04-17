@@ -229,11 +229,11 @@ export default async function HomePage() {
               Pigmentbasierter Druck, lichtecht für über 100 Jahre.
             </p>
             <p>
-              Die Motive sind keine Fotografien. Sie sind Illustrationen — im
-              Stil der großen amerikanischen WPA-Poster der 1930er Jahre,
-              übertragen auf Orte, die einen kennen, wenn man das Neckartal
-              kennt: die Minneburg im Herbst, der Dilsberg im Morgenlicht,
-              Guttenberg im späten Licht, Bad Wimpfen über dem Fluss.
+              Die Motive sind keine Fotografien. Sie sind Illustrationen -
+              verdichtete Erinnerungen an Orte, die einen kennen, wenn man das
+              Neckartal kennt: die Minneburg im Herbst, der Dilsberg im
+              Morgenlicht, Guttenberg im späten Licht, Bad Wimpfen ueber dem
+              Fluss.
             </p>
             <p>
               Jede Edition ist nummeriert und signiert. Die Auflage bleibt
