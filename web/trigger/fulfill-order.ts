@@ -22,7 +22,7 @@ import { generateCoaPdf } from "@/lib/coa/generate-pdf";
 import { uploadCoaPdf } from "@/lib/coa/upload-pdf";
 import { getServiceClient } from "@/lib/supabase/service";
 import { getPodAdapter } from "@/lib/pod/prodigi";
-import { resolveProdigiSku } from "@/lib/pod/prodigi";
+import { resolveProdigiProduct } from "@/lib/pod/prodigi";
 import type { FulfilOrderPayload } from "@/types/order";
 import type { PodItem } from "@/lib/pod/index";
 
@@ -109,6 +109,7 @@ export const fulfillOrder = task({
         `Order ${orderId} has an incomplete shipping address: ${JSON.stringify(addr)}`
       );
     }
+    const destinationCountryCode = addr.country;
 
     // 4. Map line items to POD supplier payloads.
     //    Each line item description is the Stripe product name, which the checkout
@@ -154,12 +155,17 @@ export const fulfillOrder = task({
           );
         }
 
-        const sku = resolveProdigiSku(variant.format, variant.size_label);
+        const product = await resolveProdigiProduct(
+          variant.format,
+          variant.size_label,
+          destinationCountryCode
+        );
         const printFileUrl = buildPrintFileUrl(slug);
 
         return {
           merchantReference: `${orderId}-item-${index}`,
-          sku,
+          sku: product.sku,
+          attributes: product.attributes,
           copies: item.quantity,
           printFileUrl,
         };
