@@ -17,6 +17,51 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
   auth: { persistSession: false },
 });
 
+export const MAX_AVAILABLE_PRINTS_PER_COLLECTION = 4;
+
+const COLLECTION_CAPACITY_ERROR =
+  "Diese Kollektion ist bereits voll. Maximal vier verfuegbare Drucke sind erlaubt.";
+
+export async function getCollectionPrintCount(
+  collection: string,
+  options?: {
+    client?: typeof supabase;
+    excludePrintId?: string;
+  }
+): Promise<number> {
+  let query = (options?.client ?? supabase)
+    .from("prints")
+    .select("id", { count: "exact", head: true })
+    .eq("collection", collection)
+    .eq("available", true);
+
+  if (options?.excludePrintId) {
+    query = query.neq("id", options.excludePrintId);
+  }
+
+  const { count, error } = await query;
+
+  if (error) {
+    throw new Error(`Failed to count prints for collection "${collection}": ${error.message}`);
+  }
+
+  return count ?? 0;
+}
+
+export async function assertCollectionCapacity(
+  collection: string,
+  options?: {
+    client?: typeof supabase;
+    excludePrintId?: string;
+  }
+): Promise<void> {
+  const count = await getCollectionPrintCount(collection, options);
+
+  if (count >= MAX_AVAILABLE_PRINTS_PER_COLLECTION) {
+    throw new Error(COLLECTION_CAPACITY_ERROR);
+  }
+}
+
 /** Fetch all available prints with their variants, ordered by collection and title. */
 export async function getAvailablePrints(): Promise<PrintWithVariants[]> {
   const { data: prints, error: printsError } = await supabase

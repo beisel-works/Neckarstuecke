@@ -196,10 +196,13 @@ export default async function KollektionPage() {
 
       {/* ── Catalog grid ──────────────────────────────────────────── */}
       <section
-        className="px-6 py-14 md:px-10 md:py-20"
+        className="px-6 py-16 md:px-10 md:py-24"
         aria-label="Printkollektion"
       >
-        <div className="mx-auto" style={{ maxWidth: "var(--container-content)" }}>
+        <div
+          className="mx-auto"
+          style={{ maxWidth: "calc(var(--container-content) - var(--spacing-8))" }}
+        >
           {prints.length === 0 ? (
             <p
               className="text-center text-[var(--color-stone)]"
@@ -212,12 +215,12 @@ export default async function KollektionPage() {
               Neue Motive erscheinen bald.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 md:gap-x-8 md:gap-y-16">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:gap-x-8 md:gap-y-16">
               {prints.map((print) => (
                 <PrintCard
                   key={print.slug}
                   print={print}
-                  sizes="(max-width: 768px) 50vw, 33vw"
+                  sizes="50vw"
                 />
               ))}
             </div>
