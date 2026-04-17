@@ -18,9 +18,48 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
 });
 
 export const MAX_AVAILABLE_PRINTS_PER_COLLECTION = 4;
+const CURATED_COLLECTION_SLUGS: Record<string, readonly string[]> = {
+  "kollektion-01": ["minneburg", "dilsberg", "guttenberg", "bad-wimpfen"],
+};
 
 const COLLECTION_CAPACITY_ERROR =
   "Diese Kollektion ist bereits voll. Maximal vier verfuegbare Drucke sind erlaubt.";
+
+function isStorefrontPrint(print: Pick<PrintRow, "collection" | "slug">): boolean {
+  const curatedSlugs = CURATED_COLLECTION_SLUGS[print.collection];
+  return !curatedSlugs || curatedSlugs.includes(print.slug);
+}
+
+export function projectStorefrontPrints(prints: PrintRow[]): PrintRow[] {
+  const printsByCollection = new Map<string, PrintRow[]>();
+
+  for (const print of prints) {
+    const collectionPrints = printsByCollection.get(print.collection) ?? [];
+    collectionPrints.push(print);
+    printsByCollection.set(print.collection, collectionPrints);
+  }
+
+  const projected: PrintRow[] = [];
+
+  for (const [collection, collectionPrints] of printsByCollection) {
+    const curatedSlugs = CURATED_COLLECTION_SLUGS[collection];
+
+    if (curatedSlugs) {
+      const printsBySlug = new Map(collectionPrints.map((print) => [print.slug, print]));
+
+      for (const slug of curatedSlugs) {
+        const print = printsBySlug.get(slug);
+        if (print) projected.push(print);
+      }
+
+      continue;
+    }
+
+    projected.push(...collectionPrints.slice(0, MAX_AVAILABLE_PRINTS_PER_COLLECTION));
+  }
+
+  return projected;
+}
 
 export async function getCollectionPrintCount(
   collection: string,
@@ -74,7 +113,8 @@ export async function getAvailablePrints(): Promise<PrintWithVariants[]> {
   if (printsError) throw new Error(`Failed to fetch prints: ${printsError.message}`);
   if (!prints || prints.length === 0) return [];
 
-  const printIds = (prints as PrintRow[]).map((p) => p.id);
+  const storefrontPrints = projectStorefrontPrints(prints as PrintRow[]);
+  const printIds = storefrontPrints.map((p) => p.id);
 
   const { data: variants, error: variantsError } = await supabase
     .from("print_variants")
@@ -92,7 +132,7 @@ export async function getAvailablePrints(): Promise<PrintWithVariants[]> {
     return acc;
   }, {});
 
-  return (prints as PrintRow[]).map((print) => ({
+  return storefrontPrints.map((print) => ({
     ...print,
     variants: variantsByPrintId[print.id] ?? [],
   }));
@@ -112,6 +152,7 @@ export async function getPrintBySlug(slug: string): Promise<PrintWithVariants | 
     throw new Error(`Failed to fetch print "${slug}": ${printError.message}`);
   }
   if (!print) return null;
+  if (!isStorefrontPrint(print as PrintRow)) return null;
 
   const { data: variants, error: variantsError } = await supabase
     .from("print_variants")

@@ -67,44 +67,6 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
   },
   {
     id: "fallback-3",
-    slug: "hirschhorn",
-    title: "Hirschhorn",
-    location: "Hirschhorn am Neckar",
-    collection: "kollektion-01",
-    description:
-      "Goldene Stunde in Hirschhorn - Burg auf dem Sandsteinsporn, Altstadt darunter, der Neckar als stilles Band im Licht.",
-    emotional_narrative:
-      "Das Licht macht Hirschhorn nicht weich. Es zeigt nur für einen Moment, wie selbstverständlich diese Burg über dem Fluss steht.",
-    material_description: "",
-    image_web_preview_url: null,
-    image_thumbnail_url: null,
-    image_mockup_url: null,
-    image_og_url: null,
-    available: true,
-    created_at: "2026-01-01T00:00:00Z",
-    variants: [],
-  },
-  {
-    id: "fallback-4",
-    slug: "heidelberg",
-    title: "Heidelberg",
-    location: "Heidelberg, Alte Brücke und Schloss",
-    collection: "kollektion-01",
-    description:
-      "Heidelberg im warmen Abendlicht - Alte Brücke, Schloss und Dachlandschaft greifen über den Neckar ineinander, ohne ins Postkartenhafte zu kippen.",
-    emotional_narrative:
-      "Nicht das touristische Heidelberg, sondern das, das bleibt, wenn der Tag leiser wird: Stein, Fluss, Hang und eine Stadt mit Gedächtnis.",
-    material_description: "",
-    image_web_preview_url: null,
-    image_thumbnail_url: null,
-    image_mockup_url: null,
-    image_og_url: null,
-    available: true,
-    created_at: "2026-01-01T00:00:00Z",
-    variants: [],
-  },
-  {
-    id: "fallback-5",
     slug: "guttenberg",
     title: "Guttenberg",
     location: "Burg Guttenberg, Neckarmühlbach",
@@ -123,7 +85,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     variants: [],
   },
   {
-    id: "fallback-6",
+    id: "fallback-4",
     slug: "bad-wimpfen",
     title: "Bad Wimpfen",
     location: "Bad Wimpfen am Neckar",

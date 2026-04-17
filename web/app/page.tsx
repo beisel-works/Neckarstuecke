@@ -24,8 +24,6 @@ const hasSupabasePublicConfig = Boolean(
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 );
 
-const FEATURED_SLUGS = ["minneburg", "dilsberg", "hirschhorn", "heidelberg"] as const;
-
 function isFeaturedPrint(
   print: Pick<PrintWithVariants, "slug" | "title" | "location" | "image_thumbnail_url"> | undefined
 ): print is Pick<PrintWithVariants, "slug" | "title" | "location" | "image_thumbnail_url"> {
@@ -39,8 +37,8 @@ const FALLBACK_PRINTS: Pick<
 >[] = [
   { slug: "minneburg", title: "Minneburg", location: "Neckartal bei Neckargerach", image_thumbnail_url: null },
   { slug: "dilsberg", title: "Dilsberg", location: "Dilsberg, Neckargemünd", image_thumbnail_url: null },
-  { slug: "hirschhorn", title: "Hirschhorn", location: "Hirschhorn am Neckar", image_thumbnail_url: null },
-  { slug: "heidelberg", title: "Heidelberg", location: "Heidelberg, Alte Brücke und Schloss", image_thumbnail_url: null },
+  { slug: "guttenberg", title: "Guttenberg", location: "Burg Guttenberg, Neckarmühlbach", image_thumbnail_url: null },
+  { slug: "bad-wimpfen", title: "Bad Wimpfen", location: "Bad Wimpfen am Neckar", image_thumbnail_url: null },
 ];
 
 async function getFeaturedPrints(): Promise<
@@ -48,18 +46,15 @@ async function getFeaturedPrints(): Promise<
 > {
   try {
     const prints = await getAvailablePrints();
-    const printsBySlug = new Map(
-      prints.map((p) => [
-        p.slug,
-        {
-          slug: p.slug,
-          title: p.title,
-          location: p.location,
-          image_thumbnail_url: p.image_thumbnail_url,
-        },
-      ])
-    );
-    return FEATURED_SLUGS.map((slug) => printsBySlug.get(slug)).filter(isFeaturedPrint);
+    return prints
+      .slice(0, 4)
+      .map((print) => ({
+        slug: print.slug,
+        title: print.title,
+        location: print.location,
+        image_thumbnail_url: print.image_thumbnail_url,
+      }))
+      .filter(isFeaturedPrint);
   } catch {
     if (hasSupabasePublicConfig) {
       throw new Error("Failed to load featured prints from Supabase.");
@@ -238,8 +233,7 @@ export default async function HomePage() {
               Stil der großen amerikanischen WPA-Poster der 1930er Jahre,
               übertragen auf Orte, die einen kennen, wenn man das Neckartal
               kennt: die Minneburg im Herbst, der Dilsberg im Morgenlicht,
-              Hirschhorn im goldenen Stundenlicht, Heidelberg abseits der
-              Postkarte.
+              Guttenberg im späten Licht, Bad Wimpfen über dem Fluss.
             </p>
             <p>
               Jede Edition ist nummeriert und signiert. Die Auflage bleibt

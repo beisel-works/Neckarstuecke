@@ -74,14 +74,14 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
   },
   {
     id: "fallback-3",
-    slug: "hirschhorn",
-    title: "Hirschhorn",
-    location: "Hirschhorn am Neckar",
+    slug: "guttenberg",
+    title: "Guttenberg",
+    location: "Burg Guttenberg, Neckarmühlbach",
     collection: "kollektion-01",
     description:
-      "Goldene Stunde in Hirschhorn — Burg auf dem Ochre-Felsen, Spiegelung im Neckar, warmes Licht.",
+      "Burg Guttenberg über Neckarmühlbach - die erhaltene Höhenburg sitzt fest im Hang, gerahmt von dunklem Wald und spätem Licht.",
     emotional_narrative:
-      "Das Licht trifft den Sandstein genau eine Stunde am Tag so. Dieses Bild ist diese Stunde.",
+      "Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.",
     material_description:
       "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
@@ -101,60 +101,6 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
   },
   {
     id: "fallback-4",
-    slug: "heidelberg",
-    title: "Heidelberg",
-    location: "Heidelberg, Alte Brücke und Schloss",
-    collection: "kollektion-01",
-    description:
-      "Heidelberg im warmen Abendlicht - Alte Brücke, Schloss und Dachlandschaft greifen über den Neckar ineinander, ohne ins Postkartenhafte zu kippen.",
-    emotional_narrative:
-      "Nicht das touristische Heidelberg, sondern das, das bleibt, wenn der Tag leiser wird: Stein, Fluss, Hang und eine Stadt mit Gedächtnis.",
-    material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
-    image_web_preview_url: null,
-    image_thumbnail_url: null,
-    image_mockup_url: null,
-    image_og_url: null,
-    available: true,
-    created_at: "2026-01-01T00:00:00Z",
-    variants: [
-      { id: "v4a", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
-      { id: "v4b", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
-      { id: "v4c", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
-      { id: "v4d", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
-      { id: "v4e", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
-      { id: "v4f", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
-    ],
-  },
-  {
-    id: "fallback-5",
-    slug: "guttenberg",
-    title: "Guttenberg",
-    location: "Burg Guttenberg, Neckarmühlbach",
-    collection: "kollektion-01",
-    description:
-      "Burg Guttenberg über Neckarmühlbach - die erhaltene Höhenburg sitzt fest im Hang, gerahmt von dunklem Wald und spätem Licht.",
-    emotional_narrative:
-      "Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.",
-    material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
-    image_web_preview_url: null,
-    image_thumbnail_url: null,
-    image_mockup_url: null,
-    image_og_url: null,
-    available: true,
-    created_at: "2026-01-01T00:00:00Z",
-    variants: [
-      { id: "v5a", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
-      { id: "v5b", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
-      { id: "v5c", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
-      { id: "v5d", print_id: "fallback-5", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
-      { id: "v5e", print_id: "fallback-5", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
-      { id: "v5f", print_id: "fallback-5", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
-    ],
-  },
-  {
-    id: "fallback-6",
     slug: "bad-wimpfen",
     title: "Bad Wimpfen",
     location: "Bad Wimpfen am Neckar",
@@ -172,12 +118,12 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     available: true,
     created_at: "2026-01-01T00:00:00Z",
     variants: [
-      { id: "v6a", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
-      { id: "v6b", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
-      { id: "v6c", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
-      { id: "v6d", print_id: "fallback-6", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
-      { id: "v6e", print_id: "fallback-6", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
-      { id: "v6f", print_id: "fallback-6", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
+      { id: "v4a", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "print", price_cents: 9900, in_stock: true, available_on_request: false },
+      { id: "v4b", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "print", price_cents: 16900, in_stock: true, available_on_request: false },
+      { id: "v4c", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "print", price_cents: 27900, in_stock: true, available_on_request: false },
+      { id: "v4d", print_id: "fallback-4", size_label: "30×40 cm", width_mm: 300, height_mm: 400, format: "framed", price_cents: 19900, in_stock: true, available_on_request: false },
+      { id: "v4e", print_id: "fallback-4", size_label: "50×70 cm", width_mm: 500, height_mm: 700, format: "framed", price_cents: 34900, in_stock: true, available_on_request: false },
+      { id: "v4f", print_id: "fallback-4", size_label: "70×100 cm", width_mm: 700, height_mm: 1000, format: "framed", price_cents: 53900, in_stock: false, available_on_request: true },
     ],
   },
 ];

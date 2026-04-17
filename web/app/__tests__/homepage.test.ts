@@ -13,8 +13,8 @@ type FeaturedPrint = Pick<
 const FALLBACK_PRINTS: FeaturedPrint[] = [
   { slug: "minneburg", title: "Minneburg", location: "Neckartal bei Neckargerach", image_thumbnail_url: null },
   { slug: "dilsberg", title: "Dilsberg", location: "Dilsberg, Neckargemünd", image_thumbnail_url: null },
-  { slug: "hirschhorn", title: "Hirschhorn", location: "Hirschhorn am Neckar", image_thumbnail_url: null },
-  { slug: "heidelberg", title: "Heidelberg", location: "Heidelberg, Alte Brücke und Schloss", image_thumbnail_url: null },
+  { slug: "guttenberg", title: "Guttenberg", location: "Burg Guttenberg, Neckarmühlbach", image_thumbnail_url: null },
+  { slug: "bad-wimpfen", title: "Bad Wimpfen", location: "Bad Wimpfen am Neckar", image_thumbnail_url: null },
 ];
 
 describe("Homepage fallback prints", () => {
@@ -48,7 +48,7 @@ describe("Homepage fallback prints", () => {
   it("fallback slugs match expected Collection 01 motifs", () => {
     const slugs = FALLBACK_PRINTS.map((p) => p.slug);
     expect(slugs).toEqual(
-      expect.arrayContaining(["minneburg", "dilsberg", "hirschhorn", "heidelberg"])
+      expect.arrayContaining(["minneburg", "dilsberg", "guttenberg", "bad-wimpfen"])
     );
   });
 
@@ -62,21 +62,12 @@ describe("Homepage fallback prints", () => {
 // ── Featured-print projection logic ────────────────────────────────────────
 
 function projectFeaturedPrints(prints: PrintWithVariants[]): FeaturedPrint[] {
-  const featuredSlugs = ["minneburg", "dilsberg", "hirschhorn", "heidelberg"];
-  const printsBySlug = new Map(
-    prints.map((p) => [
-      p.slug,
-      {
-        slug: p.slug,
-        title: p.title,
-        location: p.location,
-        image_thumbnail_url: p.image_thumbnail_url,
-      },
-    ])
-  );
-  return featuredSlugs
-    .map((slug) => printsBySlug.get(slug))
-    .filter((print): print is FeaturedPrint => Boolean(print));
+  return prints.slice(0, 4).map((print) => ({
+    slug: print.slug,
+    title: print.title,
+    location: print.location,
+    image_thumbnail_url: print.image_thumbnail_url,
+  }));
 }
 
 const makePrint = (overrides: Partial<PrintWithVariants> = {}): PrintWithVariants => ({
@@ -101,18 +92,18 @@ const makePrint = (overrides: Partial<PrintWithVariants> = {}): PrintWithVariant
 describe("projectFeaturedPrints", () => {
   it("returns the curated featured set when those motifs are available", () => {
     const input = [
-      makePrint({ id: "1", slug: "bad-wimpfen" }),
+      makePrint({ id: "1", slug: "minneburg" }),
       makePrint({ id: "2", slug: "dilsberg" }),
       makePrint({ id: "3", slug: "guttenberg" }),
-      makePrint({ id: "4", slug: "heidelberg" }),
-      makePrint({ id: "5", slug: "hirschhorn" }),
-      makePrint({ id: "6", slug: "minneburg" }),
+      makePrint({ id: "4", slug: "bad-wimpfen" }),
+      makePrint({ id: "5", slug: "heidelberg" }),
+      makePrint({ id: "6", slug: "hirschhorn" }),
     ];
     expect(projectFeaturedPrints(input).map((print) => print.slug)).toEqual([
       "minneburg",
       "dilsberg",
-      "hirschhorn",
-      "heidelberg",
+      "guttenberg",
+      "bad-wimpfen",
     ]);
   });
 
