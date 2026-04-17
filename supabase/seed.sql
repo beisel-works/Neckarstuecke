@@ -7,21 +7,31 @@ do $$
 declare
   id_minneburg   uuid := 'a1000001-0000-0000-0000-000000000001';
   id_dilsberg    uuid := 'a1000001-0000-0000-0000-000000000002';
-  id_hirschhorn  uuid := 'a1000001-0000-0000-0000-000000000003';
-  id_heidelberg  uuid := 'a1000001-0000-0000-0000-000000000004';
   id_guttenberg  uuid := 'a1000001-0000-0000-0000-000000000005';
   id_bad_wimpfen uuid := 'a1000001-0000-0000-0000-000000000006';
 begin
 
   delete from prints
-  where id in (id_hirschhorn, id_heidelberg);
+  where collection = 'kollektion-01'
+    and slug not in ('minneburg', 'dilsberg', 'guttenberg', 'bad-wimpfen');
 
-  insert into prints (
-    id, slug, title, location, collection,
-    description, emotional_narrative, material_description, available
-  )
-  values
-    (
+  update prints
+  set
+    title = 'Minneburg',
+    location = 'Neckartal bei Neckargerach',
+    collection = 'kollektion-01',
+    description = 'Abendlicht ueber dem Talweg unterhalb der Minneburg - die offene Mauer und der Bergfried stehen warm gegen einen weiten Himmel.',
+    emotional_narrative = 'Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.',
+    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    available = true
+  where slug = 'minneburg';
+
+  if not found then
+    insert into prints (
+      id, slug, title, location, collection,
+      description, emotional_narrative, material_description, available
+    )
+    values (
       id_minneburg,
       'minneburg',
       'Minneburg',
@@ -31,8 +41,30 @@ begin
       'Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.',
       'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
-    ),
-    (
+    );
+  end if;
+
+  select id into id_minneburg
+  from prints
+  where slug = 'minneburg';
+
+  update prints
+  set
+    title = 'Dilsberg',
+    location = 'Dilsberg, Neckargemuend',
+    collection = 'kollektion-01',
+    description = 'Der befestigte Bergkegel von Dilsberg erhebt sich geschlossen ueber dem Neckar - Mauern, Daecher und Herbstkronen in einer ruhigen Abendordnung.',
+    emotional_narrative = 'Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.',
+    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    available = true
+  where slug = 'dilsberg';
+
+  if not found then
+    insert into prints (
+      id, slug, title, location, collection,
+      description, emotional_narrative, material_description, available
+    )
+    values (
       id_dilsberg,
       'dilsberg',
       'Dilsberg',
@@ -42,8 +74,30 @@ begin
       'Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.',
       'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
-    ),
-    (
+    );
+  end if;
+
+  select id into id_dilsberg
+  from prints
+  where slug = 'dilsberg';
+
+  update prints
+  set
+    title = 'Guttenberg',
+    location = 'Burg Guttenberg, Neckarmuehlbach',
+    collection = 'kollektion-01',
+    description = 'Burg Guttenberg ueber Neckarmuehlbach - die erhaltene Hoehenburg sitzt fest im Hang, gerahmt von dunklem Wald und spaetem Licht.',
+    emotional_narrative = 'Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.',
+    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    available = true
+  where slug = 'guttenberg';
+
+  if not found then
+    insert into prints (
+      id, slug, title, location, collection,
+      description, emotional_narrative, material_description, available
+    )
+    values (
       id_guttenberg,
       'guttenberg',
       'Guttenberg',
@@ -53,8 +107,30 @@ begin
       'Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.',
       'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
-    ),
-    (
+    );
+  end if;
+
+  select id into id_guttenberg
+  from prints
+  where slug = 'guttenberg';
+
+  update prints
+  set
+    title = 'Bad Wimpfen',
+    location = 'Bad Wimpfen am Neckar',
+    collection = 'kollektion-01',
+    description = 'Bad Wimpfen oberhalb des Neckars - die Silhouette von Stiftskirche, Kaiserpfalz und Altstadtdaechern liegt ruhig im warmen Abendton.',
+    emotional_narrative = 'Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Tuerme, Mauern und Gassen zusammen eine Haltung ergeben.',
+    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    available = true
+  where slug = 'bad-wimpfen';
+
+  if not found then
+    insert into prints (
+      id, slug, title, location, collection,
+      description, emotional_narrative, material_description, available
+    )
+    values (
       id_bad_wimpfen,
       'bad-wimpfen',
       'Bad Wimpfen',
@@ -64,17 +140,12 @@ begin
       'Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Tuerme, Mauern und Gassen zusammen eine Haltung ergeben.',
       'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
-    )
-  on conflict (id) do update
-  set
-    slug = excluded.slug,
-    title = excluded.title,
-    location = excluded.location,
-    collection = excluded.collection,
-    description = excluded.description,
-    emotional_narrative = excluded.emotional_narrative,
-    material_description = excluded.material_description,
-    available = excluded.available;
+    );
+  end if;
+
+  select id into id_bad_wimpfen
+  from prints
+  where slug = 'bad-wimpfen';
 
   insert into print_variants (
     print_id,
