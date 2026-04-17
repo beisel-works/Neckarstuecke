@@ -2,6 +2,10 @@
 
 Dieses Verzeichnis nimmt die druckfertigen Produktionsdateien auf.
 
+Die 300-dpi-TIFFs bleiben absichtlich lokal und werden nicht mehr in Git
+versioniert. Vercel braucht sie nicht fuer den Build, und Git LFS blockiert
+sonst Preview-Deployments fuer das gesamte Repository.
+
 ## Erwartete Dateien
 
 ```
@@ -40,5 +44,6 @@ Siehe `../export-guide.md` fuer die Spezifikation und `../preflight-report.md` f
 - **Format:** PDF + TIFF unkomprimiert, zusaetzlich Source-Master-PDF aus der aktiven SVG- oder PNG-Quelle
 - **Farbraum:** sRGB IEC 61966-2.1 eingebettet
 - **Status:** Generiert — siehe `../manifest.json`
+- **Git:** PDFs und Metadaten koennen versioniert werden, TIFFs bleiben lokale Exportartefakte
 
 > Pre-Flight-Ergebnisse stehen in `../preflight-report.md`.
