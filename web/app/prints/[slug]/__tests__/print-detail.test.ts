@@ -149,8 +149,6 @@ describe("generateStaticParams contract", () => {
     const params: { slug: string }[] = [
       { slug: "minneburg" },
       { slug: "dilsberg" },
-      { slug: "hirschhorn" },
-      { slug: "heidelberg" },
       { slug: "guttenberg" },
       { slug: "bad-wimpfen" },
     ];
