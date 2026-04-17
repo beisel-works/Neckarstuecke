@@ -1,15 +1,9 @@
-import { unauthorized } from "next/navigation";
-import { headers } from "next/headers";
 import CoaAdminTable from "@/components/CoaAdminTable";
 import { getOpenCoaTasks } from "@/lib/coa/admin";
-import { isCoaAdminAuthorized } from "@/lib/admin-auth";
+
+export const dynamic = "force-dynamic";
 
 export default async function CoaAdminPage() {
-  const requestHeaders = await headers();
-  if (!isCoaAdminAuthorized(requestHeaders.get("authorization"))) {
-    unauthorized();
-  }
-
   const rows = await getOpenCoaTasks();
 
   return (

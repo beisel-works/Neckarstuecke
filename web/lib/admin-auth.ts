@@ -7,7 +7,7 @@ function decodeBasicAuth(headerValue: string | null): {
   }
 
   try {
-    const decoded = Buffer.from(headerValue.slice(6), "base64").toString("utf8");
+    const decoded = atob(headerValue.slice(6));
     const separator = decoded.indexOf(":");
     if (separator < 0) {
       return null;
