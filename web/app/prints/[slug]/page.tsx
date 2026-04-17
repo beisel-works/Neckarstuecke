@@ -195,10 +195,6 @@ export async function generateMetadata({
 
 const QUALITY_CALLOUTS = [
   { label: "Ungerahmte Prints", detail: "Hahnemühle German Etching 310\u202fg/m²" },
-  {
-    label: "Gerahmte Editionen",
-    detail: "HGE wenn freigegeben, sonst Fine-Art-Rahmenpapier",
-  },
   { label: "Archivtinte", detail: "Lichtecht 100+ Jahre" },
   { label: "Auf Bestellung", detail: "Signiert & nummeriert" },
 ] as const;
