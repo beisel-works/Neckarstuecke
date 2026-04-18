@@ -53,7 +53,7 @@ The Neckarstücke voice is built on four attributes. Each one pushes against a t
 |----|-------|
 | "Die Ruine der Minneburg thront 280 Meter über dem Neckar." | "Eine beeindruckende Burgruine mit toller Aussicht." |
 | "Hirschhorn — dort, wo der Fluss eine Kurve macht und die Zeit langsamer wird." | "Entdecken Sie die schönen Orte des Neckar-Odenwald-Kreises." |
-| "Fine Art Druck auf 310g Hahnemühle Photo Rag." | "Premium-Qualität auf hochwertigem Papier." |
+| "Fine Art Druck auf Hahnemühle German Etching 310 g/m² (Giclée)." | "Premium-Qualität auf hochwertigem Papier." |
 
 ---
 
@@ -105,7 +105,7 @@ The Neckarstücke voice is built on four attributes. Each one pushes against a t
 | **Ort** | Refers to the depicted location. Not "Sehenswürdigkeit" (tourist sight) or "Destination". |
 | **Zuhause** | The emotional connection to the region. Preferred over "Heimat" in most contexts (less loaded). |
 | **Auflage** | Framing of edition/exclusivity. "Kleine Auflage" conveys scarcity with dignity. |
-| **Fine Art Papier / Hahnemühle** | Specific paper references signal genuine craft knowledge. |
+| **Hahnemühle German Etching 310 g/m² (Giclée)** | Specific paper references signal genuine craft knowledge. |
 | **Druck auf Bestellung** | "Printed to order" — a value statement, not a logistical disclaimer. |
 
 ### Terms to avoid
@@ -124,7 +124,7 @@ The Neckarstücke voice is built on four attributes. Each one pushes against a t
 ### Framing principles
 
 - **The region, not the tourism board.** Write about places the way a local writes in a letter — not as a press release.
-- **Quality through specificity, not adjectives.** "310g Hahnemühle Photo Rag, archival inks" says more than "hochwertige Materialien."
+- **Quality through specificity, not adjectives.** "Hahnemühle German Etching 310 g/m² (Giclée), archival inks" says more than "hochwertige Materialien."
 - **"Ort" beats "Sehenswürdigkeit."** A place is lived in and remembered. A sight is visited and photographed.
 - **Emotional truth, not emotional manipulation.** Acknowledge that these places matter — but don't manufacture the feeling.
 - **The print is an object, not a print-out.** It has weight, texture, presence. Language should reflect that.
@@ -158,7 +158,7 @@ These examples demonstrate the voice across different contexts. They are models,
 ---
 
 **Quality statement:**
-> Jeder Druck entsteht auf Bestellung, auf Fine Art Papier, mit archivfesten Tinten. Kein Lager, kein Kompromiss.
+> Jeder Druck entsteht auf Bestellung, auf Hahnemühle German Etching 310 g/m² (Giclée), mit archivfesten Tinten. Kein Lager, kein Kompromiss.
 
 ---
 

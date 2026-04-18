@@ -22,7 +22,7 @@ begin
     collection = 'kollektion-01',
     description = 'Abendlicht ueber dem Talweg unterhalb der Minneburg - die offene Mauer und der Bergfried stehen warm gegen einen weiten Himmel.',
     emotional_narrative = 'Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.',
-    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    material_description = 'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
     available = true
   where slug = 'minneburg';
 
@@ -39,7 +39,7 @@ begin
       'kollektion-01',
       'Abendlicht ueber dem Talweg unterhalb der Minneburg - die offene Mauer und der Bergfried stehen warm gegen einen weiten Himmel.',
       'Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+      'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
     );
   end if;
@@ -55,7 +55,7 @@ begin
     collection = 'kollektion-01',
     description = 'Der befestigte Bergkegel von Dilsberg erhebt sich geschlossen ueber dem Neckar - Mauern, Daecher und Herbstkronen in einer ruhigen Abendordnung.',
     emotional_narrative = 'Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.',
-    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    material_description = 'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
     available = true
   where slug = 'dilsberg';
 
@@ -72,7 +72,7 @@ begin
       'kollektion-01',
       'Der befestigte Bergkegel von Dilsberg erhebt sich geschlossen ueber dem Neckar - Mauern, Daecher und Herbstkronen in einer ruhigen Abendordnung.',
       'Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+      'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
     );
   end if;
@@ -88,7 +88,7 @@ begin
     collection = 'kollektion-01',
     description = 'Burg Guttenberg ueber Neckarmuehlbach - die erhaltene Hoehenburg sitzt fest im Hang, gerahmt von dunklem Wald und spaetem Licht.',
     emotional_narrative = 'Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.',
-    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    material_description = 'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
     available = true
   where slug = 'guttenberg';
 
@@ -105,7 +105,7 @@ begin
       'kollektion-01',
       'Burg Guttenberg ueber Neckarmuehlbach - die erhaltene Hoehenburg sitzt fest im Hang, gerahmt von dunklem Wald und spaetem Licht.',
       'Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+      'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
     );
   end if;
@@ -121,7 +121,7 @@ begin
     collection = 'kollektion-01',
     description = 'Bad Wimpfen oberhalb des Neckars - die Silhouette von Stiftskirche, Kaiserpfalz und Altstadtdaechern liegt ruhig im warmen Abendton.',
     emotional_narrative = 'Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Tuerme, Mauern und Gassen zusammen eine Haltung ergeben.',
-    material_description = 'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+    material_description = 'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
     available = true
   where slug = 'bad-wimpfen';
 
@@ -138,7 +138,7 @@ begin
       'kollektion-01',
       'Bad Wimpfen oberhalb des Neckars - die Silhouette von Stiftskirche, Kaiserpfalz und Altstadtdaechern liegt ruhig im warmen Abendton.',
       'Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Tuerme, Mauern und Gassen zusammen eine Haltung ergeben.',
-      'Pigmentdruck auf 310 g/m² Hahnemuehle Photo Rag. Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
+      'Pigmentdruck auf Hahnemuehle German Etching 310 g/m² (Giclée). Lichtecht fuer 100 Jahre. Signiert und nummeriert.',
       true
     );
   end if;

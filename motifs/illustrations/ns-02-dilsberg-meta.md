@@ -47,6 +47,6 @@ Dilsberg reads here as a complete settlement held at a distance: walls, roofs, a
 
 ## Empfehlungen
 
-- **Papier:** Hahnemühle Photo Rag 308 g/m² (warmes Weiß harmoniert mit Loess-Tönen)
+- **Papier:** Hahnemühle German Etching 310 g/m² (Giclée) (warme Textur harmoniert mit Loess-Tönen)
 - **Rahmung:** Eiche natur oder helles Holz — das hellste Motiv der Kollektion; warmer Rahmen verstärkt die Frühsommerstimmung
 - **Hinweis:** Als einziges Motiv mit hellem Text auf hellem Grund — bei kleiner Druckgröße auf Schriftkontrast achten

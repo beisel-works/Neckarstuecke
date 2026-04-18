@@ -136,10 +136,10 @@ export default function UeberUnsPage() {
                 lineHeight: "var(--leading-body)",
               }}
             >
-              Die Drucke entstehen auf Hahnemühle Fine Art Papier, einem der
-              hochwertigsten Träger für Kunstdrucke. Jedes Exemplar ist signiert
-              und nummeriert. Die Auflage ist begrenzt — was einmal vergriffen ist,
-              bleibt vergriffen.
+              Die Drucke entstehen auf Hahnemühle German Etching 310 g/m² (Giclée),
+              einem der hochwertigsten Träger für Kunstdrucke. Jedes Exemplar ist
+              signiert und nummeriert. Die Auflage ist begrenzt — was einmal
+              vergriffen ist, bleibt vergriffen.
             </p>
           </div>
 

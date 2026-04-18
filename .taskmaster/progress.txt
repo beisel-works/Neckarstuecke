@@ -247,7 +247,7 @@
 
 ## Iteration 20 — BEI-9: POD supplier selection and API integration spec
 - Created `docs/pod-supplier-decision.md` — supplier evaluation matrix + decision record
-- Selected Prodigi: only candidate with explicit Hahnemühle FineArt paper SKUs (brand requirement), EU lab network (Netherlands → Germany 3–5 days), sandbox API
+- Selected Prodigi: only candidate with explicit Hahnemühle German Etching paper SKUs (brand requirement), EU lab network (Netherlands → Germany 3–5 days), sandbox API
 - Documented full Prodigi v4.0 API spec: base URL, X-API-Key auth, POST /orders payload schema, error codes, webhook events (order.status.changed, shipment.complete), SKU map for all 5 variants
 - Added PRODIGI_API_KEY and PRODIGI_WEBHOOK_SECRET to web/.env.example
 - Defined adapter architecture: trigger/fulfill-order.ts → lib/pod/index.ts → lib/pod/prodigi.ts (swappable to Gelato with one file change)
