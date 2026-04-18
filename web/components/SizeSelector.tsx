@@ -227,7 +227,9 @@ export default function SizeSelector({
       >
         {selected?.available_on_request
           ? "Gerahmte 70×100-cm-Prints kalkulieren wir individuell nach Lieferland und Versandrisiko."
-          : "Auf Bestellung gedruckt — Lieferzeit ca. 5–8 Werktage."}
+          : selected?.format === "framed"
+            ? "Klassisch gerahmt. Wenn Hahnemuehle German Etching fuer das Format verfuegbar ist, verwenden wir es; andernfalls das verfuegbare Fine-Art-Papier des Rahmenlabors."
+            : "Auf Bestellung gedruckt — Lieferzeit ca. 5–8 Werktage."}
       </p>
     </div>
   );

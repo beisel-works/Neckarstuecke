@@ -17,11 +17,15 @@ export interface PodAddress {
 }
 
 /** A single print item in the POD order. */
+export type PodItemAttributes = Record<string, string>;
+
 export interface PodItem {
   /** Unique reference for this line item (used for idempotency tracking). */
   merchantReference: string;
-  /** Supplier product SKU (e.g. "GLOBAL-HAHNEM-PHOTO-RAG-FT-30X40"). */
+  /** Supplier product SKU (e.g. "GLOBAL-HGE-12X16"). */
   sku: string;
+  /** Supplier-specific attributes, e.g. paper type or frame colour. */
+  attributes?: PodItemAttributes;
   /** Number of copies to produce. */
   copies: number;
   /** Publicly accessible URL of the print-ready file (PDF/X-4 or high-res JPG). */

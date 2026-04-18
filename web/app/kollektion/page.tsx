@@ -9,7 +9,7 @@ export const revalidate = 60; // ISR — revalidate catalog every 60 seconds
 export const metadata: Metadata = {
   title: "Alle Prints – Neckarstücke",
   description:
-    "Die vollständige Kollektion Neckarstücke — Feinkunstdrucke aus dem Neckartal. Limitierte Editionen auf Hahnemühle Fine Art Papier, signiert und nummeriert.",
+    "Die vollständige Kollektion Neckarstücke — Feinkunstdrucke aus dem Neckartal. Limitierte Editionen auf Hahnemühle German Etching 310 g/m² (Giclée), signiert und nummeriert.",
   openGraph: {
     title: "Alle Prints – Neckarstücke",
     description:

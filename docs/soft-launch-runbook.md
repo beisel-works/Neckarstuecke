@@ -83,7 +83,7 @@ Client-visible:
 ## Known Blockers
 
 - Confirmation email is part of the acceptance text for `BEI-28`, but there is no confirmation-email sender in the repository today. Treat that item as blocked until email delivery is implemented or the task text is corrected.
-- `BEI-9` is not fully closed until a real Prodigi account is configured and the SKU map is verified against the live catalogue.
+- `BEI-9` loose-print SKUs are verified, and framed `30×40` / `50×70` can now be fulfilled through `GLOBAL-CFP*` with HGE-first, EMA-fallback paper selection based on the live Quote endpoint. `70×100` framed remains inquiry-only.
 - `BEI-10` is not fully closed until Sentry and the trace backend are verified from production traffic.
 - `BEI-5` is not fully closed until one real order completes end to end.
 - `BEI-6` is not fully closed until at least one non-test conversion or one real feedback submission is recorded after launch.

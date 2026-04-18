@@ -49,7 +49,7 @@ Heidelberg in warm evening light - the Old Bridge, castle, and roofs lock togeth
 
 ## Empfehlungen
 
-- **Papier:** Hahnemühle Photo Rag 308 g/m² (kaltes Weiß für Blaue-Stunde-Stimmung)
+- **Papier:** Hahnemühle German Etching 310 g/m² (Giclée) (markante Textur für Blaue-Stunde-Stimmung)
 - **Rahmung:** Schwarz oder dunkelgrau (Stahl, matt) — das kühlste und zurückgenommenste Motiv; kein warmes Holz
 - **Hinweis:** Titelwahl bewusst "Heidelberg" ohne Zusatz — kein "Heidelberger Schloss", kein "Altstadt". Der Name reicht.
 - **Positionierung im Sortiment:** Dieses Motiv wird für Heidelberg-Käufer:innen das interessanteste sein — aber nur für diejenigen, die das Standardbild schon besitzen. Nicht als Einstiegsmotiv empfehlen.

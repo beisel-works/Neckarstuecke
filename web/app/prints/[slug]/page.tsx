@@ -29,7 +29,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     emotional_narrative:
       "Die Minneburg wirkt hier nicht wie ein Relikt, sondern wie ein Zeichen. Sie steht noch da, lange nachdem alles andere leiser geworden ist.",
     material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+      "Pigmentdruck auf Hahnemühle German Etching 310\u202fg/m² (Giclée). Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
     image_mockup_url: null,
@@ -56,7 +56,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     emotional_narrative:
       "Dilsberg ist kein einzelnes Bauwerk, sondern ein ganzer Ort auf Abstand. Von unten wirkt er wie eine Insel, die sich selbst genug ist.",
     material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+      "Pigmentdruck auf Hahnemühle German Etching 310\u202fg/m² (Giclée). Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
     image_mockup_url: null,
@@ -83,7 +83,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     emotional_narrative:
       "Guttenberg braucht keinen dramatischen Auftritt. Gerade weil sie erhalten geblieben ist, wirkt sie wie etwas, das nie um Aufmerksamkeit bitten musste.",
     material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+      "Pigmentdruck auf Hahnemühle German Etching 310\u202fg/m² (Giclée). Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
     image_mockup_url: null,
@@ -110,7 +110,7 @@ const FALLBACK_PRINTS: PrintWithVariants[] = [
     emotional_narrative:
       "Bad Wimpfen ist kein einzelnes Monument. Der Ort lebt davon, dass Türme, Mauern und Gassen zusammen eine Haltung ergeben.",
     material_description:
-      "Pigmentdruck auf 310\u202fg/m² Hahnemühle Photo Rag. Lichtecht für 100 Jahre. Signiert und nummeriert.",
+      "Pigmentdruck auf Hahnemühle German Etching 310\u202fg/m² (Giclée). Lichtecht für 100 Jahre. Signiert und nummeriert.",
     image_web_preview_url: null,
     image_thumbnail_url: null,
     image_mockup_url: null,
@@ -194,7 +194,7 @@ export async function generateMetadata({
 // ── Quality callouts ─────────────────────────────────────────────────────────
 
 const QUALITY_CALLOUTS = [
-  { label: "Hahnemühle Fine Art", detail: "310\u202fg/m² Photo Rag" },
+  { label: "Ungerahmte Prints", detail: "Hahnemühle German Etching 310\u202fg/m²" },
   { label: "Archivtinte", detail: "Lichtecht 100+ Jahre" },
   { label: "Auf Bestellung", detail: "Signiert & nummeriert" },
 ] as const;
@@ -390,6 +390,20 @@ export default async function PrintDetailPage({
                   }}
                 >
                   {print.material_description}
+                </p>
+                <p
+                  className="mt-4 text-[var(--color-stone)]"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--text-caption)",
+                    lineHeight: "var(--leading-body)",
+                  }}
+                >
+                  Gerahmte Editionen fertigen wir als klassische Rahmenarbeit.
+                  Wenn das Labor fuer das gewaehlte Format Hahnemuehle German
+                  Etching freigibt, verwenden wir dieses Papier. Andernfalls
+                  erfuellen wir den Rahmen auf dem verfuegbaren Fine-Art-Papier
+                  des Rahmenlabors.
                 </p>
               </div>
             </div>

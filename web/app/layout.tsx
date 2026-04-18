@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s — Neckarstücke",
   },
   description:
-    "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle Fine Art Papier.",
+    "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle German Etching 310 g/m² (Giclée).",
   openGraph: {
     siteName: "Neckarstücke",
     locale: "de_DE",

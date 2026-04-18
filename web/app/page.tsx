@@ -8,11 +8,11 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 export const metadata: Metadata = {
   title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
   description:
-    "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle Fine Art Papier. Signiert und nummeriert.",
+    "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle German Etching 310 g/m² (Giclée). Signiert und nummeriert.",
   openGraph: {
     title: "Neckarstücke — Kunstdrucke aus dem Neckartal",
     description:
-      "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle Fine Art Papier.",
+      "Feinkunstdrucke für Menschen, die das Neckartal kennen. Limitierte Editionen, gedruckt auf Hahnemühle German Etching 310 g/m² (Giclée).",
     type: "website",
     locale: "de_DE",
   },
@@ -224,16 +224,16 @@ export default async function HomePage() {
           >
             <p>
               Jeder Druck in der Kollektion entsteht auf Bestellung — auf{" "}
-              <strong>310 g/m² Hahnemühle Photo Rag</strong>, einem der
-              angesehensten Fine-Art-Papiere der Welt. Pigmentbasierter Druck,
-              lichtecht für über 100 Jahre.
+              <strong>Hahnemühle German Etching 310 g/m² (Giclée)</strong>,
+              einem der angesehensten Fine-Art-Papiere der Welt.
+              Pigmentbasierter Druck, lichtecht für über 100 Jahre.
             </p>
             <p>
-              Die Motive sind keine Fotografien. Sie sind Illustrationen — im
-              Stil der großen amerikanischen WPA-Poster der 1930er Jahre,
-              übertragen auf Orte, die einen kennen, wenn man das Neckartal
-              kennt: die Minneburg im Herbst, der Dilsberg im Morgenlicht,
-              Guttenberg im späten Licht, Bad Wimpfen über dem Fluss.
+              Die Motive sind keine Fotografien. Sie sind Illustrationen -
+              verdichtete Erinnerungen an Orte, die einen kennen, wenn man das
+              Neckartal kennt: die Minneburg im Herbst, der Dilsberg im
+              Morgenlicht, Guttenberg im späten Licht, Bad Wimpfen ueber dem
+              Fluss.
             </p>
             <p>
               Jede Edition ist nummeriert und signiert. Die Auflage bleibt
@@ -243,7 +243,7 @@ export default async function HomePage() {
 
           <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:gap-10">
             {[
-              { label: "Hahnemühle Fine Art", detail: "310 g/m² Photo Rag" },
+              { label: "Hahnemühle German Etching", detail: "310 g/m² (Giclée)" },
               { label: "Lichtecht", detail: "Über 100 Jahre" },
               { label: "Auf Bestellung", detail: "Signiert & nummeriert" },
             ].map(({ label, detail }) => (

@@ -288,8 +288,12 @@ export default async function OrderConfirmationPage({
               }}
             >
               Ihre Bestellung ist bei uns eingegangen und wird auf Bestellung
-              für Sie produziert. Jeder Druck entsteht als Einzelstück auf
-              Hahnemühle Fine Art Papier — signiert und nummeriert.
+              für Sie produziert. Jeder Druck entsteht als Einzelstück im
+              Fine-Art-Giclée-Verfahren — signiert und nummeriert. Ungerahmte
+              Editionen drucken wir auf Hahnemühle German Etching 310 g/m².
+              Gerahmte Editionen fertigen wir je nach Laborfreigabe auf
+              Hahnemühle German Etching oder dem verfügbaren Fine-Art-Papier
+              des Rahmenlabors.
             </p>
             {customerEmail && (
               <p

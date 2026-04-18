@@ -41,3 +41,4 @@ web/node_modules/
 .claude/**/*
 supabase/.temp/
 supabase/.branches/
+motifs/exports/print/*-print-300dpi.tiff

@@ -44,7 +44,7 @@ The name operates on two levels: *Stücke* means pieces or fragments ("pieces of
 
 ### What we make
 
-Digital vector illustrations printed as fine art giclée on Hahnemühle Fine Art paper. Each print is made to order. The first collection begins with four locations from the Neckar valley — Hirschhorn, Dilsberg, Minneburg, and a fourth site to be confirmed.
+Digital vector illustrations printed as fine art giclée on Hahnemühle German Etching 310 g/m² (Giclée). Each print is made to order. The first collection begins with four locations from the Neckar valley — Hirschhorn, Dilsberg, Minneburg, and a fourth site to be confirmed.
 
 ### Core values
 
@@ -215,7 +215,7 @@ HIRSCHHORN
 
 [Body — Inter 400, 16px, line-height 1.65]
 Fine Art Druck · 50 × 70 cm
-Hahnemühle Photo Rag 310g
+Hahnemühle German Etching 310 g/m² (Giclée)
 Druck auf Bestellung
 ```
 The location name in the uppercase label style references the motif's internal typographic treatment.
@@ -267,7 +267,7 @@ The places are the subject. The brand is the medium. "Dilsberg braucht keine Wor
 - Sammlung (not Sortiment, not Auswahl)
 - Ort (not Sehenswürdigkeit, not Destination)
 - Druck auf Bestellung
-- Hahnemühle / Fine Art Papier (specific paper references signal craft)
+- Hahnemühle German Etching 310 g/m² (Giclée) (specific paper references signal craft)
 
 **Avoid:**
 - Poster, Souvenir, Mitbringsel, Wanddeko
@@ -284,7 +284,7 @@ The places are the subject. The brand is the medium. "Dilsberg braucht keine Wor
 > Die Minneburg braucht keine Erklärung. Sie thront — und wer einmal dort war, weiß, was das bedeutet. Dieser Druck versucht nicht, das nachzuerzählen. Er zeigt es.
 
 **Quality statement:**
-> Jeder Druck entsteht auf Bestellung, auf Fine Art Papier, mit archivfesten Tinten. Kein Lager, kein Kompromiss.
+> Jeder Druck entsteht auf Bestellung, auf Hahnemühle German Etching 310 g/m² (Giclée), mit archivfesten Tinten. Kein Lager, kein Kompromiss.
 
 ---
 

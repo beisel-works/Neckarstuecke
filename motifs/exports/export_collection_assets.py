@@ -306,7 +306,7 @@ def build_framed_mockup(preview: Image.Image, motif: Motif) -> Image.Image:
     canvas_image.paste(artwork, (1020, 410))
 
     draw.text((MOCKUP_RETINA[0] // 2 - 240, 1710), f"{motif.title.upper()} · {motif.code.upper()}", fill=CHARCOAL)
-    draw.text((MOCKUP_RETINA[0] // 2 - 430, 1770), "Giclee Feinkunstdruck · 50 × 70 cm · Hahnemuehle Fine Art", fill=STONE)
+    draw.text((MOCKUP_RETINA[0] // 2 - 430, 1770), "Giclee Feinkunstdruck · 50 × 70 cm · Hahnemuehle German Etching 310 g/m² (Giclée)", fill=STONE)
     return canvas_image
 
 

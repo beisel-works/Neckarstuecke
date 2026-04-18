@@ -10,9 +10,17 @@
  *                          https://api.sandbox.prodigi.com/v4.0
  */
 
-import type { PodAdapter, PodOrderPayload, PodOrderResult } from "./index";
+import type {
+  PodAdapter,
+  PodItemAttributes,
+  PodOrderPayload,
+  PodOrderResult,
+} from "./index";
 
 const PRODIGI_BASE_URL = "https://api.prodigi.com/v4.0";
+const PRODIGI_FRAME_COLOR = "natural";
+const PRODIGI_FRAME_PAPER_TYPES = ["HGE", "EMA"] as const;
+const PRODIGI_QUOTE_SHIPPING_METHOD = "standard";
 
 function normalizeProdigiBaseUrl(baseUrl?: string): string {
   const trimmed = (baseUrl ?? PRODIGI_BASE_URL).replace(/\/+$/, "");
@@ -22,19 +30,40 @@ function normalizeProdigiBaseUrl(baseUrl?: string): string {
 // ---------------------------------------------------------------------------
 // SKU map: internal size_label + format → Prodigi catalogue SKU
 //
-// NOTE: Exact SKU strings must be confirmed against the live Prodigi catalogue
-// endpoint (GET /catalogue) once a sandbox account is active.  The pattern
-// below matches Prodigi's documented naming convention.
+// Loose Hahnemühle German Etching prints use the GLOBAL-HGE family. Framed
+// variants use the GLOBAL-CFP family, but the live Product Details endpoint is
+// inconsistent about paper support. We resolve framed paper per order via the
+// Quote endpoint: try HGE first, then fall back to EMA if HGE is rejected.
 // ---------------------------------------------------------------------------
 
 /** Map key: `${format}:${sizeLabel}` (both normalised to lower-case ASCII). */
-const PRODIGI_SKU_MAP: Record<string, string> = {
-  "print:30x40": "GLOBAL-HAHNEM-PHOTO-RAG-FT-30X40",
-  "print:50x70": "GLOBAL-HAHNEM-PHOTO-RAG-FT-50X70",
-  "print:70x100": "GLOBAL-HAHNEM-PHOTO-RAG-FT-70X100",
-  "framed:30x40": "GLOBAL-HAHNEM-PHOTO-RAG-OAK-30X40",
-  "framed:50x70": "GLOBAL-HAHNEM-PHOTO-RAG-OAK-50X70",
+const PRODIGI_SKU_MAP: Record<string, { sku: string; framed: boolean }> = {
+  "print:30x40": { sku: "GLOBAL-HGE-12X16", framed: false },
+  "print:50x70": { sku: "GLOBAL-HGE-20X28", framed: false },
+  "print:70x100": { sku: "GLOBAL-HGE-28X40", framed: false },
+  "framed:30x40": { sku: "GLOBAL-CFP-12X16", framed: true },
+  "framed:50x70": { sku: "GLOBAL-CFP-20X28", framed: true },
+  "framed:70x100": { sku: "GLOBAL-CFP-28X40", framed: true },
 };
+
+interface ProdigiQuoteResponse {
+  outcome: string;
+}
+
+export interface ResolvedProdigiProduct {
+  sku: string;
+  attributes?: PodItemAttributes;
+}
+
+interface ResolveProdigiProductOptions {
+  apiKey?: string;
+  baseUrl?: string;
+  fetchImpl?: typeof fetch;
+}
+
+function normalizeSizeLabel(sizeLabel: string): string {
+  return sizeLabel.replace("×", "x").replace(/\s*cm\s*$/i, "").trim();
+}
 
 /**
  * Resolves the Prodigi SKU from a variant's format and size label.
@@ -45,20 +74,103 @@ const PRODIGI_SKU_MAP: Record<string, string> = {
  * @throws if no mapping is found
  */
 export function resolveProdigiSku(format: string, sizeLabel: string): string {
-  // Normalise: "30×40 cm" → "30x40"
-  const normSize = sizeLabel
-    .replace("×", "x")
-    .replace(/\s*cm\s*$/i, "")
-    .trim();
+  const normSize = normalizeSizeLabel(sizeLabel);
   const key = `${format.toLowerCase()}:${normSize}`;
-  const sku = PRODIGI_SKU_MAP[key];
-  if (!sku) {
+  const config = PRODIGI_SKU_MAP[key];
+  if (!config) {
     throw new Error(
       `No Prodigi SKU found for format="${format}" size="${sizeLabel}" (key="${key}"). ` +
         `Update PRODIGI_SKU_MAP in lib/pod/prodigi.ts.`
     );
   }
-  return sku;
+  return config.sku;
+}
+
+async function canQuoteFramedPaperType(
+  sku: string,
+  paperType: (typeof PRODIGI_FRAME_PAPER_TYPES)[number],
+  destinationCountryCode: string,
+  {
+    apiKey,
+    baseUrl,
+    fetchImpl = fetch,
+  }: ResolveProdigiProductOptions = {}
+): Promise<boolean> {
+  const key = apiKey ?? process.env.PRODIGI_API_KEY;
+  if (!key) {
+    throw new Error("PRODIGI_API_KEY is not configured.");
+  }
+
+  const response = await fetchImpl(`${normalizeProdigiBaseUrl(baseUrl)}/quotes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-Key": key,
+    },
+    body: JSON.stringify({
+      shippingMethod: PRODIGI_QUOTE_SHIPPING_METHOD,
+      destinationCountryCode: destinationCountryCode.toUpperCase(),
+      items: [
+        {
+          sku,
+          copies: 1,
+          assets: [{ printArea: "default" }],
+          attributes: {
+            paperType,
+            color: PRODIGI_FRAME_COLOR,
+          },
+        },
+      ],
+    }),
+  });
+
+  const data = (await response.json()) as ProdigiQuoteResponse;
+
+  if (!response.ok) {
+    if (response.status >= 500) {
+      throw new Error(
+        `Prodigi quote failed for sku="${sku}" paperType="${paperType}": HTTP ${response.status}, outcome="${data.outcome ?? "unknown"}"`
+      );
+    }
+    return false;
+  }
+
+  return data.outcome === "Created";
+}
+
+export async function resolveProdigiProduct(
+  format: string,
+  sizeLabel: string,
+  destinationCountryCode: string,
+  options: ResolveProdigiProductOptions = {}
+): Promise<ResolvedProdigiProduct> {
+  const sku = resolveProdigiSku(format, sizeLabel);
+  if (format.toLowerCase() !== "framed") {
+    return { sku };
+  }
+
+  for (const paperType of PRODIGI_FRAME_PAPER_TYPES) {
+    if (
+      await canQuoteFramedPaperType(
+        sku,
+        paperType,
+        destinationCountryCode,
+        options
+      )
+    ) {
+      return {
+        sku,
+        attributes: {
+          paperType,
+          color: PRODIGI_FRAME_COLOR,
+        },
+      };
+    }
+  }
+
+  throw new Error(
+    `No Prodigi framed paper is available for size="${sizeLabel}" to destination="${destinationCountryCode}".`
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -114,6 +226,7 @@ export class ProdigiAdapter implements PodAdapter {
       items: payload.items.map((item, index) => ({
         merchantReference: `${payload.orderId}-item-${index}`,
         sku: item.sku,
+        attributes: item.attributes,
         copies: item.copies,
         sizing: "fillPrintArea",
         assets: [

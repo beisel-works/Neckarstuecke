@@ -45,6 +45,6 @@ Minneburg appears here in late warm light above the valley path - open wall, kee
 
 ## Empfehlungen
 
-- **Papier:** Hahnemühle German Etching 310 g/m² (Giclée) oder Photo Rag 308 g/m²
+- **Papier:** Hahnemühle German Etching 310 g/m² (Giclée)
 - **Rahmung:** Eiche natur, weißer Passepartout 8 cm — Kühle des Motivs nicht durch warmes Holz brechen
 - **Alternativ:** Schmales Profil in Schwarz (Stahl oder lackiertes Holz, matt)

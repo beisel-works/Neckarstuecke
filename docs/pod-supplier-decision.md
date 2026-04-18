@@ -10,7 +10,7 @@
 
 | Criterion | Prodigi | Gelato | Printful |
 |-----------|---------|--------|----------|
-| Fine art / Hahnemühle paper | ✅ Explicit Hahnemühle FineArt SKUs | ⚠️ "Fine art" options, no Hahnemühle brand | ❌ No Hahnemühle |
+| Fine art / Hahnemühle paper | ✅ Explicit Hahnemühle German Etching SKUs | ⚠️ "Fine art" options, no Hahnemühle brand | ❌ No Hahnemühle |
 | Archival inks (giclée) | ✅ Pigment-based giclée production | ✅ Pigment-based | ⚠️ Varies by facility |
 | EU-based fulfilment | ✅ UK + EU labs (Netherlands, Germany) | ✅ Strong EU network | ⚠️ Primarily USA, EU capacity limited for fine art |
 | German shipping speed | ✅ EU lab → 3–5 days | ✅ Local production → 2–4 days | ❌ Cross-Atlantic for fine art |
@@ -21,9 +21,9 @@
 
 ### Decision: **Prodigi**
 
-Prodigi is the only candidate with explicit Hahnemühle FineArt paper SKUs — a brand commitment stated in `brand/brand-guidelines.md` ("Hahnemühle"). Their EU lab network (Netherlands fulfilment hub) meets the German shipping requirement. The v4.0 REST API is comprehensive and has a true sandbox mode.
+Prodigi is the only candidate with explicit Hahnemühle German Etching paper SKUs — a brand commitment stated in `brand/brand-guidelines.md` ("Hahnemühle German Etching 310 g/m² (Giclée)"). Their EU lab network (Netherlands fulfilment hub) meets the German shipping requirement. The v4.0 REST API is comprehensive and has a true sandbox mode.
 
-Gelato is a valid fallback if Prodigi's Hahnemühle SKUs become unavailable; their production network is more geographically distributed. This integration is built as an adapter layer so swapping suppliers requires only `lib/pod/prodigi.ts` → `lib/pod/gelato.ts`.
+Gelato is a valid fallback if Prodigi's Hahnemühle German Etching SKUs become unavailable; their production network is more geographically distributed. This integration is built as an adapter layer so swapping suppliers requires only `lib/pod/prodigi.ts` → `lib/pod/gelato.ts`.
 
 ---
 
@@ -148,15 +148,16 @@ Prodigi documents callbacks as unsigned CloudEvents. There is no documented webh
 
 Neckarstücke variants map to Prodigi SKUs as follows:
 
-| Variant (internal) | Prodigi SKU | Notes |
-|--------------------|-------------|-------|
-| Print 30×40 cm | `GLOBAL-HAHNEM-PHOTO-RAG-FT-30X40` | Hahnemühle Photo Rag, flat |
-| Print 50×70 cm | `GLOBAL-HAHNEM-PHOTO-RAG-FT-50X70` | Hahnemühle Photo Rag, flat |
-| Print 70×100 cm | `GLOBAL-HAHNEM-PHOTO-RAG-FT-70X100` | Hahnemühle Photo Rag, flat |
-| Framed 30×40 cm | `GLOBAL-HAHNEM-PHOTO-RAG-OAK-30X40` | Hahnemühle Photo Rag, oak frame |
-| Framed 50×70 cm | `GLOBAL-HAHNEM-PHOTO-RAG-OAK-50X70` | Hahnemühle Photo Rag, oak frame |
+| Variant (internal) | Prodigi SKU | Verification status | Notes |
+|--------------------|-------------|---------------------|-------|
+| Print 30×40 cm | `GLOBAL-HGE-12X16` | Verified via live Product Details | Live API returns `paperType=HGE`, `substrateWeight=310gsm`, description `Hahnemühle German Etching, 30x40cm / 12x16"` |
+| Print 50×70 cm | `GLOBAL-HGE-20X28` | Verified via live Product Details | Live API returns `paperType=HGE`, `substrateWeight=310gsm`, description `Hahnemühle German Etching, 50x70cm / 20x28"` |
+| Print 70×100 cm | `GLOBAL-HGE-28X40` | Verified via live Product Details | Live API returns `paperType=HGE`, `substrateWeight=310gsm`, description `Hahnemühle German Etching, 70x100cm / 28x40"` |
+| Framed 30×40 cm | `GLOBAL-CFP-12X16` | Verified via live Quote | Product Details reports EMA-only, but Quote accepts `paperType=HGE` and `paperType=EMA` for Germany. Fulfillment should try HGE first, then fall back to EMA. |
+| Framed 50×70 cm | `GLOBAL-CFP-20X28` | Verified via live Quote | Product Details reports EMA-only, but Quote accepts `paperType=HGE` and `paperType=EMA` for Germany. Fulfillment should try HGE first, then fall back to EMA. |
+| Framed 70×100 cm | `GLOBAL-CFP-28X40` | Verified via live Quote | Quote accepts `paperType=HGE` and `paperType=EMA` for Germany, but this size remains inquiry-only in the storefront. |
 
-> **Note:** Exact SKU strings must be confirmed against the live Prodigi catalogue endpoint (`GET /catalogue`) once a sandbox account is active. The pattern above matches Prodigi's documented naming convention but final SKU values may differ. Update `lib/pod/prodigi.ts` constants once verified.
+> **Note:** Live `GET /v4.0/products/{sku}` calls are incomplete for framed paper choice: they report `GLOBAL-CFP*` as EMA-only. Live `POST /v4.0/quotes` calls are the working source of truth for framed paper availability and accept both `paperType=HGE` and `paperType=EMA` for Germany. Neckarstuecke should fulfill framed CFP items as HGE first and fall back to EMA only when HGE is rejected for the actual order context.
 
 ### 2.6 Idempotency
 
